@@ -120,7 +120,7 @@ test('coffee brief rebuilds the visible site, preview and export after explicit 
  await expect(canvas.locator('.hero-copy .site-button')).toContainText('Visit our coffee house');
  await expect(canvas.locator('.hero-copy .site-button')).toHaveAttribute('href','mailto:hello@ember.example');
  await page.getByRole('button',{name:'Preview website',exact:true}).click();
- const preview=page.frameLocator('#studio-preview-frame');await expect(preview.locator('h1')).toContainText('Ember & Bean');await expect.poll(()=>page.locator('#studio-preview-frame').evaluate(frame=>frame.contentDocument.title)).toBe('Ember & Bean Coffee House');
+ const preview=page.frameLocator('#studio-preview-frame');await expect(preview.locator('h1')).toContainText('Ember & Bean');await expect.poll(()=>preview.locator('title').evaluate(el=>el.textContent)).toBe('Ember & Bean Coffee House');
  await page.getByRole('button',{name:'Close website preview',exact:true}).click();
  await page.getByRole('button',{name:'Export site',exact:true}).click();
  const downloadEvent=page.waitForEvent('download');await page.getByRole('button',{name:'Download website ZIP',exact:true}).click();

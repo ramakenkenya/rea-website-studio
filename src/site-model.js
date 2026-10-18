@@ -1,8 +1,9 @@
 import {validateSnapshot} from './project.js';
+import {normalizeShop,shopSection} from './shop-model.js';
 
 const e=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const object=value=>value&&typeof value==='object'&&!Array.isArray(value);
-const RESERVED=new Set(['index','404','styles','studio','robots','sitemap','readme']);
+const RESERVED=new Set(['index','404','styles','studio','robots','sitemap','readme','rea-shop']);
 const PALETTES={editorial:{paper:'#f5f1e9',ink:'#202c2d',accent:'#ad462e'},coastal:{paper:'#eff6f4',ink:'#143b3b',accent:'#12675d'},midnight:{paper:'#1b2530',ink:'#f5f0e8',accent:'#e7b78c'}};
 export const SYSTEM_FONTS={serif:{body:'Arial,Helvetica,sans-serif',heading:'Georgia,"Times New Roman",serif'},editorial:{body:'Arial,Helvetica,sans-serif',heading:'Georgia,"Times New Roman",serif'},sans:{body:'Arial,Helvetica,sans-serif',heading:'Arial,Helvetica,sans-serif'},modern:{body:'system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif',heading:'system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif'},mono:{body:'Arial,Helvetica,sans-serif',heading:'"Courier New",monospace'}};
 const clean=value=>String(value??'').trim();
@@ -102,7 +103,7 @@ export function createStudio(project,brief={},input={}){
   const snap={...c.snapshot};if(snap.studio)snap.studio={...snap.studio,checkpoints:[]};
   return {id:id(c.id,`checkpoint-${i+1}`),name:text(c.name,`Restore point ${i+1}`,180),savedAt,snapshot:validateSnapshot(snap)};
  }),'checkpoint');
- return {version:2,homeId,pages,site,assets,sections,checkpoints,autosave:bool(input.autosave,false)};
+ return {version:2,homeId,pages,site,assets,sections,checkpoints,shop:normalizeShop(input.shop),autosave:bool(input.autosave,false)};
 }
 export function pageFile(meta,studio){return meta.id===studio.homeId?'index.html':validateSlug(meta.slug,studio.pages,meta.id)+'.html';}
 export function brandCss(studio){
@@ -215,4 +216,11 @@ export function rewriteNavigation(html,studio,currentId){
  if(studio.pages.length<=1)return html;
  const position=nodes.find(node=>node.tag==='body')?.openEnd||0;
  return html.slice(0,position)+navigationHtml(studio,currentId)+html.slice(position);
+}
+
+export function rewriteShopSections(html,shop,business){
+ const nodes=scanElements(String(html)),matches=[];let end=-1;
+ for(const node of nodes)if(node.start>=end&&node.end&&attribute(node,'data-rea-shop')==='true'){matches.push(node);end=node.end;}
+ for(const node of matches.reverse()){let section=shopSection(shop,business);const id=attribute(node,'id');if(id)section=section.replace('<section ',`<section id="${e(id)}" `);html=html.slice(0,node.start)+section+html.slice(node.end);}
+ return html;
 }

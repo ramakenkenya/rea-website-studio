@@ -4,7 +4,7 @@
 
 A free visual workspace for creating portable static websites. Turn a business brief into an editable starting page, add linked pages, shape your brand, reuse images and sections, check the whole website, then download independent HTML/CSS files in one ZIP.
 
-The v0.2 workspace adds a page bar and **Studio tools → Pages, Brand, Assets, Library, History and Site**. It includes coffee shop, furniture showroom and personal portfolio starters, ten new section types, shared branding, restore points, opt-in autosave, multipage preview and SEO/handoff files. Existing one-page project backups remain readable.
+The v0.2 workspace adds a page bar and **Studio tools → Pages, Brand, Assets, Shop, Library, History and Site**. It includes coffee shop, furniture showroom and personal portfolio starters, ten new section types, shared branding, restore points, opt-in autosave, multipage preview and SEO/handoff files. Existing one-page project backups remain readable.
 
 ## Live editing drawer
 
@@ -44,3 +44,9 @@ Projects and uploaded images are stored on the current device. Use project JSON 
 Generated websites are static files ready for manual publishing. They contain no form backend, checkout, account system or automatic hosting integration. External image URLs still depend on their original host. Supply the final public URL before export for canonical links, sitemap and reliable nested 404 navigation. Noindex pages are excluded from the sitemap. Quality checks are basic hints; review content, contrast, accessibility and real devices before publishing.
 
 Historical investigation attempts and the initial release are preserved in [the cloud log](docs/CLOUD_LOG.md) and [first findings](docs/FIRST_FINDINGS.md).
+
+## v0.3 — WhatsApp shop
+
+Studio tools → Shop manages up to 40 products with hosted images, options, availability and prices. Set the business WhatsApp number with country code, save products and insert a shop on a page. Full preview and ZIP exports support search, category filters, a shopping list, editable quantities, estimated subtotal, delivery details and a reviewed WhatsApp draft. The customer taps Send in WhatsApp. A copyable message is available as a fallback.
+
+The exported shop needs no server or paid form service. Shopping lists and customer details stay in page memory and reset on navigation/reload. There is no payment processing, stock reservation or automatic order confirmation. See [shop guide](docs/SHOP_WORKFLOW.md).
