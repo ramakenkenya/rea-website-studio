@@ -2,11 +2,11 @@ import {test,expect} from '@playwright/test';
 import JSZip from 'jszip';
 import fs from 'node:fs/promises';
 test('business brief, real editor, save/reload, project restore and independent export',async({page,context},testInfo)=>{
- await page.goto('/');
+ await page.goto('./');
  await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
  await page.getByRole('button',{name:'New website',exact:true}).click();
  await page.getByLabel('Business name').fill('Border Design');
- await page.getByLabel('What do you do?').fill('Considered interiors for homes in Malaba.');
+ await page.getByLabel('What do you do?').fill('Considered interiors for everyday spaces.');
  await page.getByLabel('Services, separated by commas').fill('Interiors, Planning, Styling');
  await page.getByLabel('Contact email').fill('hello@borderdesign.example');
  await page.getByRole('button',{name:'Create website',exact:true}).click();
@@ -47,7 +47,7 @@ test('business brief, real editor, save/reload, project restore and independent 
  await page.screenshot({path:testInfo.outputPath('studio-desktop.png'),fullPage:true});
 });
 test('mobile controls, section reorder, safe restore and no horizontal overflow',async({page},testInfo)=>{
- await page.setViewportSize({width:390,height:844});await page.goto('/');
+ await page.setViewportSize({width:390,height:844});await page.goto('./');
  await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
  await expect(page.getByRole('button',{name:'Project backup',exact:true})).toBeVisible();
  await page.getByRole('button',{name:'Sections',exact:true}).click();
@@ -60,12 +60,12 @@ test('mobile controls, section reorder, safe restore and no horizontal overflow'
  await expect(page.getByRole('status')).toContainText('Could not restore');
  await page.locator('#restore-file').setInputFiles({name:'bad-page.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify({schema:1,app:'REA Studio',brief:{name:'Broken'},project:{pages:[null],styles:[]}}))});
  await expect(page.getByRole('status')).toContainText('Could not restore');
- await expect(page.frameLocator('.gjs-frame').locator('h1')).toContainText('Malaba Studio');
+ await expect(page.frameLocator('.gjs-frame').locator('h1')).toContainText('Rama Studio');
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.screenshot({path:testInfo.outputPath('studio-mobile.png'),fullPage:true});
 });
 test('drag a reusable block onto the real canvas and replace an embedded image',async({page},testInfo)=>{
- await page.goto('/');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
+ await page.goto('./');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
  const canvas=page.frameLocator('.gjs-frame');
  const before=await canvas.locator('section').count();
  const block=page.locator('.gjs-block').filter({hasText:'About'});const from=await block.boundingBox();const target=await page.locator('.gjs-frame').boundingBox();
@@ -80,4 +80,16 @@ test('drag a reusable block onto the real canvas and replace an embedded image',
  await expect(canvas.locator('.hero-art img')).toHaveAttribute('src',/^data:image\/png/);
  await expect(canvas.locator('.hero-art img')).toHaveAttribute('alt','Uploaded example image');
  await page.screenshot({path:testInfo.outputPath('drag-and-image.png'),fullPage:true});
+});
+
+test('published build opens at the repository path with the renamed sample',async({page},testInfo)=>{
+ const errors=[];page.on('pageerror',error=>errors.push(error.message));
+ const response=await page.goto('./');
+ expect(response.ok()).toBe(true);
+ await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
+ await expect(page.locator('#project-name')).toHaveText('Rama Studio');
+ await expect(page.frameLocator('.gjs-frame').locator('h1')).toContainText('Rama Studio');
+ expect(await page.locator('script[type="module"]').getAttribute('src')).toMatch(/assets\/.+\.js$/);
+ expect(errors).toEqual([]);
+ await page.screenshot({path:testInfo.outputPath('rama-studio-repaired.png'),fullPage:true});
 });
