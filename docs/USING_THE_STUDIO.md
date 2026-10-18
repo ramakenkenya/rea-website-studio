@@ -29,6 +29,6 @@ The project/save and export architecture follows source-verified REA findings fr
 
 ### Publishing this studio
 
-For a single publishing path, set the repository's **Settings → Pages → Build and deployment → Source** to **GitHub Actions**. The `Studio - test, record and deploy` workflow tests and publishes the compiled `dist` folder. A compatibility trigger republishes the compiled app after the legacy branch publisher completes while that older setting remains enabled.
+For a single publishing path, set the repository's **Settings → Pages → Build and deployment → Source** to **GitHub Actions**. The `Studio - test, record and deploy` workflow tests and publishes the compiled `dist` folder. The deployment waits for any active legacy branch publisher to finish before publishing the compiled app while that older setting remains enabled.
 
 Run `npm run build` before `npm run test:e2e`; browser tests exercise the built app at the repository URL path. Every deployment also checks that the live page references bundled assets rather than source JavaScript.

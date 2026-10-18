@@ -36,7 +36,7 @@ No account storage, AI service or automated customer-site publishing is implied.
 ## Outage repair and sample rename — 18 October 2026
 
 - Confirmed that the live HTML referenced `/src/main.js` rather than a compiled Vite asset. The legacy branch Pages publisher had overwritten the tested app after a documentation commit.
-- Removed the application workflow's path filter, so documentation pushes also receive a tested build. Added a completion trigger for the legacy Pages workflow so the compiled app is republished after that publisher finishes.
-- The preferred final repository setting is Settings → Pages → Build and deployment → Source → GitHub Actions. The connector cannot change this setting and the cloud browser is signed out; the compatibility trigger supports the current branch-publishing setting.
+- Removed the application workflow's path filter, so documentation pushes also receive a tested build. The deployment directly checks for active legacy Pages runs and waits for them to finish before publishing the compiled app. The initially proposed completion trigger did not fire for the dynamic legacy workflow during verification and was replaced.
+- The preferred final repository setting is Settings → Pages → Build and deployment → Source → GitHub Actions. The connector cannot change this setting and the cloud browser is signed out; the deployment wait supports the current branch-publishing setting.
 - Changed the bundled example to Rama Studio across the interface, documentation and test fixtures. Old saved examples and restored backups receive the new sample name while keeping canvas edits; unrelated project names are preserved.
 - Browser acceptance tests now use the production build at `/rea-website-studio/` rather than the development server. Added an explicit startup and sample-name check, plus a post-deployment HTTP check of the published HTML and bundled assets.
