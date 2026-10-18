@@ -6,6 +6,10 @@ A free visual workspace for creating portable static websites. Turn a business b
 
 The v0.2 workspace adds a page bar and **Studio tools → Pages, Brand, Assets, Library, History and Site**. It includes coffee shop, furniture showroom and personal portfolio starters, ten new section types, shared branding, restore points, opt-in autosave, multipage preview and SEO/handoff files. Existing one-page project backups remain readable.
 
+## Live editing drawer
+
+Studio tools opens beside the editable website on desktop and as a bottom sheet on phones. The canvas remains interactive; added sections and pictures are brought into view. Keyboard navigation, Escape, return focus and reduced motion are supported. See [the drawer workflow](docs/DRAWER_WORKFLOW.md).
+
 ## Image workflow
 
 Image uploads have been replaced by HTTPS image URLs. Studio tools → Assets searches Wikimedia Commons for CC0 raster images without API credentials, includes a small verified CC0 collection, and saves pictures for reuse. Choose saved pictures to build a responsive gallery. Logos and favicons use image URLs too. Source/creator/license records are retained and exported in IMAGE-CREDITS.txt. Older embedded images remain compatible.

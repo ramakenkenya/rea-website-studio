@@ -1,5 +1,7 @@
 # Using REA Studio
 
+**New in v0.2.2:** Studio tools slides beside your live canvas on desktop and becomes a bottom sheet on phones. Add sections or galleries and see them immediately. Escape or the close button restores the normal workspace. See [drawer controls and keyboard help](DRAWER_WORKFLOW.md).
+
 **New in v0.2:** use the page bar and **Studio tools** for linked pages, three business starters, shared brand, assets, reusable sections, restore points and site settings. See [the complete 50-feature guide](V2_FEATURES.md).
 
 ## Make a website
