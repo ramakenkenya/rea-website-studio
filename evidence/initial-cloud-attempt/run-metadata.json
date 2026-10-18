@@ -1,0 +1,20 @@
+{
+  "command": [
+    "/workspace/scratch/d012b384da58/rea-lab/tools/node_modules/.bin/rea",
+    "analyze-javascript-application",
+    "/workspace/scratch/d012b384da58/rea-lab/reference/grapesjs/packages/core",
+    "--source-path",
+    "src/storage_manager/index.ts",
+    "--source-path",
+    "src/editor/index.ts",
+    "--analysis-timeout-ms",
+    "45000",
+    "--format",
+    "json",
+    "--full-output"
+  ],
+  "exit_code": 1,
+  "elapsed_seconds": 3.164,
+  "timestamp_utc": "2026-10-18T10:06:14.169006+00:00",
+  "reference_commit": "3b2c671c0ab50f052a219b987dea8738ea75886e"
+}

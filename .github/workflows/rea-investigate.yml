@@ -1,0 +1,54 @@
+name: REA evidence - GrapesJS
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/rea-investigate.yml'
+      - 'scripts/**'
+      - 'tests/**'
+      - 'toolchain/**'
+
+permissions:
+  contents: read
+
+jobs:
+  investigate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out the investigation project
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Select a supported Node runtime
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+      - name: Verify the evidence classifier
+        run: python3 -m unittest discover -s tests -v
+      - name: Install the locked REA toolchain
+        run: npm ci --prefix toolchain --ignore-scripts --omit=optional --no-audit --no-fund
+      - name: Fetch the exact public reference
+        env:
+          REFERENCE_COMMIT: 3b2c671c0ab50f052a219b987dea8738ea75886e
+        run: |
+          git init "$RUNNER_TEMP/grapesjs-reference"
+          git -C "$RUNNER_TEMP/grapesjs-reference" remote add origin https://github.com/GrapesJS/grapesjs.git
+          git -C "$RUNNER_TEMP/grapesjs-reference" fetch --depth 1 origin "$REFERENCE_COMMIT"
+          git -C "$RUNNER_TEMP/grapesjs-reference" checkout --detach FETCH_HEAD
+      - name: Run REA and retain real evidence
+        run: |
+          python3 scripts/run_investigation.py \
+            --reference "$RUNNER_TEMP/grapesjs-reference" \
+            --rea "$GITHUB_WORKSPACE/toolchain/node_modules/.bin/rea" \
+            --output "$GITHUB_WORKSPACE/output"
+      - name: Save evidence even if the analysis fails
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: rea-evidence-${{ github.run_id }}
+          path: output/
+          if-no-files-found: warn
+          retention-days: 14

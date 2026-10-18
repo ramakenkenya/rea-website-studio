@@ -1,0 +1,10 @@
+test_nonzero_exit_prevents_a_success_claim (test_summary.EvidenceSummaryTests.test_nonzero_exit_prevents_a_success_claim) ... ok
+test_partial_inventory_is_never_reported_as_success (test_summary.EvidenceSummaryTests.test_partial_inventory_is_never_reported_as_success) ... ok
+test_success_preserves_the_evidence_identity_and_scope (test_summary.EvidenceSummaryTests.test_success_preserves_the_evidence_identity_and_scope) ... ok
+test_success_requires_an_analysis_record_not_only_ok (test_summary.EvidenceSummaryTests.test_success_requires_an_analysis_record_not_only_ok) ... ok
+test_zero_exit_without_explicit_success_is_unverified (test_summary.EvidenceSummaryTests.test_zero_exit_without_explicit_success_is_unverified) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.000s
+
+OK
