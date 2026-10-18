@@ -20,6 +20,7 @@ def main():
     parser.add_argument('--reference', type=Path, required=True)
     parser.add_argument('--rea', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--source-path', action='append', dest='source_paths')
     args = parser.parse_args()
     reference = args.reference.resolve()
     rea = args.rea.resolve()
@@ -31,10 +32,11 @@ def main():
     version = subprocess.check_output([str(rea), '--version'], text=True).strip()
     if version != REA_VERSION:
         raise SystemExit(f'REA version differs: expected {REA_VERSION}, got {version}')
-    command = [str(rea), 'analyze-javascript-application', str(reference / 'packages/core'),
-               '--source-path', 'src/storage_manager/index.ts',
-               '--source-path', 'src/editor/index.ts',
-               '--analysis-timeout-ms', '60000', '--format', 'json', '--full-output']
+    source_paths = args.source_paths or ['src/storage_manager/index.ts', 'src/editor/index.ts']
+    command = [str(rea), 'analyze-javascript-application', str(reference / 'packages/core')]
+    for source_path in source_paths:
+        command += ['--source-path', source_path]
+    command += ['--analysis-timeout-ms', '60000', '--format', 'json', '--full-output']
     raw = output / 'rea-analysis.json'
     started = time.monotonic()
     with raw.open('w') as stdout, (output / 'rea-progress.log').open('w') as stderr:
@@ -55,6 +57,7 @@ def main():
         'node_version': subprocess.check_output(['node', '--version'], text=True).strip(),
         'elapsed_seconds': round(time.monotonic() - started, 3),
         'output_sha256': hashlib.sha256(raw.read_bytes()).hexdigest(),
+        'source_hashes': {path: hashlib.sha256((reference / 'packages/core' / path).read_bytes()).hexdigest() for path in source_paths},
         'exit_code': exit_code
     }
     (output / 'manifest.json').write_text(json.dumps(metadata, indent=2) + '\n')
