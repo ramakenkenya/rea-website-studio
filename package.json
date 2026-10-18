@@ -1,0 +1,21 @@
+{
+  "name": "rea-website-studio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "node --test app-tests/core.test.js",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "grapesjs": "0.23.8",
+    "jszip": "3.10.2"
+  },
+  "devDependencies": {
+    "vite": "8.3.4",
+    "@playwright/test": "1.64.1"
+  }
+}

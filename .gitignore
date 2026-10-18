@@ -2,3 +2,7 @@ toolchain/node_modules/
 output/
 __pycache__/
 *.pyc
+node_modules/
+dist/
+playwright-report/
+test-results/
