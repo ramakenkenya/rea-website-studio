@@ -4,6 +4,7 @@
 
 1. Open the studio. The initial Rama Studio page is an example.
 2. Choose **New website** and enter your business name, description, services and contact email. Choose a visual direction. This creates a starter from your brief; it is not AI-written content.
+   To use details already entered through **Brief**, reopen **Brief → Build page from brief** and confirm. This replaces the canvas with a starter using those details. **Save details only** updates the project name and export metadata while preserving your current page, including its colors. Download a project backup before rebuilding a design you want to keep.
 3. Click an element in the canvas. Use **Selected text → Apply text**, color and size controls, or double-click text to edit it directly.
 4. Drag reusable sections into the canvas or use **Quick add**. Open **Layers** to select and move sections with the arrows. Undo/redo are above the canvas.
 5. Select an image and use **Replace image**. PNG, JPG and WebP up to 2 MB are embedded for portability. Add a useful image description.

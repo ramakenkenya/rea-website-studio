@@ -7,3 +7,5 @@
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important;animation:none!important}}
 
 @media(max-width:760px){.project-tools .btn,.top-actions .btn{min-height:44px}.layer-row button{min-height:44px;min-width:44px}}
+
+#brief-dialog .dialog-footer{flex-wrap:wrap}#brief-dialog .dialog-actions{flex-wrap:wrap;justify-content:flex-end;margin-left:auto}@media(max-width:760px){#brief-dialog .dialog-actions{width:100%}#brief-dialog .dialog-actions .btn{flex:1 1 auto}}

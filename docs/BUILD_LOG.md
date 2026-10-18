@@ -40,3 +40,10 @@ No account storage, AI service or automated customer-site publishing is implied.
 - The preferred final repository setting is Settings → Pages → Build and deployment → Source → GitHub Actions. The connector cannot change this setting and the cloud browser is signed out; the deployment wait supports the current branch-publishing setting.
 - Changed the bundled example to Rama Studio across the interface, documentation and test fixtures. Old saved examples and restored backups receive the new sample name while keeping canvas edits; unrelated project names are preserved.
 - Browser acceptance tests now use the production build at `/rea-website-studio/` rather than the development server. Added an explicit startup and sample-name check, plus a post-deployment HTTP check of the published HTML and bundled assets.
+
+
+## Brief-to-page mismatch — 18 October 2026
+
+- User entered a coffee shop brief via Brief → Save brief. That edit path intentionally changed metadata without rebuilding the canvas, leaving the original sample visible in preview and ZIP.
+- Replaced the ambiguous action with a primary Build page from brief action, which rebuilds the page from the populated fields after explicit replacement confirmation. Save details only preserves canvas text, images, layout and colors.
+- Added recorded browser coverage for the reported example-to-coffee flow, canceling replacement, preview and ZIP content, persistence after reload, and preserving a custom mobile heading with the details-only action.
