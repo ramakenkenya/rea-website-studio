@@ -1,4 +1,5 @@
 import {test,expect} from '@playwright/test';
+test.use({video:{mode:'on',size:{width:1440,height:1000}}});
 test('recorded release walkthrough — real multipage builder',async({page},info)=>{
  test.skip(process.env.RECORD_WALKTHROUGH!=='1','Recorded once on the release branch.');
  test.setTimeout(180000);

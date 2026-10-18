@@ -1,16 +1,18 @@
 # Using REA Studio
 
+**New in v0.2:** use the page bar and **Studio tools** for linked pages, three business starters, shared brand, assets, reusable sections, restore points and site settings. See [the complete 50-feature guide](V2_FEATURES.md).
+
 ## Make a website
 
 1. Open the studio. The initial Rama Studio page is an example.
 2. Choose **New website** and enter your business name, description, services and contact email. Choose a visual direction. This creates a starter from your brief; it is not AI-written content.
-   To use details already entered through **Brief**, reopen **Brief → Build page from brief** and confirm. This replaces the canvas with a starter using those details. **Save details only** updates the project name and export metadata while preserving your current page, including its colors. Download a project backup before rebuilding a design you want to keep.
+   To use details already entered through **Brief**, reopen **Brief → Build page from brief** and confirm. This replaces the selected page with a starter using those details. **Save details only** updates the project name and export metadata while preserving your current page, including its colors. Download a project backup before rebuilding a design you want to keep.
 3. Click an element in the canvas. Use **Selected text → Apply text**, color and size controls, or double-click text to edit it directly.
 4. Drag reusable sections into the canvas or use **Quick add**. Open **Layers** to select and move sections with the arrows. Undo/redo are above the canvas.
 5. Select an image and use **Replace image**. PNG, JPG and WebP up to 2 MB are embedded for portability. Add a useful image description.
 6. **Save project** keeps it on this device and browser. **Project backup** downloads editable JSON; **Restore project** opens that file on another device. Backups have a consistent 32 MB limit. Local browser storage has a smaller device-dependent quota; save failure is reported rather than hidden.
 7. Run **Checks**. Review titles, descriptions, headings, image descriptions, links and contact information. These are basic checks, not full SEO or accessibility certification.
-8. **Export site → Download website ZIP** gives you index.html, styles.css and README.txt. Unzip and open index.html independently. Upload those files to a static host when ready.
+8. **Export site → Download website ZIP** gives you an HTML/CSS file for every page, shared studio.css, robots.txt, 404.html and README.txt. Set your final public URL under Studio tools → Site to include sitemap.xml and canonical links. Unzip and open index.html independently. Upload those files to a static host when ready.
 
 ## On a phone
 

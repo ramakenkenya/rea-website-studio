@@ -15,6 +15,7 @@ test('unvisited pages keep one navigation and export home, order and search visi
  const files=await zip(page),home=await files.file('index.html').async('string'),story=await files.file('our-story.html').async('string');
  expect(home).toContain('noindex,follow');expect(story).not.toContain('>Contact us</a>');expect(home.match(/<header\b/g)).toHaveLength(1);expect(story.match(/<header\b/g)).toHaveLength(1);expect(await files.file('sitemap.xml').async('string')).not.toContain('/index.html');
  await page.getByRole('button',{name:'Save project',exact:true}).click();await page.reload();await expect(page.locator('#studio-page-tabs button[data-page]').nth(1)).toHaveText('⌂ Contact us');
+ await page.getByRole('button',{name:'Checks',exact:true}).click();await expect(page.locator('#quality-results .check-item')).toHaveCount(21);await expect(page.locator('#quality-results')).toContainText('Our story · Internal link destinations');await page.getByRole('button',{name:'Close checks',exact:true}).click();
 });
 test('saved sections survive reload and reuse without reverting the current brand',async({page})=>{
  await ready(page);await tools(page,'Library');await page.getByRole('button',{name:'Insert FAQ',exact:true}).click();await close(page);

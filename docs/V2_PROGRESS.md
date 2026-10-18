@@ -14,7 +14,7 @@ Ruling: Record real browser workflows and retain source/CI evidence; do not pret
 | 4/5 | investigation artifacts consumed by evidence report | Claims require actual raw output and source verification. |
 | Each task | files, behavior, validation agree | No contradictory requirements identified. |
 
-Status: 50 additions implemented. Real REA run 39131482263 passed; raw archive and source hashes verified, archive retained in Drive. Local application suite: 49 passing tests; production build passes. Recorded cloud integration checks are running before publication.
+Status: 50 additions implemented. Real REA run 39131482263 passed; raw archive and source hashes verified, archive retained in Drive. Local application suite: 49 passing tests; production build passes. Cloud run [39133672923](https://github.com/ramakenkenya/rea-website-studio/actions/runs/39133672923) passed all 17 acceptance journeys, 49 application tests, seven REA evidence tests and the production build. The deliberate release walkthrough is reserved for main. Final documentation and a whole-site checks assertion are being included before the release run.
 
 Integration review corrections:
 - Deep clone APIs preserve nested components and independent styles.
