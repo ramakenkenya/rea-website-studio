@@ -1,0 +1,24 @@
+{
+  "timestamp_utc": "2026-10-18T10:27:09.616535+00:00",
+  "rea_version": "6.7.0",
+  "reference_repository": "https://github.com/GrapesJS/grapesjs",
+  "reference_commit": "3b2c671c0ab50f052a219b987dea8738ea75886e",
+  "command": [
+    "/home/runner/work/rea-website-studio/rea-website-studio/toolchain/node_modules/rea-agents/scripts/rea.mjs",
+    "analyze-javascript-application",
+    "/home/runner/work/_temp/grapesjs-reference/packages/core",
+    "--source-path",
+    "src/storage_manager/index.ts",
+    "--source-path",
+    "src/editor/index.ts",
+    "--analysis-timeout-ms",
+    "60000",
+    "--format",
+    "json",
+    "--full-output"
+  ],
+  "node_version": "v24.21.0",
+  "elapsed_seconds": 3.639,
+  "output_sha256": "71b742d03ff44b186dc7944579d516817b9f4fc94daf37aeee20f5aa8bb1f427",
+  "exit_code": 0
+}

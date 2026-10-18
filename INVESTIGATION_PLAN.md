@@ -14,9 +14,9 @@
 ## Immediate dependencies
 
 - [x] Dedicated repository exists and is accessible to the connected GitHub app (18 October 2026).
-- [ ] Commit this prepared project and let the configured workflow run.
-- [ ] Inspect the actual workflow result and retained artifact; repair ordinary runner/configuration errors if observed.
-- [ ] Obtain and verify the first completed REA selected-source finding.
+- [x] Commit this prepared project and let the configured workflow run.
+- [x] Inspect the actual workflow result and retained artifact; artifact and raw-output hashes verified.
+- [x] Obtain and source-verify the first completed REA selected-source findings; browser verification remains pending.
 
 ## Feature investigations
 
@@ -32,3 +32,7 @@ Create the PRD, technical requirements, app flow, data schema, design brief, imp
 ## Verification already performed on this handoff
 
 Five evidence-classification tests pass. The Python scripts compile. The workflow YAML parses with its expected triggers, read-only repository permission and seven steps. The dependency lockfile is accepted by `npm ci --dry-run`. These checks do not validate execution on GitHub's runner.
+
+## Cloud milestone update
+
+Actions run `39119285001` succeeded on 18 October 2026. See `docs/FIRST_FINDINGS.md` for exact evidence, source checks and retained limitations. No browser or product completion is implied.

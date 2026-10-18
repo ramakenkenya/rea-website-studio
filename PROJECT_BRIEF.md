@@ -35,4 +35,4 @@ Source can live on GitHub. A complete AI-enabled service needs suitable backend 
 
 ## Current status
 
-The installed REA CLI runs and produces a real partial inventory. Source analysis is blocked at the cloud host's Node-to-ps process-inspection boundary. The prepared GitHub Actions probe has not yet run. No builder, recorded UI test or deployment is claimed.
+The first workspace attempt was blocked at its Node-to-ps boundary. The subsequent GitHub Actions probe succeeded (run 39119285001). Raw output hashes and selected editor function locations were verified; see docs/FIRST_FINDINGS.md. Further feature investigation, browser verification and specification come next. No builder, recorded UI test or deployment is claimed.

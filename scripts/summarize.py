@@ -22,10 +22,23 @@ def summarize(envelope, exit_code):
     blocked = exit_code != 0 or envelope.get('ok') is False or bool(error)
     record = find_record(envelope) or {}
     normalized = record.get('normalized_result', {})
+    selection = normalized.get('source_selection', {})
+    requested = selection.get('requested_paths', [])
+    statistics = normalized.get('statistics', {})
+    semantic = normalized.get('semantic_graph', {})
+    # This probe selects explicit JS/TS files. Transport success alone can
+    # still contain failed, skipped or absent source parsing.
+    sources_parsed = (isinstance(requested, list) and bool(requested)
+                      and statistics.get('parsed_javascript_files') == len(requested)
+                      and statistics.get('skipped_javascript_files') == 0
+                      and statistics.get('parse_failures') == 0)
     succeeded = (not blocked and envelope.get('ok') is True
                  and record.get('operation') == 'analyze_javascript_application'
-                 and isinstance(normalized.get('graph'), dict))
-    selection = normalized.get('source_selection', {})
+                 and isinstance(normalized.get('graph'), dict)
+                 and isinstance(semantic, dict)
+                 and isinstance(semantic.get('nodes'), list)
+                 and isinstance(semantic.get('relations'), list)
+                 and sources_parsed)
     graph = normalized.get('graph', {})
     return {
         'status': 'blocked' if blocked else ('analysis_returned_success' if succeeded else 'unverified'),

@@ -1,0 +1,3992 @@
+{
+  "functions": [
+    {
+      "kind": "function",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 554,
+            "column": 2
+          },
+          "end": {
+            "line": 556,
+            "column": 3
+          }
+        },
+        "role_key": "callable:callable:method:16548:16602"
+      },
+      "function_node_id": null,
+      "application_node_ids": [],
+      "label": "getProjectData",
+      "properties": {
+        "name": "getProjectData"
+      },
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 554,
+              "column": 2
+            },
+            "end": {
+              "line": 556,
+              "column": 3
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_31fffc9a632a19af33cb3e67e418914c6a9b623eb1f90d279249f71711e4a9eb"
+    },
+    {
+      "kind": "function",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 565,
+            "column": 2
+          },
+          "end": {
+            "line": 567,
+            "column": 3
+          }
+        },
+        "role_key": "callable:callable:method:16872:17015"
+      },
+      "function_node_id": null,
+      "application_node_ids": [],
+      "label": "loadProjectData",
+      "properties": {
+        "name": "loadProjectData"
+      },
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 565,
+              "column": 2
+            },
+            "end": {
+              "line": 567,
+              "column": 3
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_5280c8af58ebb89a34e1401e583dbcbad407c38587d670597c884b03bc6aedb4"
+    },
+    {
+      "kind": "function",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 543,
+            "column": 2
+          },
+          "end": {
+            "line": 545,
+            "column": 3
+          }
+        },
+        "role_key": "callable:callable:method:16156:16301"
+      },
+      "function_node_id": null,
+      "application_node_ids": [],
+      "label": "load",
+      "properties": {
+        "name": "load"
+      },
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 543,
+              "column": 2
+            },
+            "end": {
+              "line": 545,
+              "column": 3
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_888864ed805abb6b06c9b642e9d4b8fddea109ab384674d8a6b7366aa04fa6fb"
+    },
+    {
+      "kind": "function",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 530,
+            "column": 2
+          },
+          "end": {
+            "line": 532,
+            "column": 3
+          }
+        },
+        "role_key": "callable:callable:method:15701:15798"
+      },
+      "function_node_id": null,
+      "application_node_ids": [],
+      "label": "store",
+      "properties": {
+        "name": "store"
+      },
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 530,
+              "column": 2
+            },
+            "end": {
+              "line": 532,
+              "column": 3
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_b5284630802d5e794dbe5330945ddb78e45fb7f2b22bb3aae161f3323fa10388"
+    },
+    {
+      "kind": "function",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 252,
+            "column": 2
+          },
+          "end": {
+            "line": 254,
+            "column": 3
+          }
+        },
+        "role_key": "callable:callable:method:7451:7537"
+      },
+      "function_node_id": null,
+      "application_node_ids": [],
+      "label": "getHtml",
+      "properties": {
+        "name": "getHtml"
+      },
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 252,
+              "column": 2
+            },
+            "end": {
+              "line": 254,
+              "column": 3
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_ebd4ac0b0b7f60dfae481547d5a88d0b28b3745974c7e6049ebfad93e4191315"
+    },
+    {
+      "kind": "function",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 268,
+            "column": 2
+          },
+          "end": {
+            "line": 270,
+            "column": 3
+          }
+        },
+        "role_key": "callable:callable:method:8365:8448"
+      },
+      "function_node_id": null,
+      "application_node_ids": [],
+      "label": "getCss",
+      "properties": {
+        "name": "getCss"
+      },
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 268,
+              "column": 2
+            },
+            "end": {
+              "line": 270,
+              "column": 3
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_f0da0ebb442441a37c9ec68845a6c20982bc82d50f80360333628bd433c25860"
+    }
+  ],
+  "nodes": [
+    {
+      "kind": "parameter",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 543,
+            "column": 52
+          },
+          "end": {
+            "line": 543,
+            "column": 82
+          }
+        },
+        "role_key": "binding:scope:function:16156:16301:binding:loadOptions"
+      },
+      "function_node_id": "jsrg_node_888864ed805abb6b06c9b642e9d4b8fddea109ab384674d8a6b7366aa04fa6fb",
+      "application_node_ids": [],
+      "label": "loadOptions",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 543,
+              "column": 52
+            },
+            "end": {
+              "line": 543,
+              "column": 82
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_01c08c85bb074de5f3dd4c74ae1fb6e1b7b4733e1d94a8dc0c31a1500855ccca"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 544,
+            "column": 39
+          },
+          "end": {
+            "line": 544,
+            "column": 50
+          }
+        },
+        "role_key": "reference:142:read:loadOptions"
+      },
+      "function_node_id": "jsrg_node_888864ed805abb6b06c9b642e9d4b8fddea109ab384674d8a6b7366aa04fa6fb",
+      "application_node_ids": [],
+      "label": "loadOptions",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 544,
+              "column": 39
+            },
+            "end": {
+              "line": 544,
+              "column": 50
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_035102f00db830017a36d08c4e271a2b9b24cd72009a106b89c6fe5d6dd639e2"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 531,
+            "column": 31
+          },
+          "end": {
+            "line": 531,
+            "column": 38
+          }
+        },
+        "role_key": "argument:call:call:15771:15793:0"
+      },
+      "function_node_id": "jsrg_node_b5284630802d5e794dbe5330945ddb78e45fb7f2b22bb3aae161f3323fa10388",
+      "application_node_ids": [],
+      "label": "argument 0",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 531,
+              "column": 31
+            },
+            "end": {
+              "line": 531,
+              "column": 38
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_068d5602fa1e0709f50cdc5eede00747e393e4c0c6be881e98aee9a216137cce"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 530,
+            "column": 50
+          },
+          "end": {
+            "line": 530,
+            "column": 51
+          }
+        },
+        "role_key": "reference:135:read:T"
+      },
+      "function_node_id": "jsrg_node_b5284630802d5e794dbe5330945ddb78e45fb7f2b22bb3aae161f3323fa10388",
+      "application_node_ids": [],
+      "label": "T",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 530,
+              "column": 50
+            },
+            "end": {
+              "line": 530,
+              "column": 51
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_0ba7c55b30867b728dffe6f4f271b34770fd1944da957b548561df80619aa440"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 543,
+            "column": 65
+          },
+          "end": {
+            "line": 543,
+            "column": 82
+          }
+        },
+        "role_key": "reference:140:read:EditorLoadOptions"
+      },
+      "function_node_id": "jsrg_node_888864ed805abb6b06c9b642e9d4b8fddea109ab384674d8a6b7366aa04fa6fb",
+      "application_node_ids": [],
+      "label": "EditorLoadOptions",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 543,
+              "column": 65
+            },
+            "end": {
+              "line": 543,
+              "column": 82
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_1a050f9ec45ab8ae78a1234eb0f8b5e40e1a3498d1930d9ffbe9d325a2fcf5e2"
+    },
+    {
+      "kind": "return-site",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 531,
+            "column": 4
+          },
+          "end": {
+            "line": 531,
+            "column": 40
+          }
+        },
+        "role_key": "callable:method:15701:15798:return:531:4:531:40"
+      },
+      "function_node_id": "jsrg_node_b5284630802d5e794dbe5330945ddb78e45fb7f2b22bb3aae161f3323fa10388",
+      "application_node_ids": [],
+      "label": "return",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 531,
+              "column": 4
+            },
+            "end": {
+              "line": 531,
+              "column": 40
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_20ad5c80534a0fb32d13e5054ae5a77ca6829f76cc83da4f9d8ae7fcf61680b1"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 253,
+            "column": 27
+          },
+          "end": {
+            "line": 253,
+            "column": 31
+          }
+        },
+        "role_key": "reference:75:read:opts"
+      },
+      "function_node_id": "jsrg_node_ebd4ac0b0b7f60dfae481547d5a88d0b28b3745974c7e6049ebfad93e4191315",
+      "application_node_ids": [],
+      "label": "opts",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 253,
+              "column": 27
+            },
+            "end": {
+              "line": 253,
+              "column": 31
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_21256f3a78dd2793476bbb9f936530a945e9bd93716a268ed03e81ae7af77f6e"
+    },
+    {
+      "kind": "return-site",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 269,
+            "column": 4
+          },
+          "end": {
+            "line": 269,
+            "column": 32
+          }
+        },
+        "role_key": "callable:method:8365:8448:return:269:4:269:32"
+      },
+      "function_node_id": "jsrg_node_f0da0ebb442441a37c9ec68845a6c20982bc82d50f80360333628bd433c25860",
+      "application_node_ids": [],
+      "label": "return",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 269,
+              "column": 4
+            },
+            "end": {
+              "line": 269,
+              "column": 32
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_298ff2b7bb0c20f5858d5e8baa2a0939f78d77353b0836933969f925796760eb"
+    },
+    {
+      "kind": "call-site",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 566,
+            "column": 11
+          },
+          "end": {
+            "line": 566,
+            "column": 42
+          }
+        },
+        "role_key": "call:call:call:16979:17010"
+      },
+      "function_node_id": "jsrg_node_5280c8af58ebb89a34e1401e583dbcbad407c38587d670597c884b03bc6aedb4",
+      "application_node_ids": [],
+      "label": "call",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 566,
+              "column": 11
+            },
+            "end": {
+              "line": 566,
+              "column": 42
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_2cabea0f09d58dd45a38bb582139ed781be8e56ea7bdf15e120c8103773016f7"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 543,
+            "column": 49
+          },
+          "end": {
+            "line": 543,
+            "column": 50
+          }
+        },
+        "role_key": "reference:139:read:T"
+      },
+      "function_node_id": "jsrg_node_888864ed805abb6b06c9b642e9d4b8fddea109ab384674d8a6b7366aa04fa6fb",
+      "application_node_ids": [],
+      "label": "T",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 543,
+              "column": 49
+            },
+            "end": {
+              "line": 543,
+              "column": 50
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_2f2732308639ce3b833a3030b4be2ebc7844b16b45c272c890674139d45d8739"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 543,
+            "column": 23
+          },
+          "end": {
+            "line": 543,
+            "column": 37
+          }
+        },
+        "role_key": "reference:138:read:StorageOptions"
+      },
+      "function_node_id": "jsrg_node_888864ed805abb6b06c9b642e9d4b8fddea109ab384674d8a6b7366aa04fa6fb",
+      "application_node_ids": [],
+      "label": "StorageOptions",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 543,
+              "column": 23
+            },
+            "end": {
+              "line": 543,
+              "column": 37
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_316db2e45ec35cc1ac3db75bb5c7eb894f7a94d07f955b9ca7aed15995c85bf2"
+    },
+    {
+      "kind": "function",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 554,
+            "column": 2
+          },
+          "end": {
+            "line": 556,
+            "column": 3
+          }
+        },
+        "role_key": "callable:callable:method:16548:16602"
+      },
+      "function_node_id": null,
+      "application_node_ids": [],
+      "label": "getProjectData",
+      "properties": {
+        "name": "getProjectData"
+      },
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 554,
+              "column": 2
+            },
+            "end": {
+              "line": 556,
+              "column": 3
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_31fffc9a632a19af33cb3e67e418914c6a9b623eb1f90d279249f71711e4a9eb"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 531,
+            "column": 31
+          },
+          "end": {
+            "line": 531,
+            "column": 38
+          }
+        },
+        "role_key": "reference:136:read:options"
+      },
+      "function_node_id": "jsrg_node_b5284630802d5e794dbe5330945ddb78e45fb7f2b22bb3aae161f3323fa10388",
+      "application_node_ids": [],
+      "label": "options",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 531,
+              "column": 31
+            },
+            "end": {
+              "line": 531,
+              "column": 38
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_372b3c59a0ddf186e093316ce201c0fad00628d9969e26d7e318eb93c6c87a6f"
+    },
+    {
+      "kind": "parameter",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 252,
+            "column": 10
+          },
+          "end": {
+            "line": 252,
+            "column": 47
+          }
+        },
+        "role_key": "binding:scope:function:7451:7537:binding:opts"
+      },
+      "function_node_id": "jsrg_node_ebd4ac0b0b7f60dfae481547d5a88d0b28b3745974c7e6049ebfad93e4191315",
+      "application_node_ids": [],
+      "label": "opts",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 252,
+              "column": 10
+            },
+            "end": {
+              "line": 252,
+              "column": 47
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_399661876ce17b6ae38cb38dcbd5a459eb8f3d911c6f6c45f19fe0be51a2c220"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 543,
+            "column": 52
+          },
+          "end": {
+            "line": 543,
+            "column": 82
+          }
+        },
+        "role_key": "definition:scope:function:16156:16301:binding:loadOptions:0"
+      },
+      "function_node_id": "jsrg_node_888864ed805abb6b06c9b642e9d4b8fddea109ab384674d8a6b7366aa04fa6fb",
+      "application_node_ids": [],
+      "label": "parameter",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 543,
+              "column": 52
+            },
+            "end": {
+              "line": 543,
+              "column": 82
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_3a9e3e8e0d10a994e3776bb39da08c9f53accff8d72f64cefbc0c153e6cdbc22"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 269,
+            "column": 11
+          },
+          "end": {
+            "line": 269,
+            "column": 25
+          }
+        },
+        "role_key": "object:read:8423:8437"
+      },
+      "function_node_id": "jsrg_node_f0da0ebb442441a37c9ec68845a6c20982bc82d50f80360333628bd433c25860",
+      "application_node_ids": [],
+      "label": "read:/em/getCss",
+      "properties": {
+        "operation_kind": "read",
+        "property_path": [
+          "em",
+          "getCss"
+        ]
+      },
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 269,
+              "column": 11
+            },
+            "end": {
+              "line": 269,
+              "column": 25
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_46011e45384b4d04387ebfb413c2ece4de1b988f76907a6c01f2da613c263492"
+    },
+    {
+      "kind": "parameter",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 565,
+            "column": 18
+          },
+          "end": {
+            "line": 565,
+            "column": 35
+          }
+        },
+        "role_key": "binding:scope:function:16872:17015:binding:data"
+      },
+      "function_node_id": "jsrg_node_5280c8af58ebb89a34e1401e583dbcbad407c38587d670597c884b03bc6aedb4",
+      "application_node_ids": [],
+      "label": "data",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 565,
+              "column": 18
+            },
+            "end": {
+              "line": 565,
+              "column": 35
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_493dab2c5b4f0789d15a360564e3735d58dcdb9d0d038244a59ce22a77568fac"
+    },
+    {
+      "kind": "function",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 565,
+            "column": 2
+          },
+          "end": {
+            "line": 567,
+            "column": 3
+          }
+        },
+        "role_key": "callable:callable:method:16872:17015"
+      },
+      "function_node_id": null,
+      "application_node_ids": [],
+      "label": "loadProjectData",
+      "properties": {
+        "name": "loadProjectData"
+      },
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 565,
+              "column": 2
+            },
+            "end": {
+              "line": 567,
+              "column": 3
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_5280c8af58ebb89a34e1401e583dbcbad407c38587d670597c884b03bc6aedb4"
+    },
+    {
+      "kind": "call-site",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 269,
+            "column": 11
+          },
+          "end": {
+            "line": 269,
+            "column": 31
+          }
+        },
+        "role_key": "call:call:call:8423:8443"
+      },
+      "function_node_id": "jsrg_node_f0da0ebb442441a37c9ec68845a6c20982bc82d50f80360333628bd433c25860",
+      "application_node_ids": [],
+      "label": "call",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 269,
+              "column": 11
+            },
+            "end": {
+              "line": 269,
+              "column": 31
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_53a752cff99456b9176d708930ce99c33621e9008fdebda16afa40b9cbf31643"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 252,
+            "column": 17
+          },
+          "end": {
+            "line": 252,
+            "column": 33
+          }
+        },
+        "role_key": "reference:74:read:EditorModelParam"
+      },
+      "function_node_id": "jsrg_node_ebd4ac0b0b7f60dfae481547d5a88d0b28b3745974c7e6049ebfad93e4191315",
+      "application_node_ids": [],
+      "label": "EditorModelParam",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 252,
+              "column": 17
+            },
+            "end": {
+              "line": 252,
+              "column": 33
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_55e7a34df5ce739bf8bb44665f10c682a1208b447cf345902192d2830cef1ad4"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 544,
+            "column": 30
+          },
+          "end": {
+            "line": 544,
+            "column": 37
+          }
+        },
+        "role_key": "argument:call:call:16262:16296:0"
+      },
+      "function_node_id": "jsrg_node_888864ed805abb6b06c9b642e9d4b8fddea109ab384674d8a6b7366aa04fa6fb",
+      "application_node_ids": [],
+      "label": "argument 0",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 544,
+              "column": 30
+            },
+            "end": {
+              "line": 544,
+              "column": 37
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_59087207c27d9fa1b56f5ad01af640e05eb97cde14ac42d40fb563eafb87cea6"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 565,
+            "column": 24
+          },
+          "end": {
+            "line": 565,
+            "column": 35
+          }
+        },
+        "role_key": "reference:143:read:ProjectData"
+      },
+      "function_node_id": "jsrg_node_5280c8af58ebb89a34e1401e583dbcbad407c38587d670597c884b03bc6aedb4",
+      "application_node_ids": [],
+      "label": "ProjectData",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 565,
+              "column": 24
+            },
+            "end": {
+              "line": 565,
+              "column": 35
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_5aa6a39fbd0283a77e7a3ebbe5147d99c06b16e78d8e51f6095f3d9c3ae3ab94"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 530,
+            "column": 40
+          },
+          "end": {
+            "line": 530,
+            "column": 51
+          }
+        },
+        "role_key": "definition:scope:function:15701:15798:binding:options:0"
+      },
+      "function_node_id": "jsrg_node_b5284630802d5e794dbe5330945ddb78e45fb7f2b22bb3aae161f3323fa10388",
+      "application_node_ids": [],
+      "label": "parameter",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 530,
+              "column": 40
+            },
+            "end": {
+              "line": 530,
+              "column": 51
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_5b9539ce815d7f4b6c82d7b400e312700a77990f7708b3ec6fded8d1bf204225"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 268,
+            "column": 9
+          },
+          "end": {
+            "line": 268,
+            "column": 45
+          }
+        },
+        "role_key": "definition:scope:function:8365:8448:binding:opts:0"
+      },
+      "function_node_id": "jsrg_node_f0da0ebb442441a37c9ec68845a6c20982bc82d50f80360333628bd433c25860",
+      "application_node_ids": [],
+      "label": "parameter",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 268,
+              "column": 9
+            },
+            "end": {
+              "line": 268,
+              "column": 45
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_5e2d5701d083c8f2323cfa3f8f726bf28c2f197db684f171411149a211f991d1"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 555,
+            "column": 11
+          },
+          "end": {
+            "line": 555,
+            "column": 28
+          }
+        },
+        "role_key": "object:read:16578:16595"
+      },
+      "function_node_id": "jsrg_node_31fffc9a632a19af33cb3e67e418914c6a9b623eb1f90d279249f71711e4a9eb",
+      "application_node_ids": [],
+      "label": "read:/em/storeData",
+      "properties": {
+        "operation_kind": "read",
+        "property_path": [
+          "em",
+          "storeData"
+        ]
+      },
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 555,
+              "column": 11
+            },
+            "end": {
+              "line": 555,
+              "column": 28
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_6a243321e8649ffe3940b4314e5158aba832c68c2d92c04a2b46c92c17854de8"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 565,
+            "column": 66
+          },
+          "end": {
+            "line": 565,
+            "column": 72
+          }
+        },
+        "role_key": "reference:145:read:Record"
+      },
+      "function_node_id": "jsrg_node_5280c8af58ebb89a34e1401e583dbcbad407c38587d670597c884b03bc6aedb4",
+      "application_node_ids": [],
+      "label": "Record",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 565,
+              "column": 66
+            },
+            "end": {
+              "line": 565,
+              "column": 72
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_6d0f76b80a74cd2768547d0d1c8cd00711cd3959347c3ca9dc3f9ddb93dad4fa"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 253,
+            "column": 11
+          },
+          "end": {
+            "line": 253,
+            "column": 26
+          }
+        },
+        "role_key": "object:read:7511:7526"
+      },
+      "function_node_id": "jsrg_node_ebd4ac0b0b7f60dfae481547d5a88d0b28b3745974c7e6049ebfad93e4191315",
+      "application_node_ids": [],
+      "label": "read:/em/getHtml",
+      "properties": {
+        "operation_kind": "read",
+        "property_path": [
+          "em",
+          "getHtml"
+        ]
+      },
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 253,
+              "column": 11
+            },
+            "end": {
+              "line": 253,
+              "column": 26
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_6d9839c89e9c5ea21fd18fa08ff75d2d121fb43eb74b8a85d0e02c41ee51db77"
+    },
+    {
+      "kind": "parameter",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 565,
+            "column": 37
+          },
+          "end": {
+            "line": 565,
+            "column": 89
+          }
+        },
+        "role_key": "binding:scope:function:16872:17015:binding:options"
+      },
+      "function_node_id": "jsrg_node_5280c8af58ebb89a34e1401e583dbcbad407c38587d670597c884b03bc6aedb4",
+      "application_node_ids": [],
+      "label": "options",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 565,
+              "column": 37
+            },
+            "end": {
+              "line": 565,
+              "column": 89
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_704f6ed5956f4c5f5e9de109f2b09596812b120a1450a8359bdda2f815b6e679"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 543,
+            "column": 39
+          },
+          "end": {
+            "line": 543,
+            "column": 50
+          }
+        },
+        "role_key": "definition:scope:function:16156:16301:binding:options:0"
+      },
+      "function_node_id": "jsrg_node_888864ed805abb6b06c9b642e9d4b8fddea109ab384674d8a6b7366aa04fa6fb",
+      "application_node_ids": [],
+      "label": "parameter",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 543,
+              "column": 39
+            },
+            "end": {
+              "line": 543,
+              "column": 50
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_76b0ea19b910a30904c0bbb85857c37cb31c038b256805f0f6a2b52b7659070c"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 544,
+            "column": 17
+          },
+          "end": {
+            "line": 544,
+            "column": 29
+          }
+        },
+        "role_key": "object:read:16262:16274"
+      },
+      "function_node_id": "jsrg_node_888864ed805abb6b06c9b642e9d4b8fddea109ab384674d8a6b7366aa04fa6fb",
+      "application_node_ids": [],
+      "label": "read:/em/load",
+      "properties": {
+        "operation_kind": "read",
+        "property_path": [
+          "em",
+          "load"
+        ]
+      },
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 544,
+              "column": 17
+            },
+            "end": {
+              "line": 544,
+              "column": 29
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_7a94301d48c0c189b2af14dfd5d90004fb1dbe0365ba00d47afd4331ec130bf4"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 544,
+            "column": 30
+          },
+          "end": {
+            "line": 544,
+            "column": 37
+          }
+        },
+        "role_key": "reference:141:read:options"
+      },
+      "function_node_id": "jsrg_node_888864ed805abb6b06c9b642e9d4b8fddea109ab384674d8a6b7366aa04fa6fb",
+      "application_node_ids": [],
+      "label": "options",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 544,
+              "column": 30
+            },
+            "end": {
+              "line": 544,
+              "column": 37
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_7a9ee014a93bf5a83d4d1f5e9e4a51275192f834586526d51f187a39769a79d2"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 252,
+            "column": 10
+          },
+          "end": {
+            "line": 252,
+            "column": 47
+          }
+        },
+        "role_key": "definition:scope:function:7451:7537:binding:opts:0"
+      },
+      "function_node_id": "jsrg_node_ebd4ac0b0b7f60dfae481547d5a88d0b28b3745974c7e6049ebfad93e4191315",
+      "application_node_ids": [],
+      "label": "parameter",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 252,
+              "column": 10
+            },
+            "end": {
+              "line": 252,
+              "column": 47
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_7c0cfa24076e3f0d473737a6a44ae5c9164e9ff71e5b0304875ccbea2b9c3852"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 565,
+            "column": 18
+          },
+          "end": {
+            "line": 565,
+            "column": 35
+          }
+        },
+        "role_key": "definition:scope:function:16872:17015:binding:data:0"
+      },
+      "function_node_id": "jsrg_node_5280c8af58ebb89a34e1401e583dbcbad407c38587d670597c884b03bc6aedb4",
+      "application_node_ids": [],
+      "label": "parameter",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 565,
+              "column": 18
+            },
+            "end": {
+              "line": 565,
+              "column": 35
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_7f55d6fb07edfd698fd5a552c1343ab20a5e596cfbf16ed92a381297acdfecde"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 565,
+            "column": 46
+          },
+          "end": {
+            "line": 565,
+            "column": 63
+          }
+        },
+        "role_key": "reference:144:read:EditorLoadOptions"
+      },
+      "function_node_id": "jsrg_node_5280c8af58ebb89a34e1401e583dbcbad407c38587d670597c884b03bc6aedb4",
+      "application_node_ids": [],
+      "label": "EditorLoadOptions",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 565,
+              "column": 46
+            },
+            "end": {
+              "line": 565,
+              "column": 63
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_82490f45254c6f1f597ae29bb2d79624e04196f2ae88e561152740355c953b2a"
+    },
+    {
+      "kind": "parameter",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 530,
+            "column": 40
+          },
+          "end": {
+            "line": 530,
+            "column": 51
+          }
+        },
+        "role_key": "binding:scope:function:15701:15798:binding:options"
+      },
+      "function_node_id": "jsrg_node_b5284630802d5e794dbe5330945ddb78e45fb7f2b22bb3aae161f3323fa10388",
+      "application_node_ids": [],
+      "label": "options",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 530,
+              "column": 40
+            },
+            "end": {
+              "line": 530,
+              "column": 51
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_887dcb650838cc15e5e013126b58ae4bdde0136d1943ec969292da64cf6fdfdd"
+    },
+    {
+      "kind": "function",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 543,
+            "column": 2
+          },
+          "end": {
+            "line": 545,
+            "column": 3
+          }
+        },
+        "role_key": "callable:callable:method:16156:16301"
+      },
+      "function_node_id": null,
+      "application_node_ids": [],
+      "label": "load",
+      "properties": {
+        "name": "load"
+      },
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 543,
+              "column": 2
+            },
+            "end": {
+              "line": 545,
+              "column": 3
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_888864ed805abb6b06c9b642e9d4b8fddea109ab384674d8a6b7366aa04fa6fb"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 566,
+            "column": 28
+          },
+          "end": {
+            "line": 566,
+            "column": 32
+          }
+        },
+        "role_key": "reference:146:read:data"
+      },
+      "function_node_id": "jsrg_node_5280c8af58ebb89a34e1401e583dbcbad407c38587d670597c884b03bc6aedb4",
+      "application_node_ids": [],
+      "label": "data",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 566,
+              "column": 28
+            },
+            "end": {
+              "line": 566,
+              "column": 32
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_88a03fbaaf1c16596cd058e65ad525a75132c8ce2e3bfca824059fced817b178"
+    },
+    {
+      "kind": "task",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 531,
+            "column": 11
+          },
+          "end": {
+            "line": 531,
+            "column": 39
+          }
+        },
+        "role_key": "promise:awaited-expression:15765:15793"
+      },
+      "function_node_id": "jsrg_node_b5284630802d5e794dbe5330945ddb78e45fb7f2b22bb3aae161f3323fa10388",
+      "application_node_ids": [],
+      "label": "awaited expression",
+      "properties": {
+        "method": "await",
+        "operation_kind": "awaited-expression",
+        "ownership": "awaited",
+        "source_resolution": "unresolved"
+      },
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 531,
+              "column": 11
+            },
+            "end": {
+              "line": 531,
+              "column": 39
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_94829dd36a3d6bfaffd55f1e149f59b4b8f8b971976956984c28133abaaaa175"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 544,
+            "column": 39
+          },
+          "end": {
+            "line": 544,
+            "column": 50
+          }
+        },
+        "role_key": "argument:call:call:16262:16296:1"
+      },
+      "function_node_id": "jsrg_node_888864ed805abb6b06c9b642e9d4b8fddea109ab384674d8a6b7366aa04fa6fb",
+      "application_node_ids": [],
+      "label": "argument 1",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 544,
+              "column": 39
+            },
+            "end": {
+              "line": 544,
+              "column": 50
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_9b1197737bd7cbc5573dc838a80adfd79a70d27accfbd4be883b1472b14bb76e"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 543,
+            "column": 13
+          },
+          "end": {
+            "line": 543,
+            "column": 14
+          }
+        },
+        "role_key": "reference:137:read:T"
+      },
+      "function_node_id": "jsrg_node_888864ed805abb6b06c9b642e9d4b8fddea109ab384674d8a6b7366aa04fa6fb",
+      "application_node_ids": [],
+      "label": "T",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 543,
+              "column": 13
+            },
+            "end": {
+              "line": 543,
+              "column": 14
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_a7e54c5d29395733d15108dfd41b27561ff93908bbbe31884c2bf3ad47923e9d"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 269,
+            "column": 26
+          },
+          "end": {
+            "line": 269,
+            "column": 30
+          }
+        },
+        "role_key": "argument:call:call:8423:8443:0"
+      },
+      "function_node_id": "jsrg_node_f0da0ebb442441a37c9ec68845a6c20982bc82d50f80360333628bd433c25860",
+      "application_node_ids": [],
+      "label": "argument 0",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 269,
+              "column": 26
+            },
+            "end": {
+              "line": 269,
+              "column": 30
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_ab86cf38578206051a28dfcacee0fe02c20f3028e762d17017c3ae6542897b55"
+    },
+    {
+      "kind": "function",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 530,
+            "column": 2
+          },
+          "end": {
+            "line": 532,
+            "column": 3
+          }
+        },
+        "role_key": "callable:callable:method:15701:15798"
+      },
+      "function_node_id": null,
+      "application_node_ids": [],
+      "label": "store",
+      "properties": {
+        "name": "store"
+      },
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 530,
+              "column": 2
+            },
+            "end": {
+              "line": 532,
+              "column": 3
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_b5284630802d5e794dbe5330945ddb78e45fb7f2b22bb3aae161f3323fa10388"
+    },
+    {
+      "kind": "call-site",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 555,
+            "column": 11
+          },
+          "end": {
+            "line": 555,
+            "column": 30
+          }
+        },
+        "role_key": "call:call:call:16578:16597"
+      },
+      "function_node_id": "jsrg_node_31fffc9a632a19af33cb3e67e418914c6a9b623eb1f90d279249f71711e4a9eb",
+      "application_node_ids": [],
+      "label": "call",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 555,
+              "column": 11
+            },
+            "end": {
+              "line": 555,
+              "column": 30
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_b53198a070ee1c74f0062c1761591f52f6be3c27e0989102b194466f5a44f72c"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 566,
+            "column": 34
+          },
+          "end": {
+            "line": 566,
+            "column": 41
+          }
+        },
+        "role_key": "argument:call:call:16979:17010:1"
+      },
+      "function_node_id": "jsrg_node_5280c8af58ebb89a34e1401e583dbcbad407c38587d670597c884b03bc6aedb4",
+      "application_node_ids": [],
+      "label": "argument 1",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 566,
+              "column": 34
+            },
+            "end": {
+              "line": 566,
+              "column": 41
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_b684b616d8161b0f0d067132c6c903b1b014d42db426bb357ef5ed6797d48f13"
+    },
+    {
+      "kind": "return-site",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 253,
+            "column": 4
+          },
+          "end": {
+            "line": 253,
+            "column": 33
+          }
+        },
+        "role_key": "callable:method:7451:7537:return:253:4:253:33"
+      },
+      "function_node_id": "jsrg_node_ebd4ac0b0b7f60dfae481547d5a88d0b28b3745974c7e6049ebfad93e4191315",
+      "application_node_ids": [],
+      "label": "return",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 253,
+              "column": 4
+            },
+            "end": {
+              "line": 253,
+              "column": 33
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_bf20b398e4deb749b8e00ce249b6abdc231d58942dc8de971d0927fcf22bfd6d"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 530,
+            "column": 24
+          },
+          "end": {
+            "line": 530,
+            "column": 38
+          }
+        },
+        "role_key": "reference:134:read:StorageOptions"
+      },
+      "function_node_id": "jsrg_node_b5284630802d5e794dbe5330945ddb78e45fb7f2b22bb3aae161f3323fa10388",
+      "application_node_ids": [],
+      "label": "StorageOptions",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 530,
+              "column": 24
+            },
+            "end": {
+              "line": 530,
+              "column": 38
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_c15dbb493dac9f2eeb3de854c1308a5c4a41b766de2ffe649730fff7f2429d35"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 565,
+            "column": 37
+          },
+          "end": {
+            "line": 565,
+            "column": 89
+          }
+        },
+        "role_key": "definition:scope:function:16872:17015:binding:options:0"
+      },
+      "function_node_id": "jsrg_node_5280c8af58ebb89a34e1401e583dbcbad407c38587d670597c884b03bc6aedb4",
+      "application_node_ids": [],
+      "label": "parameter",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 565,
+              "column": 37
+            },
+            "end": {
+              "line": 565,
+              "column": 89
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_c512b68e54793389033e87ac0b931326676ca796b2c474257a30dd30eab30498"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 566,
+            "column": 34
+          },
+          "end": {
+            "line": 566,
+            "column": 41
+          }
+        },
+        "role_key": "reference:147:read:options"
+      },
+      "function_node_id": "jsrg_node_5280c8af58ebb89a34e1401e583dbcbad407c38587d670597c884b03bc6aedb4",
+      "application_node_ids": [],
+      "label": "options",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 566,
+              "column": 34
+            },
+            "end": {
+              "line": 566,
+              "column": 41
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_c5a93f5f1236e067744d534b4e6e77314263dd6b2baf60ea6c8cfcb8bbeaad98"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 566,
+            "column": 11
+          },
+          "end": {
+            "line": 566,
+            "column": 27
+          }
+        },
+        "role_key": "object:read:16979:16995"
+      },
+      "function_node_id": "jsrg_node_5280c8af58ebb89a34e1401e583dbcbad407c38587d670597c884b03bc6aedb4",
+      "application_node_ids": [],
+      "label": "read:/em/loadData",
+      "properties": {
+        "operation_kind": "read",
+        "property_path": [
+          "em",
+          "loadData"
+        ]
+      },
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 566,
+              "column": 11
+            },
+            "end": {
+              "line": 566,
+              "column": 27
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_c717ba22bf9c523ea2f382740cfce30f95e971637d9e4a1876385184d350859a"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 269,
+            "column": 26
+          },
+          "end": {
+            "line": 269,
+            "column": 30
+          }
+        },
+        "role_key": "reference:77:read:opts"
+      },
+      "function_node_id": "jsrg_node_f0da0ebb442441a37c9ec68845a6c20982bc82d50f80360333628bd433c25860",
+      "application_node_ids": [],
+      "label": "opts",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 269,
+              "column": 26
+            },
+            "end": {
+              "line": 269,
+              "column": 30
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_ca3af263327a6145a27c1a107e2b6bb17eefc16431fb314d56e0c3d6210ea86d"
+    },
+    {
+      "kind": "return-site",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 544,
+            "column": 4
+          },
+          "end": {
+            "line": 544,
+            "column": 52
+          }
+        },
+        "role_key": "callable:method:16156:16301:return:544:4:544:52"
+      },
+      "function_node_id": "jsrg_node_888864ed805abb6b06c9b642e9d4b8fddea109ab384674d8a6b7366aa04fa6fb",
+      "application_node_ids": [],
+      "label": "return",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 544,
+              "column": 4
+            },
+            "end": {
+              "line": 544,
+              "column": 52
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_cdc19b2a89f9ae8ef6242fe96b93f491ea666084d2a6842e105e16f6928841f1"
+    },
+    {
+      "kind": "call-site",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 544,
+            "column": 17
+          },
+          "end": {
+            "line": 544,
+            "column": 51
+          }
+        },
+        "role_key": "call:call:call:16262:16296"
+      },
+      "function_node_id": "jsrg_node_888864ed805abb6b06c9b642e9d4b8fddea109ab384674d8a6b7366aa04fa6fb",
+      "application_node_ids": [],
+      "label": "call",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 544,
+              "column": 17
+            },
+            "end": {
+              "line": 544,
+              "column": 51
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_d359562512965bc6688eed9c8d495193b833f15eef683d4bf3cd53dc013e437e"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 530,
+            "column": 14
+          },
+          "end": {
+            "line": 530,
+            "column": 15
+          }
+        },
+        "role_key": "reference:133:read:T"
+      },
+      "function_node_id": "jsrg_node_b5284630802d5e794dbe5330945ddb78e45fb7f2b22bb3aae161f3323fa10388",
+      "application_node_ids": [],
+      "label": "T",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 530,
+              "column": 14
+            },
+            "end": {
+              "line": 530,
+              "column": 15
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_deba2ab69962a6ec45de7a296ef830dda255396d7d52c08797a2625a10184e4a"
+    },
+    {
+      "kind": "task",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 544,
+            "column": 11
+          },
+          "end": {
+            "line": 544,
+            "column": 51
+          }
+        },
+        "role_key": "promise:awaited-expression:16256:16296"
+      },
+      "function_node_id": "jsrg_node_888864ed805abb6b06c9b642e9d4b8fddea109ab384674d8a6b7366aa04fa6fb",
+      "application_node_ids": [],
+      "label": "awaited expression",
+      "properties": {
+        "method": "await",
+        "operation_kind": "awaited-expression",
+        "ownership": "awaited",
+        "source_resolution": "unresolved"
+      },
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 544,
+              "column": 11
+            },
+            "end": {
+              "line": 544,
+              "column": 51
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_dee0da441942bbc30a9977679b9c17598527f537eb832037563cbf0eb97469b6"
+    },
+    {
+      "kind": "call-site",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 531,
+            "column": 17
+          },
+          "end": {
+            "line": 531,
+            "column": 39
+          }
+        },
+        "role_key": "call:call:call:15771:15793"
+      },
+      "function_node_id": "jsrg_node_b5284630802d5e794dbe5330945ddb78e45fb7f2b22bb3aae161f3323fa10388",
+      "application_node_ids": [],
+      "label": "call",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 531,
+              "column": 17
+            },
+            "end": {
+              "line": 531,
+              "column": 39
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_e7484b69ba49d34b6bcc89bfd52de8500bce38d98d33290f9cfaa4f33c3c5028"
+    },
+    {
+      "kind": "parameter",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 268,
+            "column": 9
+          },
+          "end": {
+            "line": 268,
+            "column": 45
+          }
+        },
+        "role_key": "binding:scope:function:8365:8448:binding:opts"
+      },
+      "function_node_id": "jsrg_node_f0da0ebb442441a37c9ec68845a6c20982bc82d50f80360333628bd433c25860",
+      "application_node_ids": [],
+      "label": "opts",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 268,
+              "column": 9
+            },
+            "end": {
+              "line": 268,
+              "column": 45
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_e85156bb096379b184bb08ee7171e84de3db33775e80d6beb14b1a7e1dccb371"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 268,
+            "column": 16
+          },
+          "end": {
+            "line": 268,
+            "column": 32
+          }
+        },
+        "role_key": "reference:76:read:EditorModelParam"
+      },
+      "function_node_id": "jsrg_node_f0da0ebb442441a37c9ec68845a6c20982bc82d50f80360333628bd433c25860",
+      "application_node_ids": [],
+      "label": "EditorModelParam",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 268,
+              "column": 16
+            },
+            "end": {
+              "line": 268,
+              "column": 32
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_ea222e9a7eaafe2629220335608218f086c5f073672d280e056c7ff0288e5132"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 566,
+            "column": 28
+          },
+          "end": {
+            "line": 566,
+            "column": 32
+          }
+        },
+        "role_key": "argument:call:call:16979:17010:0"
+      },
+      "function_node_id": "jsrg_node_5280c8af58ebb89a34e1401e583dbcbad407c38587d670597c884b03bc6aedb4",
+      "application_node_ids": [],
+      "label": "argument 0",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 566,
+              "column": 28
+            },
+            "end": {
+              "line": 566,
+              "column": 32
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_ebc5197d7eaf8ffebc087e9b815c6392a28037bed5c9c8518cf11db65c70a61e"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 253,
+            "column": 27
+          },
+          "end": {
+            "line": 253,
+            "column": 31
+          }
+        },
+        "role_key": "argument:call:call:7511:7532:0"
+      },
+      "function_node_id": "jsrg_node_ebd4ac0b0b7f60dfae481547d5a88d0b28b3745974c7e6049ebfad93e4191315",
+      "application_node_ids": [],
+      "label": "argument 0",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 253,
+              "column": 27
+            },
+            "end": {
+              "line": 253,
+              "column": 31
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_ebd3fee05d4ef3109556643b302aa460f1f279231e1104d6fb84346c8bd826eb"
+    },
+    {
+      "kind": "function",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 252,
+            "column": 2
+          },
+          "end": {
+            "line": 254,
+            "column": 3
+          }
+        },
+        "role_key": "callable:callable:method:7451:7537"
+      },
+      "function_node_id": null,
+      "application_node_ids": [],
+      "label": "getHtml",
+      "properties": {
+        "name": "getHtml"
+      },
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 252,
+              "column": 2
+            },
+            "end": {
+              "line": 254,
+              "column": 3
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_ebd4ac0b0b7f60dfae481547d5a88d0b28b3745974c7e6049ebfad93e4191315"
+    },
+    {
+      "kind": "call-site",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 253,
+            "column": 11
+          },
+          "end": {
+            "line": 253,
+            "column": 32
+          }
+        },
+        "role_key": "call:call:call:7511:7532"
+      },
+      "function_node_id": "jsrg_node_ebd4ac0b0b7f60dfae481547d5a88d0b28b3745974c7e6049ebfad93e4191315",
+      "application_node_ids": [],
+      "label": "call",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 253,
+              "column": 11
+            },
+            "end": {
+              "line": 253,
+              "column": 32
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_ed3510b3b91839b1d9472ece1f09ef3e826e81ec790e9ec9133fd73483e04ea9"
+    },
+    {
+      "kind": "function",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 268,
+            "column": 2
+          },
+          "end": {
+            "line": 270,
+            "column": 3
+          }
+        },
+        "role_key": "callable:callable:method:8365:8448"
+      },
+      "function_node_id": null,
+      "application_node_ids": [],
+      "label": "getCss",
+      "properties": {
+        "name": "getCss"
+      },
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 268,
+              "column": 2
+            },
+            "end": {
+              "line": 270,
+              "column": 3
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_f0da0ebb442441a37c9ec68845a6c20982bc82d50f80360333628bd433c25860"
+    },
+    {
+      "kind": "return-site",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 555,
+            "column": 4
+          },
+          "end": {
+            "line": 555,
+            "column": 31
+          }
+        },
+        "role_key": "callable:method:16548:16602:return:555:4:555:31"
+      },
+      "function_node_id": "jsrg_node_31fffc9a632a19af33cb3e67e418914c6a9b623eb1f90d279249f71711e4a9eb",
+      "application_node_ids": [],
+      "label": "return",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 555,
+              "column": 4
+            },
+            "end": {
+              "line": 555,
+              "column": 31
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_f36da01030190439ef9e367254e5bd0cbd5205d4ee53e4fb9e77ec625a58daab"
+    },
+    {
+      "kind": "parameter",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 543,
+            "column": 39
+          },
+          "end": {
+            "line": 543,
+            "column": 50
+          }
+        },
+        "role_key": "binding:scope:function:16156:16301:binding:options"
+      },
+      "function_node_id": "jsrg_node_888864ed805abb6b06c9b642e9d4b8fddea109ab384674d8a6b7366aa04fa6fb",
+      "application_node_ids": [],
+      "label": "options",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 543,
+              "column": 39
+            },
+            "end": {
+              "line": 543,
+              "column": 50
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_f42b25618177d9c57cea071da734bb66e52fc42ecccaca7b5ac63f3d8a18eadb"
+    },
+    {
+      "kind": "expression",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 531,
+            "column": 17
+          },
+          "end": {
+            "line": 531,
+            "column": 30
+          }
+        },
+        "role_key": "object:read:15771:15784"
+      },
+      "function_node_id": "jsrg_node_b5284630802d5e794dbe5330945ddb78e45fb7f2b22bb3aae161f3323fa10388",
+      "application_node_ids": [],
+      "label": "read:/em/store",
+      "properties": {
+        "operation_kind": "read",
+        "property_path": [
+          "em",
+          "store"
+        ]
+      },
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 531,
+              "column": 17
+            },
+            "end": {
+              "line": 531,
+              "column": 30
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_f4b2895d458769b7b7652d038e8720bbbefb9f65e13309029c931b3e309b2111"
+    },
+    {
+      "kind": "return-site",
+      "identity": {
+        "artifact_sha256": "0110bec7161c4b52771a72af1cc54be36c71142e8d5c5679f746afe6cd52b5c3",
+        "module_path": "src/editor/index.ts",
+        "source_range": {
+          "start": {
+            "line": 566,
+            "column": 4
+          },
+          "end": {
+            "line": 566,
+            "column": 43
+          }
+        },
+        "role_key": "callable:method:16872:17015:return:566:4:566:43"
+      },
+      "function_node_id": "jsrg_node_5280c8af58ebb89a34e1401e583dbcbad407c38587d670597c884b03bc6aedb4",
+      "application_node_ids": [],
+      "label": "return",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_c09254b11077e6faa7c55389c3b805d9aafb14b81c36ba9af5a76e4c3a6327ad",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 566,
+              "column": 4
+            },
+            "end": {
+              "line": 566,
+              "column": 43
+            }
+          }
+        }
+      },
+      "node_id": "jsrg_node_fd85e129ae77dd3eb8fbf786a01d69072dec58bcd2f5c83c5ed000b725f3cda6"
+    }
+  ],
+  "relations": [
+    {
+      "source_node_id": "jsrg_node_b5284630802d5e794dbe5330945ddb78e45fb7f2b22bb3aae161f3323fa10388",
+      "target_node_id": "jsrg_node_94829dd36a3d6bfaffd55f1e149f59b4b8f8b971976956984c28133abaaaa175",
+      "relation": "awaits",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 530,
+              "column": 2
+            },
+            "end": {
+              "line": 532,
+              "column": 3
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_08741165fbddcee356fd8c35eb118b4c9e9487956699e489390df04e5d072940"
+    },
+    {
+      "source_node_id": "jsrg_node_399661876ce17b6ae38cb38dcbd5a459eb8f3d911c6f6c45f19fe0be51a2c220",
+      "target_node_id": "jsrg_node_21256f3a78dd2793476bbb9f936530a945e9bd93716a268ed03e81ae7af77f6e",
+      "relation": "reads",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 253,
+              "column": 27
+            },
+            "end": {
+              "line": 253,
+              "column": 31
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_0e660abc9117110696a9732182c9ac50c7b34bb70f014ae9ffa7b575bbb3f6c2"
+    },
+    {
+      "source_node_id": "jsrg_node_76b0ea19b910a30904c0bbb85857c37cb31c038b256805f0f6a2b52b7659070c",
+      "target_node_id": "jsrg_node_f42b25618177d9c57cea071da734bb66e52fc42ecccaca7b5ac63f3d8a18eadb",
+      "relation": "defines",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 543,
+              "column": 39
+            },
+            "end": {
+              "line": 543,
+              "column": 50
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_11c2a653ec515a90a134f83376e7580729ec5fc3143d766ea4d1e8cce8bed7cd"
+    },
+    {
+      "source_node_id": "jsrg_node_372b3c59a0ddf186e093316ce201c0fad00628d9969e26d7e318eb93c6c87a6f",
+      "target_node_id": "jsrg_node_20ad5c80534a0fb32d13e5054ae5a77ca6829f76cc83da4f9d8ae7fcf61680b1",
+      "relation": "aliases",
+      "resolution": "candidate",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 531,
+              "column": 31
+            },
+            "end": {
+              "line": 531,
+              "column": 38
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_19867b3b6f7c3ff3d7ea5af2524adb4cf482a76ab24f560a1f7206849e1beac2"
+    },
+    {
+      "source_node_id": "jsrg_node_16bf7c26d4522984d00513f75167bfddbad58380fe3bc6a1dbae5435bc0bd6b6",
+      "target_node_id": "jsrg_node_888864ed805abb6b06c9b642e9d4b8fddea109ab384674d8a6b7366aa04fa6fb",
+      "relation": "captures",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 543,
+              "column": 65
+            },
+            "end": {
+              "line": 543,
+              "column": 82
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_24e25f4103a2bfda57b11370f269a28ab3a66cb091c82fe512690e004a140494"
+    },
+    {
+      "source_node_id": "jsrg_node_21256f3a78dd2793476bbb9f936530a945e9bd93716a268ed03e81ae7af77f6e",
+      "target_node_id": "jsrg_node_bf20b398e4deb749b8e00ce249b6abdc231d58942dc8de971d0927fcf22bfd6d",
+      "relation": "aliases",
+      "resolution": "candidate",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 253,
+              "column": 27
+            },
+            "end": {
+              "line": 253,
+              "column": 31
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_33dc957e2f1540ade3aebf3a194d2f56da09aedd66fe13cc69e007e73a9e9a3a"
+    },
+    {
+      "source_node_id": "jsrg_node_f42b25618177d9c57cea071da734bb66e52fc42ecccaca7b5ac63f3d8a18eadb",
+      "target_node_id": "jsrg_node_7a9ee014a93bf5a83d4d1f5e9e4a51275192f834586526d51f187a39769a79d2",
+      "relation": "reads",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 544,
+              "column": 30
+            },
+            "end": {
+              "line": 544,
+              "column": 37
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_38f7dd64d2fa7261063670ff0432cad1c4d3c066a9cef743b436af5c5875ea3d"
+    },
+    {
+      "source_node_id": "jsrg_node_7a9ee014a93bf5a83d4d1f5e9e4a51275192f834586526d51f187a39769a79d2",
+      "target_node_id": "jsrg_node_cdc19b2a89f9ae8ef6242fe96b93f491ea666084d2a6842e105e16f6928841f1",
+      "relation": "aliases",
+      "resolution": "candidate",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 544,
+              "column": 30
+            },
+            "end": {
+              "line": 544,
+              "column": 37
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_3c272e8a1080a16812357c1f996594036029734919da1a155ee7a579981083bc"
+    },
+    {
+      "source_node_id": "jsrg_node_7c0cfa24076e3f0d473737a6a44ae5c9164e9ff71e5b0304875ccbea2b9c3852",
+      "target_node_id": "jsrg_node_399661876ce17b6ae38cb38dcbd5a459eb8f3d911c6f6c45f19fe0be51a2c220",
+      "relation": "defines",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 252,
+              "column": 10
+            },
+            "end": {
+              "line": 252,
+              "column": 47
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_42c326dc7c64b8c4c7eb55124b8af3092d99e6a2711670ca65fc14eff872058e"
+    },
+    {
+      "source_node_id": "jsrg_node_88a03fbaaf1c16596cd058e65ad525a75132c8ce2e3bfca824059fced817b178",
+      "target_node_id": "jsrg_node_fd85e129ae77dd3eb8fbf786a01d69072dec58bcd2f5c83c5ed000b725f3cda6",
+      "relation": "aliases",
+      "resolution": "candidate",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 566,
+              "column": 28
+            },
+            "end": {
+              "line": 566,
+              "column": 32
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_4bd03d2af5d82ee6900edb19f9eb9ad6113bf550b813ee0cbab1bf810bcf0360"
+    },
+    {
+      "source_node_id": "jsrg_node_5b9539ce815d7f4b6c82d7b400e312700a77990f7708b3ec6fded8d1bf204225",
+      "target_node_id": "jsrg_node_887dcb650838cc15e5e013126b58ae4bdde0136d1943ec969292da64cf6fdfdd",
+      "relation": "defines",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 530,
+              "column": 40
+            },
+            "end": {
+              "line": 530,
+              "column": 51
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_51bd6c12194a07cb9ec638ef21ad1794633268c30b26101e1a12ce920a4c993e"
+    },
+    {
+      "source_node_id": "jsrg_node_7a9ee014a93bf5a83d4d1f5e9e4a51275192f834586526d51f187a39769a79d2",
+      "target_node_id": "jsrg_node_59087207c27d9fa1b56f5ad01af640e05eb97cde14ac42d40fb563eafb87cea6",
+      "relation": "aliases",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 544,
+              "column": 30
+            },
+            "end": {
+              "line": 544,
+              "column": 37
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_5274a3b1ddf1c56848b7104f21cb5542a06e25dadb0809267f72f4f0ab49a072"
+    },
+    {
+      "source_node_id": "jsrg_node_ca3af263327a6145a27c1a107e2b6bb17eefc16431fb314d56e0c3d6210ea86d",
+      "target_node_id": "jsrg_node_ab86cf38578206051a28dfcacee0fe02c20f3028e762d17017c3ae6542897b55",
+      "relation": "aliases",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 269,
+              "column": 26
+            },
+            "end": {
+              "line": 269,
+              "column": 30
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_56cd8a758ee9d84e99b3047aa7be468df1127d6751f1c2e0c3c1a70bcb92bec4"
+    },
+    {
+      "source_node_id": "jsrg_node_ca3af263327a6145a27c1a107e2b6bb17eefc16431fb314d56e0c3d6210ea86d",
+      "target_node_id": "jsrg_node_298ff2b7bb0c20f5858d5e8baa2a0939f78d77353b0836933969f925796760eb",
+      "relation": "aliases",
+      "resolution": "candidate",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 269,
+              "column": 26
+            },
+            "end": {
+              "line": 269,
+              "column": 30
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_583aca15a044aed51e2c95a37539a8f190d6ccee9f38c88b7813b5f3e6ca26a1"
+    },
+    {
+      "source_node_id": "jsrg_node_c5a93f5f1236e067744d534b4e6e77314263dd6b2baf60ea6c8cfcb8bbeaad98",
+      "target_node_id": "jsrg_node_fd85e129ae77dd3eb8fbf786a01d69072dec58bcd2f5c83c5ed000b725f3cda6",
+      "relation": "aliases",
+      "resolution": "candidate",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 566,
+              "column": 34
+            },
+            "end": {
+              "line": 566,
+              "column": 41
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_5a005c7c7e03efeb096a484caa0c1f668c26e688314016ff303c0314fdb2977d"
+    },
+    {
+      "source_node_id": "jsrg_node_7f55d6fb07edfd698fd5a552c1343ab20a5e596cfbf16ed92a381297acdfecde",
+      "target_node_id": "jsrg_node_493dab2c5b4f0789d15a360564e3735d58dcdb9d0d038244a59ce22a77568fac",
+      "relation": "defines",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 565,
+              "column": 18
+            },
+            "end": {
+              "line": 565,
+              "column": 35
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_5aaa75a51b8c600254b725ab963a3cfe41562c4c9aec6773dff26c6d58d1536f"
+    },
+    {
+      "source_node_id": "jsrg_node_c5a93f5f1236e067744d534b4e6e77314263dd6b2baf60ea6c8cfcb8bbeaad98",
+      "target_node_id": "jsrg_node_b684b616d8161b0f0d067132c6c903b1b014d42db426bb357ef5ed6797d48f13",
+      "relation": "aliases",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 566,
+              "column": 34
+            },
+            "end": {
+              "line": 566,
+              "column": 41
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_60127d90ba9b2c8dc4222e705a5cb70c57d85c517e82b950a1a4712ea907be83"
+    },
+    {
+      "source_node_id": "jsrg_node_59edf4b90c47da76184d1ef83de95cebd8713054555f2edaf0a548d581b05fd0",
+      "target_node_id": "jsrg_node_b5284630802d5e794dbe5330945ddb78e45fb7f2b22bb3aae161f3323fa10388",
+      "relation": "captures",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 530,
+              "column": 24
+            },
+            "end": {
+              "line": 530,
+              "column": 38
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_65aaea98a8249005c72d3d1b75a82141a76a0965505b7ad5bca42d4461c4d12f"
+    },
+    {
+      "source_node_id": "jsrg_node_d36e1e0635fcf7180e4c8c45cdc3fc7e73e6ef4205ad1409d91a25d55f0b58e2",
+      "target_node_id": "jsrg_node_ebd4ac0b0b7f60dfae481547d5a88d0b28b3745974c7e6049ebfad93e4191315",
+      "relation": "captures",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 252,
+              "column": 17
+            },
+            "end": {
+              "line": 252,
+              "column": 33
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_84ed9666dbbc315df7cf90476afa14d693c4891b41bced0020c4c8367c9d6692"
+    },
+    {
+      "source_node_id": "jsrg_node_035102f00db830017a36d08c4e271a2b9b24cd72009a106b89c6fe5d6dd639e2",
+      "target_node_id": "jsrg_node_cdc19b2a89f9ae8ef6242fe96b93f491ea666084d2a6842e105e16f6928841f1",
+      "relation": "aliases",
+      "resolution": "candidate",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 544,
+              "column": 39
+            },
+            "end": {
+              "line": 544,
+              "column": 50
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_88e852ef856b66571f1472816992b0cb0225e012a30aad91c36e695b67948042"
+    },
+    {
+      "source_node_id": "jsrg_node_01c08c85bb074de5f3dd4c74ae1fb6e1b7b4733e1d94a8dc0c31a1500855ccca",
+      "target_node_id": "jsrg_node_035102f00db830017a36d08c4e271a2b9b24cd72009a106b89c6fe5d6dd639e2",
+      "relation": "reads",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 544,
+              "column": 39
+            },
+            "end": {
+              "line": 544,
+              "column": 50
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_8deda9bd57a6043c24d76b67214936593f1fba6c3f6b34a33ee7db5bbbacce7c"
+    },
+    {
+      "source_node_id": "jsrg_node_704f6ed5956f4c5f5e9de109f2b09596812b120a1450a8359bdda2f815b6e679",
+      "target_node_id": "jsrg_node_c5a93f5f1236e067744d534b4e6e77314263dd6b2baf60ea6c8cfcb8bbeaad98",
+      "relation": "reads",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 566,
+              "column": 34
+            },
+            "end": {
+              "line": 566,
+              "column": 41
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_8efdfd2b1fea5e09b0857c18ac2824937c122630880fc6124cec738c5e2f9a0e"
+    },
+    {
+      "source_node_id": "jsrg_node_493dab2c5b4f0789d15a360564e3735d58dcdb9d0d038244a59ce22a77568fac",
+      "target_node_id": "jsrg_node_88a03fbaaf1c16596cd058e65ad525a75132c8ce2e3bfca824059fced817b178",
+      "relation": "reads",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 566,
+              "column": 28
+            },
+            "end": {
+              "line": 566,
+              "column": 32
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_8f24fb483fa0891f14a53873e71427f6c78104d60f09432a34c6ee08bb1ea84e"
+    },
+    {
+      "source_node_id": "jsrg_node_c512b68e54793389033e87ac0b931326676ca796b2c474257a30dd30eab30498",
+      "target_node_id": "jsrg_node_704f6ed5956f4c5f5e9de109f2b09596812b120a1450a8359bdda2f815b6e679",
+      "relation": "defines",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 565,
+              "column": 37
+            },
+            "end": {
+              "line": 565,
+              "column": 89
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_8f5d88432396cd88f2fc56f85cf9e5b97dfbed0700fb4aa2ef7051b5d35b1723"
+    },
+    {
+      "source_node_id": "jsrg_node_88a03fbaaf1c16596cd058e65ad525a75132c8ce2e3bfca824059fced817b178",
+      "target_node_id": "jsrg_node_ebc5197d7eaf8ffebc087e9b815c6392a28037bed5c9c8518cf11db65c70a61e",
+      "relation": "aliases",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 566,
+              "column": 28
+            },
+            "end": {
+              "line": 566,
+              "column": 32
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_99409d71b2e69bfa0710fcf927e6464e8437e47a3e99f6639d927babd53a51dc"
+    },
+    {
+      "source_node_id": "jsrg_node_888864ed805abb6b06c9b642e9d4b8fddea109ab384674d8a6b7366aa04fa6fb",
+      "target_node_id": "jsrg_node_dee0da441942bbc30a9977679b9c17598527f537eb832037563cbf0eb97469b6",
+      "relation": "awaits",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 543,
+              "column": 2
+            },
+            "end": {
+              "line": 545,
+              "column": 3
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_a083c53a165490814c50041887f2b7e8166d7ab1595401fce6e337c48a72b40a"
+    },
+    {
+      "source_node_id": "jsrg_node_16bf7c26d4522984d00513f75167bfddbad58380fe3bc6a1dbae5435bc0bd6b6",
+      "target_node_id": "jsrg_node_5280c8af58ebb89a34e1401e583dbcbad407c38587d670597c884b03bc6aedb4",
+      "relation": "captures",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 565,
+              "column": 46
+            },
+            "end": {
+              "line": 565,
+              "column": 63
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_a38fdb2891cd6ce8ce3c7d6be81ee5ded7895d556537847aeffc35d0fe0e8366"
+    },
+    {
+      "source_node_id": "jsrg_node_372b3c59a0ddf186e093316ce201c0fad00628d9969e26d7e318eb93c6c87a6f",
+      "target_node_id": "jsrg_node_068d5602fa1e0709f50cdc5eede00747e393e4c0c6be881e98aee9a216137cce",
+      "relation": "aliases",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 531,
+              "column": 31
+            },
+            "end": {
+              "line": 531,
+              "column": 38
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_a6502f5c76e615fc399d8ec874355df42a4bc93fd822158ca8fa1886c4d2528b"
+    },
+    {
+      "source_node_id": "jsrg_node_21256f3a78dd2793476bbb9f936530a945e9bd93716a268ed03e81ae7af77f6e",
+      "target_node_id": "jsrg_node_ebd3fee05d4ef3109556643b302aa460f1f279231e1104d6fb84346c8bd826eb",
+      "relation": "aliases",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 253,
+              "column": 27
+            },
+            "end": {
+              "line": 253,
+              "column": 31
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_a944e036b2b7c739088dd3cb36930f4fd6085385b4abf47831b4ff1626bc52a0"
+    },
+    {
+      "source_node_id": "jsrg_node_887dcb650838cc15e5e013126b58ae4bdde0136d1943ec969292da64cf6fdfdd",
+      "target_node_id": "jsrg_node_372b3c59a0ddf186e093316ce201c0fad00628d9969e26d7e318eb93c6c87a6f",
+      "relation": "reads",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 531,
+              "column": 31
+            },
+            "end": {
+              "line": 531,
+              "column": 38
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_ae41bb39b7be1482884d567ab2cc59d0d5e71241338064baf83d344c9111e613"
+    },
+    {
+      "source_node_id": "jsrg_node_3a9e3e8e0d10a994e3776bb39da08c9f53accff8d72f64cefbc0c153e6cdbc22",
+      "target_node_id": "jsrg_node_01c08c85bb074de5f3dd4c74ae1fb6e1b7b4733e1d94a8dc0c31a1500855ccca",
+      "relation": "defines",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 543,
+              "column": 52
+            },
+            "end": {
+              "line": 543,
+              "column": 82
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_bfe7fbd1ef0eae54c7dc7f0cfec605549b1bde982c13a124cd3cffed8cc8bab3"
+    },
+    {
+      "source_node_id": "jsrg_node_035102f00db830017a36d08c4e271a2b9b24cd72009a106b89c6fe5d6dd639e2",
+      "target_node_id": "jsrg_node_9b1197737bd7cbc5573dc838a80adfd79a70d27accfbd4be883b1472b14bb76e",
+      "relation": "aliases",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 544,
+              "column": 39
+            },
+            "end": {
+              "line": 544,
+              "column": 50
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_cbe2181163ee600b538279dc4a7ba1abd02362825039f7a4aca91457100115f3"
+    },
+    {
+      "source_node_id": "jsrg_node_5e2d5701d083c8f2323cfa3f8f726bf28c2f197db684f171411149a211f991d1",
+      "target_node_id": "jsrg_node_e85156bb096379b184bb08ee7171e84de3db33775e80d6beb14b1a7e1dccb371",
+      "relation": "defines",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 268,
+              "column": 9
+            },
+            "end": {
+              "line": 268,
+              "column": 45
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_cfde0b5c499a011edf4af55823799568e577f18306fe899eb5cd5ed6dfb69e0b"
+    },
+    {
+      "source_node_id": "jsrg_node_59edf4b90c47da76184d1ef83de95cebd8713054555f2edaf0a548d581b05fd0",
+      "target_node_id": "jsrg_node_888864ed805abb6b06c9b642e9d4b8fddea109ab384674d8a6b7366aa04fa6fb",
+      "relation": "captures",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 543,
+              "column": 23
+            },
+            "end": {
+              "line": 543,
+              "column": 37
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_d73e74ac9d314999cb208abe88dfbb23d7de999050ef6680e9066c2d4905d4d4"
+    },
+    {
+      "source_node_id": "jsrg_node_e85156bb096379b184bb08ee7171e84de3db33775e80d6beb14b1a7e1dccb371",
+      "target_node_id": "jsrg_node_ca3af263327a6145a27c1a107e2b6bb17eefc16431fb314d56e0c3d6210ea86d",
+      "relation": "reads",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 269,
+              "column": 26
+            },
+            "end": {
+              "line": 269,
+              "column": 30
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_d9f8502fa5aa0820bcfcf5c10dbfb40b95a5270c8a26de9a01ac846b925737ec"
+    },
+    {
+      "source_node_id": "jsrg_node_d36e1e0635fcf7180e4c8c45cdc3fc7e73e6ef4205ad1409d91a25d55f0b58e2",
+      "target_node_id": "jsrg_node_f0da0ebb442441a37c9ec68845a6c20982bc82d50f80360333628bd433c25860",
+      "relation": "captures",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 268,
+              "column": 16
+            },
+            "end": {
+              "line": 268,
+              "column": 32
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_e30f6b80aaa99311571ea35326543827ade26f5af2da2aa6163c30bb1b9e30c6"
+    },
+    {
+      "source_node_id": "jsrg_node_ec11f4cc1edaecda936e0e1876e4b2a61f6c5443c6c1548fa6c91552596f9942",
+      "target_node_id": "jsrg_node_5280c8af58ebb89a34e1401e583dbcbad407c38587d670597c884b03bc6aedb4",
+      "relation": "captures",
+      "resolution": "resolved",
+      "properties": {},
+      "evidence": {
+        "context_id": "jsrg_evidence_e66a6667b39b70649fd7225ac33aa89decdace8960c545fc8338a56ef0be4b3c",
+        "location": {
+          "available": true,
+          "value": {
+            "kind": "source-range",
+            "source": "src/editor/index.ts",
+            "start": {
+              "line": 565,
+              "column": 24
+            },
+            "end": {
+              "line": 565,
+              "column": 35
+            }
+          }
+        }
+      },
+      "relation_id": "jsrg_relation_f4fe917c9c618c90193ff0ef19088a20785b48551d0936db6b498b3c080bbcde"
+    }
+  ]
+}

@@ -2,7 +2,13 @@
 
 The purpose is to demonstrate REA's capabilities through an evidence-based investigation of a website builder, then use the findings to build a guided static-website studio.
 
-## What has actually happened
+## Latest milestone — cloud REA analysis passed
+
+[GitHub Actions run 39119285001](https://github.com/ramakenkenya/rea-website-studio/actions/runs/39119285001) successfully ran REA on two selected GrapesJS files. The raw artifact and source hashes were verified. [First findings](docs/FIRST_FINDINGS.md) connect recovered project-data and HTML/CSS methods to exact source locations, with limitations retained.
+
+This is selected-source static analysis. The website-builder app, browser recordings and deployment are still pending.
+
+## Initial workspace attempt
 
 - The cloud workspace runs Node 24.19.0 and npm 11.9.0.
 - REA 6.7.0 was installed in a dedicated directory, with lifecycle scripts and optional packages disabled.
@@ -17,7 +23,7 @@ The purpose is to demonstrate REA's capabilities through an evidence-based inves
 
 The included GitHub Actions workflow uses a standard Ubuntu runner, locked REA dependencies and an exact reference commit. It uploads raw output, progress logs, a manifest and a status summary, including failure evidence.
 
-The repository is now available at https://github.com/ramakenkenya/rea-website-studio. It was created public by the owner. This checkpoint initializes it with the investigation package; the first GitHub Actions run is pending verification. No unrelated repository is changed.
+The repository is now available at https://github.com/ramakenkenya/rea-website-studio. It was created public by the owner. This checkpoint initializes it with the investigation package; the first GitHub Actions run has completed successfully and its evidence has been inspected. No unrelated repository is changed.
 
 See [the cloud execution log](docs/CLOUD_LOG.md) for dated progress and recorded decisions.
 

@@ -45,6 +45,8 @@ class EvidenceSummaryTests(unittest.TestCase):
             'normalized_result': {
                 'source_selection': {'requested_paths': ['src/editor/index.ts'], 'unselected_files': 500},
                 'graph': {'nodes': [{'kind': 'javascript-asset'}], 'edges': []},
+                'statistics': {'parsed_javascript_files': 1, 'skipped_javascript_files': 0, 'parse_failures': 0},
+                'semantic_graph': {'nodes': [], 'relations': []},
                 'limitations': ['Only selected sources were parsed.']
             }
         }}
@@ -54,6 +56,42 @@ class EvidenceSummaryTests(unittest.TestCase):
         self.assertEqual(result.get('evidence_id'), 'ev_verified')
         self.assertEqual(result.get('selected_sources'), ['src/editor/index.ts'])
         self.assertEqual(result.get('unselected_files'), 500)
+
+
+    def test_failed_or_skipped_selected_sources_are_not_success(self):
+        # Removing the completion checks must make this regression test fail.
+        for stats in [
+            {'parsed_javascript_files': 0, 'skipped_javascript_files': 0, 'parse_failures': 1},
+            {'parsed_javascript_files': 0, 'skipped_javascript_files': 1, 'parse_failures': 0},
+            {'parsed_javascript_files': 0, 'skipped_javascript_files': 0, 'parse_failures': 0},
+            {},
+        ]:
+            with self.subTest(statistics=stats):
+                envelope = {'ok': True, 'data': {
+                    'evidence_id': 'ev_incomplete',
+                    'operation': 'analyze_javascript_application',
+                    'normalized_result': {
+                        'source_selection': {'requested_paths': ['src/editor/index.ts']},
+                        'graph': {'nodes': [], 'edges': []},
+                        'semantic_graph': {'nodes': [], 'relations': []},
+                        'statistics': stats,
+                    }
+                }}
+                result = summarize(envelope, 0)
+                self.assertFalse(result['analysis_succeeded'])
+                self.assertEqual(result['status'], 'unverified')
+
+    def test_inventory_without_semantic_graph_is_not_success(self):
+        envelope = {'ok': True, 'data': {
+            'evidence_id': 'ev_inventory_only',
+            'operation': 'analyze_javascript_application',
+            'normalized_result': {
+                'source_selection': {'requested_paths': ['src/editor/index.ts']},
+                'graph': {'nodes': [], 'edges': []},
+                'statistics': {'parsed_javascript_files': 1, 'skipped_javascript_files': 0, 'parse_failures': 0},
+            }
+        }}
+        self.assertFalse(summarize(envelope, 0)['analysis_succeeded'])
 
 
 if __name__ == '__main__':
