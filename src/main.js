@@ -27,7 +27,7 @@ document.querySelector('#app').innerHTML=`
 <div class="toast" id="toast" role="status" aria-live="polite"></div>`;
 const $=s=>document.querySelector(s);
 const toast=(msg)=>{clearTimeout(toastTimer);$('#toast').textContent=msg;toastTimer=setTimeout(()=>$('#toast').textContent='',5500);};
-const editor=grapesjs.init({container:'#gjs',height:'100%',width:'auto',storageManager:false,panels:{defaults:[]},blockManager:{appendTo:'#blocks'},selectorManager:{componentFirst:true},deviceManager:{devices:[{name:'Desktop',width:''},{name:'Tablet',width:'768px',widthMedia:'992px'},{name:'Mobile',width:'375px',widthMedia:'640px'}]},canvas:{styles:[],scripts:[]},parser:{optionsHtml:{allowScripts:false,allowUnsafeAttr:false,allowUnsafeAttrValue:false}},allowScripts:0,noticeOnUnload:false,fromElement:false});
+const editor=grapesjs.init({container:'#gjs',height:'100%',width:'auto',storageManager:false,panels:{defaults:[]},blockManager:{appendTo:'#blocks'},selectorManager:{componentFirst:true},deviceManager:{devices:[{name:'Desktop',width:''},{name:'Tablet',width:'768px',widthMedia:'992px'},{name:'Mobile',width:'375px',widthMedia:'640px'}]},canvas:{styles:[],scripts:[]},parser:{optionsHtml:{allowScripts:false,allowUnsafeAttr:false,allowUnsafeAttrValue:false}},allowScripts:0,noticeOnUnload:false,fromElement:false,nativeDnD:false});
 let mode='new',selected=null;
 function markDirty(){if(importing||!ready)return;dirty=true;$('#save-status').textContent='Unsaved changes';}
 function updateNames(){for(const id of ['project-name','crumb-name'])$('#'+id).textContent=brief.name;}
