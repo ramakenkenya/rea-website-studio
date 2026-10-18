@@ -61,3 +61,5 @@ body{--studio-drawer-width:440px;--studio-sheet-height:56dvh}
 }
 @media(max-width:760px){#studio-tools .v2-grid{grid-template-columns:1fr}#studio-tools input:not([type=checkbox]):not([type=color]),#studio-tools select{font-size:16px!important}}
 @media(prefers-reduced-motion:reduce){#studio-tools.studio-drawer{transition:none}}
+
+@media(max-width:1100px) and (max-height:500px){body{--studio-sheet-height:65dvh}#studio-tools.studio-drawer{max-height:calc(100dvh - 120px)}#studio-tools .dialog-head{padding:6px 12px}#studio-tools .dialog-head .drawer-context,#studio-tools .drawer-footer{display:none}#studio-tools .v2-tabs{padding:3px 8px}#studio-tools .v2-pane{padding:12px}}

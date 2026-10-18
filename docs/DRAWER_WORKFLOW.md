@@ -5,7 +5,7 @@ Studio tools, Pages, Design and the image chooser now share a non-modal tools dr
 ## Workflow
 
 - On desktop, tools dock on the right. The workspace makes room and temporarily hides its section palette and selection inspector. Closing tools restores the normal editor.
-- On phones and smaller tablets, tools become a bottom sheet. The canvas is brought into the visible area above it. The tool header, tabs, close control and full-preview action stay available while the form scrolls.
+- On phones and smaller tablets, tools become a bottom sheet. The canvas is brought into the visible area above it. The tool header, tabs, close control and full-preview action stay available while the form scrolls. Short landscape screens use a taller sheet with a compact header and no footer, leaving room to edit.
 - New sections, reused sections, inserted pictures and galleries are selected and brought into view. Clicking the canvas leaves the tools open. Applying a brand or page change can be inspected immediately.
 - The Studio tools button toggles the drawer and remembers the last tool. Pages and Design still open their corresponding tools directly. Reopening the already active tool does not erase its in-progress fields.
 - Use Left/Right arrows, Home and End in the tool tabs. Escape closes tools, including when focus is inside the editable canvas, and returns focus to the opener. Keyboard focus is not trapped in the drawer.
