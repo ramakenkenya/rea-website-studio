@@ -49,3 +49,11 @@ test('saved photo license and source metadata survive validation and travel in t
  const state=createStudio(project,brief,{...studio,assets:[asset]});assert.deepEqual(state.assets[0],asset);
  const files=exportFiles(editor,brief,state);assert.match(files['IMAGE-CREDITS.txt'],/CC0/);assert.match(files['IMAGE-CREDITS.txt'],/Photographer/);assert.match(files['IMAGE-CREDITS.txt'],/https:\/\/commons.wikimedia.org/);
 });
+
+test('shops export trusted portable assets and regenerate catalog from validated metadata',()=>{
+ const shop={phone:'254712345678',currency:'KES',products:[{id:'cup',code:'CUP',name:'Export cup',price:'12.34'}]};
+ const state=createStudio(project,brief,{...studio,shop});const marked={...editor,getHtml:({component})=>component.page==='a'?'<section data-rea-shop="true"><p>Stale catalog</p></section>':'<h1>About</h1>'};
+ const files=exportFiles(marked,brief,state);
+ assert.ok(files['rea-shop.js']);assert.ok(files['rea-shop.css']);assert.match(files['welcome.html'],/Export cup/);assert.doesNotMatch(files['welcome.html'],/Stale catalog/);assert.match(files['welcome.html'],/src="rea-shop.js"/);assert.doesNotMatch(files['index.html'],/rea-shop.js/);assert.doesNotMatch(files['404.html'],/rea-shop.js/);
+ assert.doesNotMatch(files['rea-shop.js'],/\bimport\s|fetch\(|localStorage|sessionStorage/);assert.match(files['README.txt'],/WhatsApp/);
+});

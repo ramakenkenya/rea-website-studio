@@ -1,15 +1,18 @@
+import {shopRuntimeSource} from './shop-runtime.js';
+import {shopCss} from './shop-style.js';
 import JSZip from 'jszip';
 import {escapeHtml as e,fileSlug} from './project.js';
-import {createStudio,pageFile,brandCss,rewriteNavigation} from './site-model.js';
+import {createStudio,pageFile,brandCss,rewriteNavigation,rewriteShopSections} from './site-model.js';
 export function buildDocument({html,brief,page,studio,cssFile='styles.css'}){
- const bodyHtml=studio?rewriteNavigation(html,studio,page?.id):html;
+ const bodyHtml=studio?rewriteShopSections(rewriteNavigation(html,studio,page?.id),studio.shop,studio.site.name):html;
+ const hasShop=studio&&/data-rea-shop="true"/.test(bodyHtml);
  const body=/^\s*<body[\s>]/i.test(bodyHtml)?bodyHtml:`<body>${bodyHtml}</body>`;
  const title=page?.title||brief.title||brief.name,description=page?.description??brief.description??'';
  const language=studio?.site.language||'en',direction=studio?` dir="${e(studio.site.direction)}"`:'';
- let extra='';
+ let extra=hasShop?'<link rel="stylesheet" href="rea-shop.css"><script src="rea-shop.js" defer></script>':'';
  if(studio){
   const site=studio.site,canonical=site.url&&page?`${site.url}/${pageFile(page,studio)}`:'';
-  extra='<link rel="stylesheet" href="studio.css">';
+  extra+='<link rel="stylesheet" href="studio.css">';
   if(page?.noindex)extra+='<meta name="robots" content="noindex,follow">';
   if(site.favicon)extra+=`<link rel="icon" href="${e(site.favicon)}">`;
   if(canonical)extra+=`<link rel="canonical" href="${e(canonical)}"><meta property="og:url" content="${e(canonical)}">`;
@@ -30,6 +33,7 @@ export function exportFiles(editor,brief,studio){
   files[cssFile]=editor.getCss({component});
  }
  files['studio.css']=brandCss(state);
+ if(Object.values(files).some(content=>/src="rea-shop.js"/.test(content))){files['rea-shop.js']=shopRuntimeSource();files['rea-shop.css']=shopCss;}
  const home=state.pages.find(p=>p.id===state.homeId);
  files['404.html']=buildDocument({html:`<main class="site-section"><h1>Page not found</h1><p>This address does not lead to a page on ${e(state.site.name)}.</p><a class="site-button" href="${e(pageFile(home,state))}">Return home</a></main>`,brief,page:{id:'__404',title:`Page not found — ${state.site.name}`,description:'The page could not be found.',noindex:true},studio:{...state,site:{...state.site,url:''}},cssFile:'styles.css'});
  // Hosts can serve this document at any missing URL, including nested paths.
@@ -49,6 +53,7 @@ export function exportFiles(editor,brief,studio){
  for(const model of editorPages)for(const image of model.getMainComponent().findType?.('image')||[]){const a=image.getAttributes();if(a['data-photo-license']||a['data-photo-source'])credits.set(a.src,{src:a.src,name:a['data-photo-name']||a.alt||'Picture',artist:a['data-photo-artist']||'',license:a['data-photo-license']||'',sourceUrl:a['data-photo-source']||'',licenseUrl:a['data-photo-license-url']||''});}
  if(credits.size)files['IMAGE-CREDITS.txt']='IMAGE SOURCES\n\n'+[...credits.values()].map(a=>`${a.name}\nImage: ${a.src}\nCreator: ${a.artist||'Not supplied'}\nLicense: ${a.license||'Legacy image — verify permission'}\nSource: ${a.sourceUrl||'User supplied'}\nLicense URL: ${a.licenseUrl||'Not supplied'}\n`).join('\n')+'\nImages remain hosted externally. Verify the source and image rights before publishing.\n';
  files['README.txt']=`Created with REA Studio.\n\nPUBLISHING GUIDE\n1. Keep all files in this ZIP together in one folder.\n2. Open index.html to preview locally. Page links and styles work without a build step.\n3. Upload the complete folder contents to a static host, such as GitHub Pages.\n4. Set the public site URL in Studio before exporting if canonical links and a sitemap are needed.\n5. Configure the host to serve 404.html for missing pages. The host controls this behavior.\n\nPAGES\n${state.pages.map(p=>`- ${p.name}: ${pageFile(p,state)} (${p.id===state.homeId?'styles.css':p.slug+'.css'})${p.nav?'':' [hidden from navigation]'}${p.noindex?' [noindex]':''}`).join('\n')}\n\nSHARED FILES\nstudio.css: palette, typography, sizing and responsive visibility.\nrobots.txt: crawler guidance. Place this at your domain root for hosts that require it; a project subfolder cannot override a root robots.txt. Noindex pages remain crawlable so crawlers can read their meta tags.${state.site.url?'\nsitemap.xml: public, indexable page URLs.':''}\n404.html: missing-page content with a link home.\nLegacy data images are embedded. New pictures use external HTTPS URLs. IMAGE-CREDITS.txt lists saved image sources when the library is used. External image URLs require their source host to remain available.\n\nPRE-PUBLISH CHECKLIST\n[ ] Review all business copy, sample offers and sample figures.\n[ ] Check navigation, contact destinations, internal links and fragment links.\n[ ] Check image descriptions, headings, link labels, contrast and phone layout.\n[ ] Confirm image, font and content licensing. System font presets need no remote font service.\n[ ] Review page titles, descriptions, social sharing image and search visibility.\n[ ] Verify your public URL and re-export if your host or path changes.\n[ ] Test 404 handling on your static host.\n[ ] Keep a separate REA project JSON backup for future edits.\n\nThis is a static website package. It includes no form backend, analytics or payment service. REA Studio project code is MIT licensed; GrapesJS and JSZip retain their respective BSD-3-Clause and MIT licenses.\n`;
+ if(files['rea-shop.js'])files['README.txt']+='\nWHATSAPP SHOP\nrea-shop.js and rea-shop.css power the shopping list. Keep both files alongside the HTML pages. Business contact and product settings are embedded in each shop page. Re-export after editing products or prices.\nThe list and customer details remain in memory on the current page and reset on reload or page navigation. Nothing is saved or sent automatically. Opening WhatsApp creates a draft; the customer must tap Send. The business confirms availability, delivery fees and the final total. No payments or stock reservations are processed. If a draft does not open or is cut short, copy the full reviewed message and paste it in the business chat.\n';
  return files;
 }
 export async function siteZip(editor,brief,studio){const z=new JSZip();for(const [name,content] of Object.entries(exportFiles(editor,brief,studio)))z.file(name,content);return z.generateAsync({type:'blob'});}
