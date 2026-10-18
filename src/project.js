@@ -1,3 +1,4 @@
+import {createStudio,assertSafeValue} from './site-model.js';
 export const STORAGE_KEY='rea-studio.project.v1';
 export const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function normalizeBrief(input={}){
@@ -8,9 +9,9 @@ export function normalizeBrief(input={}){
  brief.title ||= brief.name;brief.cta ||= 'Let’s talk';brief.theme=['editorial','coastal','midnight'].includes(brief.theme)?brief.theme:'editorial';
  return brief;
 }
-export function snapshot(brief,project){return {schema:1,app:'REA Studio',savedAt:new Date().toISOString(),brief:normalizeBrief(brief),project};}
+export function snapshot(brief,project,studio){const normalized=normalizeBrief(brief);return {schema:studio===undefined?1:2,app:'REA Studio',savedAt:new Date().toISOString(),brief:normalized,project,...(studio===undefined?{}:{studio:createStudio(project,normalized,studio)})};}
 export function validateSnapshot(data){
- if(data?.schema!==1||data.app!=='REA Studio'||!Array.isArray(data.project?.pages)||!Array.isArray(data.project?.styles))throw new Error('Unsupported project file. Choose a REA Studio project backup.');
+ if(![1,2].includes(data?.schema)||data.app!=='REA Studio'||!Array.isArray(data.project?.pages)||!Array.isArray(data.project?.styles))throw new Error('Unsupported project file. Choose a REA Studio project backup.');
  const object=value=>value&&typeof value==='object'&&!Array.isArray(value);
  if(!data.project.pages.length)throw new Error('Project must contain a page.');
  for(const page of data.project.pages){
@@ -19,17 +20,10 @@ export function validateSnapshot(data){
    if(!Array.isArray(page.frames)||!page.frames.length||page.frames.some(frame=>!object(frame)||!object(frame.component)))throw new Error('Invalid project frame or component.');
   }else if(!object(page.component))throw new Error('Invalid project component.');
  }
- let count=0;
- function inspect(value,depth=0){
-  if(depth>80||++count>25000)throw new Error('Unsupported project complexity.');
-  if(typeof value==='string'&&/(?:javascript|vbscript):|data:text\/html/i.test(value.replace(/[\u0000-\u0020\u007f-\u009f]/g,'')))throw new Error('Unsafe URL in project file.');
-  if(typeof value==='string'&&/(<\s*(script|iframe|object|embed|meta|link)\b|\bon[a-z]+\s*=|javascript\s*:|vbscript\s*:|data\s*:\s*text\/html|expression\s*\()/i.test(value))throw new Error('Unsafe content in project file.');
-  if(value&&typeof value==='object')for(const [key,child] of Object.entries(value)){
-   if(['__proto__','prototype','constructor'].includes(key)||(/^script(?:-|$)/i.test(key)&&child)||(/^on[a-z]+$/i.test(key))||key==='tagName'&&/^(script|iframe|object|embed|meta|link)$/i.test(child))throw new Error('Unsafe component in project file.');
-   inspect(child,depth+1);
-  }
- }
- inspect(data.project);return {...data,brief:normalizeBrief(data.brief)};
+ assertSafeValue(data.project);
+ const brief=normalizeBrief(data.brief);
+ if(data.schema===2){if(!object(data.studio))throw new Error('Invalid studio metadata.');assertSafeValue(data.studio);return {...data,brief,studio:createStudio(data.project,brief,data.studio)};}
+ return {...data,brief};
 }
 export function writeSaved(storage,data){try{storage.setItem(STORAGE_KEY,JSON.stringify(data));return {ok:true};}catch{return {ok:false,error:'Could not save on this device. Download a project backup to keep your work.'};}}
 export function readSaved(storage){try{const raw=storage.getItem(STORAGE_KEY);return {ok:true,data:raw?validateSnapshot(JSON.parse(raw)):null};}catch{return {ok:false,error:'The saved project could not be opened. You can restore a project backup.'};}}

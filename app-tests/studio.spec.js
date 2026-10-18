@@ -122,8 +122,9 @@ test('coffee brief rebuilds the visible site, preview and export after explicit 
  await expect(canvas.locator('.service-card h3')).toHaveText(['Specialty Coffee','Fresh Pastries','Breakfast']);
  await expect(canvas.locator('.hero-copy .site-button')).toContainText('Visit our coffee house');
  await expect(canvas.locator('.hero-copy .site-button')).toHaveAttribute('href','mailto:hello@ember.example');
- const popupEvent=context.waitForEvent('page');await page.getByRole('button',{name:'Preview website',exact:true}).click();
- const preview=await popupEvent;await expect(preview.locator('h1')).toContainText('Ember & Bean');await expect(preview).toHaveTitle('Ember & Bean Coffee House');
+ await page.getByRole('button',{name:'Preview website',exact:true}).click();
+ const preview=page.frameLocator('#studio-preview-frame');await expect(preview.locator('h1')).toContainText('Ember & Bean');await expect(preview.locator('title')).toHaveText('Ember & Bean Coffee House');
+ await page.getByRole('button',{name:'Close website preview',exact:true}).click();
  await page.getByRole('button',{name:'Export site',exact:true}).click();
  const downloadEvent=page.waitForEvent('download');await page.getByRole('button',{name:'Download website ZIP',exact:true}).click();
  const zip=await JSZip.loadAsync(await fs.readFile(await (await downloadEvent).path()));
