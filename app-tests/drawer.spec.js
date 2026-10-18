@@ -1,4 +1,5 @@
 import {test,expect} from '@playwright/test';
+import {mockImageHost,addUrlPhoto} from './photo-fixture.js';
 const ready=async page=>{await page.goto('./');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();};
 test('desktop tools leave the canvas interactive and reveal inserted sections without closing',async({page},info)=>{
  await ready(page);await page.getByRole('button',{name:'Studio tools',exact:true}).click();
@@ -53,4 +54,11 @@ test('landscape phones retain room to edit a complete field and reach its action
  await expect(page.getByRole('button',{name:'Close studio tools',exact:true})).toBeInViewport();
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.screenshot({path:info.outputPath('landscape-tools.png'),fullPage:true});
+});
+test('creating a website from an open drawer dismisses the previous project tools',async({page})=>{
+ await mockImageHost(page);await ready(page);await page.getByRole('button',{name:'Studio tools',exact:true}).click();await page.getByRole('tab',{name:'Assets',exact:true}).click();
+ await page.getByRole('button',{name:'New website',exact:true}).click();await page.getByLabel('Business name',{exact:true}).fill('A fresh studio');await page.getByRole('button',{name:'Create website',exact:true}).click();
+ await expect(page.locator('#studio-tools')).not.toBeVisible();
+ await page.getByRole('button',{name:'Studio tools',exact:true}).click();await page.getByRole('tab',{name:'Assets',exact:true}).click();await addUrlPhoto(page,'New website photo','https://images.example/new-project.jpg');
+ await expect(page.getByRole('button',{name:'Insert New website photo',exact:true})).toBeVisible();
 });
