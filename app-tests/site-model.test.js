@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as model from '../src/site-model.js';
 import {snapshot,validateSnapshot} from '../src/project.js';
-import {ART_URL} from '../src/templates.js';
+import {ART_URL,createStarter} from '../src/templates.js';
 const brief={name:'Studio & Co',description:'Original work',theme:'editorial'};
 const project={pages:[{id:'home',name:'Home',component:{}},{id:'about',name:'About',component:{}}],styles:[]};
 const create=(input={})=>model.createStudio(project,brief,input);
@@ -111,4 +111,24 @@ test('link identities follow page labels when changing home reuses another page 
 test('safe scroll-behavior CSS is accepted while executable legacy behavior is rejected',()=>{
  assert.doesNotThrow(()=>model.assertSafeValue('html{scroll-behavior:smooth}'));
  assert.throws(()=>model.assertSafeValue('body{behavior:url(foo)}'),/unsafe/i);
+});
+test('saved sections preserve portable CSS with schema round trips and validate CSS',()=>{
+ const css='#custom-section{padding:47px;color:#123456}html{scroll-behavior:smooth}';
+ const studio=create({sections:[{id:'s',name:'Custom section',html:'<section id="custom-section">Hello</section>',css}]});
+ assert.equal(studio.sections[0].css,css);
+ assert.equal(validateSnapshot(snapshot(brief,project,studio)).studio.sections[0].css,css);
+ assert.equal(create({sections:[{id:'old',html:'<section>Legacy</section>'}]}).sections[0].css,'');
+ for(const unsafe of ['a{background:url(javascript:alert(1))}','body{behavior:url(foo)}','@import "https://example.com/style.css"'])assert.throws(()=>create({sections:[{id:'s',html:'<section>Hello</section>',css:unsafe}]}),/unsafe/i);
+ assert.throws(()=>create({sections:[{id:'s',html:'<section>Hello</section>',css:'a'.repeat(1024*1024+1)}]}),/long|limit/i);
+ assert.throws(()=>create({sections:[{id:'s',html:'<section>Hello</section>',css:{color:'red'}}]}),/invalid/i);
+});
+test('five substantial original-template checkpoints fit the bounded restore traversal budget',()=>{
+ const starter=createStarter(brief);
+ const components=Array.from({length:800},(_,i)=>({tagName:'article',attributes:{id:'card-'+i,class:'service-card'},components:[{type:'text',tagName:'p',content:'Original sample copy '+i}]}));
+ const styles=Array.from({length:800},(_,i)=>({selectors:['#card-'+i],style:{color:'#123456',padding:'12px'}}));
+ const largeProject={pages:[{id:'home',component:{tagName:'body',components:[{type:'text',content:starter.html},...components]}}],styles:[...styles,{selectors:['body'],style:{'font-family':'Arial,Helvetica,sans-serif'}},{selectors:['.original-template'],style:{'custom-css':starter.css}}]};
+ const cp=snapshot(brief,largeProject);assert.equal(validateSnapshot(cp).schema,1);
+ const studio=model.createStudio(largeProject,brief,{checkpoints:Array.from({length:5},(_,i)=>({id:'large-'+i,name:'Version '+i,savedAt:cp.savedAt,snapshot:cp}))});
+ assert.equal(studio.checkpoints.length,5);assert.equal(validateSnapshot(snapshot(brief,largeProject,studio)).studio.checkpoints.length,5);
+ assert.throws(()=>model.assertSafeValue(Array(250001).fill(null)),/complexity/i);
 });

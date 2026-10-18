@@ -12,7 +12,7 @@ test('multipage export reads each page component and independent style files wit
  const files=exportFiles(editor,brief,studio);assert.ok(files['index.html']);assert.ok(files['welcome.html']);assert.equal(files['styles.css'],'.page-b{color:red}');assert.equal(files['welcome.css'],'.page-a{color:red}');assert.ok(files['studio.css']);
  assert.match(files['index.html'],/id="b"/);assert.match(files['welcome.html'],/id="a"/);assert.match(files['welcome.html'],/href="welcome.css"/);assert.match(files['index.html'],/href="welcome.html"/);
  assert.match(files['index.html'],/<html lang="fr" dir="rtl">/);assert.match(files['index.html'],/<title>About title<\/title>/);assert.match(files['index.html'],/name="robots" content="noindex/);assert.match(files['index.html'],/rel="canonical" href="https:\/\/example.com\/site\/index.html"/);assert.match(files['index.html'],/property="og:image"/);assert.match(files['index.html'],/rel="icon"/);
- assert.match(files['sitemap.xml'],/welcome.html/);assert.doesNotMatch(files['sitemap.xml'],/index.html/);assert.match(files['robots.txt'],/Disallow: \/site\/index.html/);assert.match(files['404.html'],/href="index.html"/);assert.match(files['README.txt'],/welcome.html/);
+ assert.match(files['sitemap.xml'],/welcome.html/);assert.doesNotMatch(files['sitemap.xml'],/index.html/);assert.match(files['robots.txt'],/Disallow: \/site\/index.html/);assert.match(files['404.html'],/href="https:\/\/example.com\/site\/index.html"/);assert.match(files['README.txt'],/welcome.html/);
 });
 test('home and slug changes refresh generated navigation in every page',()=>{
  const changed={...studio,homeId:'a',pages:studio.pages.map(p=>({...p,slug:p.id==='b'?'our-story':p.slug}))};
@@ -32,4 +32,14 @@ test('exported generated navigation retains component IDs referenced by page CSS
  const files=exportFiles({...editor,getHtml:()=>html,getCss:()=>css},brief,studio);
  for(const name of ['index.html','welcome.html']){assert.match(files[name],/id="user-nav"/);assert.match(files[name],/id="user-brand"/);assert.match(files[name],/id="user-about"/);}
  assert.equal(files['styles.css'],css);assert.equal(files['welcome.css'],css);
+});
+test('404 uses public base URLs for home navigation and styles on nested missing routes',()=>{
+ const configured={...studio,site:{...studio.site,url:'https://example.com/site/'}};
+ const files=exportFiles(editor,brief,configured),notFound=files['404.html'];
+ for(const filename of ['index.html','welcome.html','styles.css','studio.css'])assert.ok(notFound.includes('href="https://example.com/site/'+filename+'"'));
+ assert.match(notFound,/href="https:\/\/example.com\/site\/index.html">Return home/);
+ assert.match(files['welcome.html'],/href="welcome.css"/);assert.match(files['index.html'],/href="welcome.html"/);
+ assert.doesNotMatch(notFound,/rel="canonical"/);
+ const noUrl=exportFiles(editor,brief,{...studio,site:{...studio.site,url:''}});
+ assert.match(noUrl['404.html'],/href="styles.css"/);assert.match(noUrl['404.html'],/href="index.html">Return home/);
 });

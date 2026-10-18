@@ -16,6 +16,7 @@ test('multipage site keeps edits, page metadata and portable links through ZIP a
  await close(page);await expect(page.frameLocator('.gjs-frame').locator('[data-section="Products"]')).toBeVisible();
  await tools(page,'Pages');await page.getByRole('button',{name:'Duplicate page',exact:true}).click();
  await expect(page.locator('#studio-page-tabs button[data-page]')).toHaveCount(3);
+ await expect(page.frameLocator('.gjs-frame').locator('[data-section="Products"]')).toHaveCount(1);
  page.once('dialog',d=>d.accept());await page.getByRole('button',{name:'Delete page',exact:true}).click();
  await expect(page.locator('#studio-page-tabs button[data-page]')).toHaveCount(2);
  await close(page);await page.getByRole('button',{name:'Preview website',exact:true}).click();
@@ -70,4 +71,15 @@ test('autosave and five named restore points preserve an earlier edited website'
  await tools(page,'History');page.once('dialog',d=>d.accept());await page.getByRole('button',{name:'Restore Version 1',exact:true}).click();
  await expect(page.frameLocator('.gjs-frame').locator('h1')).toContainText('Rama Studio');
  await page.getByRole('button',{name:'Save project',exact:true}).click();await page.screenshot({path:info.outputPath('history-restored.png'),fullPage:true});
+});
+
+test('invalid settings are rejected without poisoning the open project',async({page})=>{
+ await ready(page);await tools(page,'Site');
+ await page.getByLabel('Social sharing image URL',{exact:true}).fill('https://');
+ await page.getByRole('button',{name:'Save site settings',exact:true}).click();
+ await expect(page.locator('#v2-message')).toContainText(/image|URL/i);
+ await page.getByRole('tab',{name:'Pages',exact:true}).click();
+ await expect(page.getByRole('button',{name:'Add page',exact:true})).toBeVisible();
+ await close(page);await page.getByRole('button',{name:'Save project',exact:true}).click();
+ await expect(page.locator('#save-status')).toHaveText('Saved on this device');
 });

@@ -32,6 +32,10 @@ export function exportFiles(editor,brief,studio){
  files['studio.css']=brandCss(state);
  const home=state.pages.find(p=>p.id===state.homeId);
  files['404.html']=buildDocument({html:`<main class="site-section"><h1>Page not found</h1><p>This address does not lead to a page on ${e(state.site.name)}.</p><a class="site-button" href="${e(pageFile(home,state))}">Return home</a></main>`,brief,page:{id:'__404',title:`Page not found — ${state.site.name}`,description:'The page could not be found.',noindex:true},studio:{...state,site:{...state.site,url:''}},cssFile:'styles.css'});
+ // Hosts can serve this document at any missing URL, including nested paths.
+ // Give only the error page absolute navigation/style destinations when the
+ // public deployment base is known; normal pages keep portable relative links.
+ if(state.site.url)for(const filename of [...state.pages.map(p=>pageFile(p,state)),'styles.css','studio.css'])files['404.html']=files['404.html'].replaceAll(`href="${e(filename)}"`,`href="${e(state.site.url+'/'+filename)}"`);
  const basePath=state.site.url?new URL(state.site.url).pathname.replace(/\/$/,''):'';
  let robots='User-agent: *\nAllow: /\n';
  for(const page of state.pages.filter(p=>p.noindex))robots+=`Disallow: ${basePath}/${pageFile(page,state)}\n`;

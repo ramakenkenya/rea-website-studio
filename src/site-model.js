@@ -27,7 +27,7 @@ function inspectString(value){
 export function assertSafeValue(value){
  let count=0;
  function walk(child,depth=0){
-  if(depth>80||++count>25000)throw new Error('Unsupported project complexity.');
+  if(depth>80||++count>250000)throw new Error('Unsupported project complexity.');
   if(typeof child==='string')inspectString(child);
   if(child&&typeof child==='object')for(const [key,next] of Object.entries(child)){
    if(['__proto__','prototype','constructor','srcdoc'].includes(key)||(/^script(?:-|$)/i.test(key)&&next)||/^on[a-z]+$/i.test(key)||key==='tagName'&&/^(script|iframe|object|embed|meta|link|foreignobject)$/i.test(next)||key==='type'&&/^(script|iframe|object|embed|meta|foreignobject)$/i.test(next))throw new Error('Unsafe component in project file.');
@@ -76,7 +76,7 @@ export function createStudio(project,brief={},input={}){
  const pages=[];
  for(const candidate of order){
   const raw=provided.find(p=>p.id===candidate.id)||{},original=actual.find(p=>p.id===candidate.id);
-  const name=text(raw.name,original.name||`Page ${pages.length+1}`,180)||`Page ${pages.length+1}`;
+  const name=text(raw.name,original.name||(pages.length===0?'Home':`Page ${pages.length+1}`),180)||`Page ${pages.length+1}`;
   let slug;if(raw.slug!==undefined)slug=validateSlug(raw.slug,pages,raw.id);else{
    let base=name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,65)||'page';if(RESERVED.has(base))base+='-page';
    slug=base;let n=2;while(pages.some(p=>p.slug===slug)||provided.some(p=>p.id!==candidate.id&&clean(p.slug).toLowerCase()===slug))slug=`${base}-${n++}`;
@@ -94,7 +94,7 @@ export function createStudio(project,brief={},input={}){
  const direction=text(siteInput.direction,'ltr',3);if(!['ltr','rtl'].includes(direction))throw new Error('Invalid text direction.');
  const site={name:text(siteInput.name,brief.name||'My website',180),url:validateSiteUrl(siteInput.url),language,direction,socialImage:image(siteInput.socialImage),favicon:image(siteInput.favicon),logo:image(siteInput.logo),brand};
  const assets=unique(list(input.assets,'assets',200).map((a,i)=>{if(!object(a))throw new Error('Invalid asset.');const src=image(a.src);if(!src)throw new Error('Invalid empty image asset.');return {id:id(a.id,`asset-${i+1}`),name:text(a.name,`Image ${i+1}`,180),src,alt:text(a.alt,'',320)};}),'asset');
- const sections=unique(list(input.sections,'saved sections',100).map((s,i)=>{if(!object(s))throw new Error('Invalid saved section.');return {id:id(s.id,`section-${i+1}`),name:text(s.name,`Section ${i+1}`,180),html:text(s.html,'',1024*1024)};}),'section');
+ const sections=unique(list(input.sections,'saved sections',100).map((s,i)=>{if(!object(s)||s.css!==undefined&&typeof s.css!=='string')throw new Error('Invalid saved section.');return {id:id(s.id,`section-${i+1}`),name:text(s.name,`Section ${i+1}`,180),html:text(s.html,'',1024*1024),css:text(s.css,'',1024*1024)};}),'section');
  const checkpoints=unique(list(input.checkpoints,'checkpoints',100).slice(0,5).map((c,i)=>{
   if(!object(c)||!object(c.snapshot))throw new Error('Invalid restore point.');
   const savedAt=text(c.savedAt,c.snapshot.savedAt,40);if(!savedAt||!Number.isFinite(Date.parse(savedAt)))throw new Error('Invalid restore point date.');
