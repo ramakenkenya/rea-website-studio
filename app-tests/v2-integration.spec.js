@@ -38,3 +38,10 @@ test('all three original starters replace copy and artwork, and canvas save shor
  for(const [label,name]of[['Coffee shop','Morning Fold Coffee'],['Furniture showroom','Field & Form'],['Personal portfolio','Alex Morgan']]){await tools(page,'Library');await page.getByRole('button',{name:`Use ${label} starter`,exact:true}).click();await expect(page.frameLocator('.gjs-frame').locator('body')).toContainText(name);await expect(page.frameLocator('.gjs-frame').locator('h1')).toHaveCount(1);}
  await page.frameLocator('.gjs-frame').locator('h1').click();await page.keyboard.press('Control+s');await expect(page.locator('#save-status')).toHaveText('Saved on this device');await page.screenshot({path:info.outputPath('portfolio-starter.png'),fullPage:true});
 });
+
+test('text search, element duplication, link controls and responsive visibility reach exports',async({page})=>{
+ await ready(page);await tools(page,'Library');await page.getByLabel('Find page text',{exact:true}).fill('Start a conversation');await page.getByRole('button',{name:'Find on this page',exact:true}).click();await page.locator('#v2-found-text [data-found]').first().click();
+ await page.getByLabel('Link destination',{exact:true}).fill('https://example.com/book');await page.getByLabel('Open link in new tab',{exact:true}).check();await page.getByRole('button',{name:'Apply link',exact:true}).click();await page.getByLabel('Element visibility',{exact:true}).selectOption('phone');await page.getByRole('button',{name:'Duplicate selected element',exact:true}).click();
+ await expect(page.frameLocator('.gjs-frame').locator('a[href="https://example.com/book"]')).toHaveCount(2);
+ const files=await zip(page),html=await files.file('index.html').async('string');expect(html).toContain('target="_blank"');expect(html).toContain('noopener noreferrer');expect(html).toContain('studio-hide-phone');expect(await files.file('studio.css').async('string')).toContain('.studio-hide-phone');
+});

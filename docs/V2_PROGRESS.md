@@ -14,4 +14,16 @@ Ruling: Record real browser workflows and retain source/CI evidence; do not pret
 | 4/5 | investigation artifacts consumed by evidence report | Claims require actual raw output and source verification. |
 | Each task | files, behavior, validation agree | No contradictory requirements identified. |
 
-Status: research and interfaces defined. Task 1 next; root begins UI scaffolding against contract.
+Status: 50 additions implemented. Real REA run 39131482263 passed; raw archive and source hashes verified, archive retained in Drive. Local application suite: 49 passing tests; production build passes. Recorded cloud integration checks are running before publication.
+
+Integration review corrections:
+- Deep clone APIs preserve nested components and independent styles.
+- Validate complete candidate metadata before changing live state, including generated page titles and duplicate names.
+- Five substantial checkpoints fit a bounded traversal budget; nested checkpoint lists are stripped.
+- Reusable sections capture the nearest section and detached HTML/CSS, remap IDs on insertion and reapply current shared branding.
+- Known public URLs anchor 404 home/navigation/styles at the deployment base.
+- Removed assets are removed from both libraries when unused by other library entries.
+- GrapesJS forwards canvas keyboard events: one parent handler owns shortcuts and disables duplicate core undo/redo maps. Original typing targets are honored.
+- Navigation uses model traversal on unrendered pages; DOM-only find would prepend extra headers.
+
+Publication and final Drive recording links will be recorded after successful release checks.
