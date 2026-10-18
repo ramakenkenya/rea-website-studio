@@ -1,0 +1,43 @@
+import {test,expect} from '@playwright/test';
+const ready=async page=>{await page.goto('./');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();};
+test('desktop tools leave the canvas interactive and reveal inserted sections without closing',async({page},info)=>{
+ await ready(page);await page.getByRole('button',{name:'Studio tools',exact:true}).click();
+ const drawer=page.locator('#studio-tools');
+ await expect(drawer).toBeVisible();expect(await drawer.evaluate(el=>el.matches(':modal'))).toBe(false);
+ const sheet=await drawer.boundingBox(),canvasBox=await page.locator('.canvas-area').boundingBox();
+ expect(canvasBox.x+canvasBox.width).toBeLessThanOrEqual(sheet.x+1);
+ await page.getByRole('tab',{name:'Library',exact:true}).click();await page.getByRole('button',{name:'Insert FAQ',exact:true}).click();
+ const faq=page.frameLocator('.gjs-frame').locator('.extra-faq');await expect(faq).toBeInViewport();
+ await faq.locator('h2').click();await expect(drawer).toBeVisible();
+ await expect(page.getByRole('button',{name:'Studio tools',exact:true})).toHaveAttribute('aria-expanded','true');
+ await page.getByRole('button',{name:'Save project',exact:true}).click();await expect(page.locator('#save-status')).toContainText('Saved');
+ await page.screenshot({path:info.outputPath('desktop-live-drawer.png'),fullPage:true});
+ await page.getByRole('button',{name:'Close studio tools',exact:true}).click();await expect(drawer).not.toBeVisible();
+ await page.getByRole('button',{name:'Studio tools',exact:true}).click();await expect(page.getByRole('tab',{name:'Library',exact:true})).toHaveAttribute('aria-selected','true');
+});
+test('phone tools use a bottom sheet while the canvas and newly added section stay visible',async({page},info)=>{
+ await page.setViewportSize({width:390,height:844});await page.emulateMedia({reducedMotion:'reduce'});await ready(page);
+ await page.getByRole('button',{name:'Studio tools',exact:true}).click();
+ const drawer=page.locator('#studio-tools');await expect(drawer).toBeVisible();
+ const box=await drawer.boundingBox();expect(box.y).toBeGreaterThan(280);expect(box.y+box.height).toBeLessThanOrEqual(845);
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await page.getByRole('tab',{name:'Library',exact:true}).click();await page.getByRole('button',{name:'Insert FAQ',exact:true}).click();
+ const faq=page.frameLocator('.gjs-frame').locator('.extra-faq');await expect(faq.locator('h2')).toBeInViewport();
+ const frame=await page.locator('.gjs-frame').boundingBox(),heading=await faq.locator('h2').boundingBox();
+ expect(heading.y).toBeGreaterThanOrEqual(frame.y);expect(heading.y+heading.height).toBeLessThan(box.y);
+ await faq.locator('h2').click();await expect(drawer).toBeVisible();
+ await page.screenshot({path:info.outputPath('phone-live-drawer.png'),fullPage:true});
+ await page.getByRole('button',{name:'Close studio tools',exact:true}).click();await expect(drawer).not.toBeVisible();
+});
+test('keyboard tabs, iframe Escape and nested previews keep focus and panel state coherent',async({page})=>{
+ await ready(page);const trigger=page.getByRole('button',{name:'Studio tools',exact:true});await trigger.click();
+ const pages=page.getByRole('tab',{name:'Pages',exact:true});await pages.focus();await pages.press('ArrowRight');
+ await expect(page.getByRole('tab',{name:'Brand',exact:true})).toBeFocused();await expect(page.getByLabel('Accent color',{exact:true})).toBeVisible();
+ await page.getByRole('tab',{name:'Brand',exact:true}).press('End');await expect(page.getByRole('tab',{name:'Site',exact:true})).toBeFocused();
+ await page.getByRole('tab',{name:'Site',exact:true}).press('Home');await expect(pages).toBeFocused();
+ await page.getByLabel('New page name',{exact:true}).fill('Keep my draft');
+ await page.frameLocator('.gjs-frame').locator('h1').click();await expect(page.getByLabel('New page name',{exact:true})).toHaveValue('Keep my draft');
+ await page.frameLocator('.gjs-frame').locator('h1').press('Escape');await expect(page.locator('#studio-tools')).not.toBeVisible();await expect(trigger).toBeFocused();
+ await trigger.click();await page.getByRole('button',{name:'Preview website',exact:true}).click();await expect(page.locator('#studio-preview')).toBeVisible();
+ await page.keyboard.press('Escape');await expect(page.locator('#studio-preview')).not.toBeVisible();await expect(page.locator('#studio-tools')).toBeVisible();
+});
