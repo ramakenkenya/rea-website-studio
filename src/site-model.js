@@ -60,6 +60,7 @@ function image(value){
  if(!['http:','https:'].includes(url.protocol)||url.username||url.password||/[\u0000-\u0020<>"']/g.test(src))throw new Error('Unsafe image URL.');
  return src;
 }
+function creditUrl(value){const raw=text(value,'',2048);if(!raw)return '';let url;try{url=new URL(raw);}catch{throw Error('Invalid image credit URL.');}if(url.protocol!=='https:'||url.username||url.password)throw Error('Invalid image credit URL.');validateSiteUrl(url.origin);return url.href;}
 function list(value,name,max){if(value===undefined)return [];if(!Array.isArray(value)||value.length>max)throw new Error(`Invalid ${name} list or limit exceeded.`);return value;}
 function id(value,fallback){const result=text(value,fallback,160);if(!result||/[\u0000-\u0020<>"']/.test(result))throw new Error('Invalid studio ID.');return result;}
 function number(value,fallback,min,max){const n=value===undefined?fallback:Number(value);if(!Number.isFinite(n)||n<min||n>max)throw new Error('Invalid brand size.');return n;}
@@ -93,7 +94,7 @@ export function createStudio(project,brief={},input={}){
  const language=text(siteInput.language,'en',35);if(!/^[a-z]{2,8}(?:-[a-z0-9]{1,8})*$/i.test(language))throw new Error('Invalid site language.');
  const direction=text(siteInput.direction,'ltr',3);if(!['ltr','rtl'].includes(direction))throw new Error('Invalid text direction.');
  const site={name:text(siteInput.name,brief.name||'My website',180),url:validateSiteUrl(siteInput.url),language,direction,socialImage:image(siteInput.socialImage),favicon:image(siteInput.favicon),logo:image(siteInput.logo),brand};
- const assets=unique(list(input.assets,'assets',200).map((a,i)=>{if(!object(a))throw new Error('Invalid asset.');const src=image(a.src);if(!src)throw new Error('Invalid empty image asset.');return {id:id(a.id,`asset-${i+1}`),name:text(a.name,`Image ${i+1}`,180),src,alt:text(a.alt,'',320)};}),'asset');
+ const assets=unique(list(input.assets,'assets',200).map((a,i)=>{if(!object(a))throw new Error('Invalid asset.');const src=image(a.src);if(!src)throw new Error('Invalid empty image asset.');return {id:id(a.id,`asset-${i+1}`),name:text(a.name,`Image ${i+1}`,180),src,alt:text(a.alt,'',320),artist:text(a.artist,'',180),license:text(a.license,'',80),sourceUrl:creditUrl(a.sourceUrl),licenseUrl:creditUrl(a.licenseUrl)};}),'asset');
  const sections=unique(list(input.sections,'saved sections',100).map((s,i)=>{if(!object(s)||s.css!==undefined&&typeof s.css!=='string')throw new Error('Invalid saved section.');return {id:id(s.id,`section-${i+1}`),name:text(s.name,`Section ${i+1}`,180),html:text(s.html,'',1024*1024),css:text(s.css,'',1024*1024)};}),'section');
  const checkpoints=unique(list(input.checkpoints,'checkpoints',100).slice(0,5).map((c,i)=>{
   if(!object(c)||!object(c.snapshot))throw new Error('Invalid restore point.');
