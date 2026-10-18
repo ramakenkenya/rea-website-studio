@@ -12,7 +12,7 @@ test('multipage export reads each page component and independent style files wit
  const files=exportFiles(editor,brief,studio);assert.ok(files['index.html']);assert.ok(files['welcome.html']);assert.equal(files['styles.css'],'.page-b{color:red}');assert.equal(files['welcome.css'],'.page-a{color:red}');assert.ok(files['studio.css']);
  assert.match(files['index.html'],/id="b"/);assert.match(files['welcome.html'],/id="a"/);assert.match(files['welcome.html'],/href="welcome.css"/);assert.match(files['index.html'],/href="welcome.html"/);
  assert.match(files['index.html'],/<html lang="fr" dir="rtl">/);assert.match(files['index.html'],/<title>About title<\/title>/);assert.match(files['index.html'],/name="robots" content="noindex/);assert.match(files['index.html'],/rel="canonical" href="https:\/\/example.com\/site\/index.html"/);assert.match(files['index.html'],/property="og:image"/);assert.match(files['index.html'],/rel="icon"/);
- assert.match(files['sitemap.xml'],/welcome.html/);assert.doesNotMatch(files['sitemap.xml'],/index.html/);assert.match(files['robots.txt'],/Disallow: \/site\/index.html/);assert.match(files['404.html'],/href="https:\/\/example.com\/site\/index.html"/);assert.match(files['README.txt'],/welcome.html/);
+ assert.match(files['sitemap.xml'],/welcome.html/);assert.doesNotMatch(files['sitemap.xml'],/index.html/);assert.doesNotMatch(files['robots.txt'],/Disallow:.*index\.html/);assert.match(files['404.html'],/href="https:\/\/example.com\/site\/index.html"/);assert.match(files['README.txt'],/welcome.html/);
 });
 test('home and slug changes refresh generated navigation in every page',()=>{
  const changed={...studio,homeId:'a',pages:studio.pages.map(p=>({...p,slug:p.id==='b'?'our-story':p.slug}))};
