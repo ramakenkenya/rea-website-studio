@@ -36,3 +36,20 @@ test('export is a complete standalone HTML document with escaped metadata',()=>{
  assert.ok(html.includes('A &quot;great&quot; &lt;site&gt;'));assert.ok(html.includes('href="styles.css"'));
  assert.equal((html.match(/<body/g)||[]).length,1);assert.ok(!html.includes('rea-website-studio/assets'));
 });
+test('valid image-heavy backups use the same size contract as restore',async()=>{
+ const {serializeBackup,MAX_BACKUP_BYTES}=await import('../src/project.js');
+ const data=snapshot(brief,{pages:[{component:{type:'image',attributes:{src:'data:image/png;base64,'+'a'.repeat(7*1024*1024)}}}],styles:[]});
+ const serialized=serializeBackup(data);assert.ok(serialized.length>6*1024*1024);
+ assert.equal(validateSnapshot(JSON.parse(serialized)).brief.name,'Malaba Studio');
+ assert.throws(()=>serializeBackup(snapshot(brief,{pages:[{component:{content:'a'.repeat(MAX_BACKUP_BYTES)}}],styles:[]})),/large|size|MB/i);
+});
+test('malformed page or frame structures are rejected before replacing a website',()=>{
+ for(const pages of [[null],[{frames:[null]}],[{frames:[{component:null}]}],[]]){
+  assert.throws(()=>validateSnapshot(snapshot(brief,{pages,styles:[]})),/project|page|frame|component/i);
+ }
+});
+test('browser-normalized executable URL schemes are rejected in backups',()=>{
+ for(const href of ['java\nscript:alert(1)','java\tscript:alert(1)','\u0000javascript:alert(1)','data:\ntext/html,hello']){
+  assert.throws(()=>validateSnapshot(snapshot(brief,{pages:[{component:{tagName:'a',attributes:{href}}}],styles:[]})),/unsafe/i);
+ }
+});

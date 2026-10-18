@@ -1,7 +1,7 @@
 import grapesjs from 'grapesjs';
 import 'grapesjs/dist/css/grapes.min.css';
 import './style.css';
-import {normalizeBrief,snapshot,validateSnapshot,readSaved,writeSaved,escapeHtml as esc,fileSlug} from './project.js';
+import {normalizeBrief,snapshot,validateSnapshot,readSaved,writeSaved,serializeBackup,MAX_BACKUP_BYTES,escapeHtml as esc,fileSlug} from './project.js';
 import {createStarter,sectionContent,THEMES} from './templates.js';
 import {siteZip,download,exportName,buildDocument} from './export.js';
 import {audit} from './quality.js';
@@ -33,15 +33,23 @@ function markDirty(){if(importing||!ready)return;dirty=true;$('#save-status').te
 function updateNames(){for(const id of ['project-name','crumb-name'])$('#'+id).textContent=brief.name;}
 function registerBlocks(){editor.Blocks.getAll().reset();for(const [id,label,i] of sections)editor.Blocks.add(id,{label,media:icon(i),content:sectionContent(id,brief)});}
 function layerName(c){return c.getAttributes()['data-section']||({header:'Header',footer:'Footer',section:'Section'}[c.get('tagName')])||c.getName();}
-function layers(){const components=editor.getWrapper().components();$('#layers').innerHTML=components.map((c,i)=>`<div class="layer-row"><button data-index="${i}" data-action="select">${esc(layerName(c))}</button><button data-index="${i}" data-action="up" aria-label="Move ${esc(layerName(c))} up">${icon('up')}</button><button data-index="${i}" data-action="down" aria-label="Move ${esc(layerName(c))} down">${icon('down')}</button></div>`).join('');}
+function layers(){const wrapper=editor.getWrapper();if(importing||!wrapper)return;const components=wrapper.components();$('#layers').innerHTML=components.map((c,i)=>`<div class="layer-row"><button data-index="${i}" data-action="select">${esc(layerName(c))}</button><button data-index="${i}" data-action="up" aria-label="Move ${esc(layerName(c))} up">${icon('up')}</button><button data-index="${i}" data-action="down" aria-label="Move ${esc(layerName(c))} down">${icon('down')}</button></div>`).join('');}
 function selectComponent(c){selected=c;$('#selection-name').textContent=c?layerName(c):'Select an element';$('#selection-hint').classList.toggle('hide',!!c);$('#selected-controls').classList.toggle('hide',!c);if(!c)return;const isText=c.is('text')||/^h[1-6]$|^p$|^a$|^span$/.test(c.get('tagName'));$('#selected-text').disabled=!isText;$('#apply-text').disabled=!isText;$('#selected-text').value=isText?(c.getEl()?.textContent||''):'';const style=c.getStyle();$('#font-size').value=parseInt(style['font-size'])||'';$('#image-controls').classList.toggle('hide',!c.is('image'));$('#image-alt').value=c.getAttributes().alt||'';}
 function fillBrief(){const form=$('#brief-form');for(const [key,value]of Object.entries(brief)){if(form.elements[key])form.elements[key].value=value;}}
 function openBrief(nextMode){mode=nextMode;fillBrief();if(mode==='new'){const f=$('#brief-form');for(const key of ['name','description','services','email','title'])f.elements[key].value='';}$('#brief-heading').textContent=mode==='new'?'A brief. A direction. Your website.':'Your story, in your own words.';$('#brief-submit').innerHTML=mode==='new'?`Create website ${icon('arrow')}`:`Save brief ${icon('check')}`;$('#brief-footnote').textContent=mode==='new'?'Creating a website replaces the open canvas. Back up anything you want to keep.':'Brief changes update metadata. Your existing canvas edits stay as they are.';$('#brief-error').textContent='';$('#brief-dialog').showModal();}
-function loadProject(data){importing=true;brief=data.brief;editor.loadProjectData(data.project);updateNames();registerBlocks();layers();selectComponent(null);importing=false;dirty=false;$('#project-kind').textContent='Your project';}
+function loadProject(data){
+ const valid=validateSnapshot(data);
+ const previous={brief,project:editor.getProjectData()};
+ importing=true;
+ try{editor.loadProjectData(valid.project);brief=valid.brief;}
+ catch(error){editor.loadProjectData(previous.project);brief=previous.brief;throw error;}
+ finally{importing=false;}
+ updateNames();registerBlocks();layers();selectComponent(null);dirty=false;$('#project-kind').textContent='Your project';
+}
 function save(){try{const result=writeSaved(localStorage,snapshot(brief,editor.getProjectData()));if(!result.ok){toast(result.error);return false;}dirty=false;$('#save-status').textContent='Saved on this device';toast('Project saved on this device.');return true;}catch{toast('Could not save. Download a project backup to keep your work.');return false;}}
 function showChecks(){const results=audit(editor,brief);$('#quality-results').innerHTML=results.map(r=>`<div class="check-item"><span class="check-dot ${r.ok?'':'warn'}">${r.ok?icon('check'):'!'}</span><div><strong>${esc(r.label)}</strong><p>${esc(r.detail)}</p></div></div>`).join('');$('#checks-dialog').showModal();}
 function changePanel(id){document.querySelectorAll('[data-panel]').forEach(b=>b.classList.toggle('active',b.dataset.panel===id));for(const p of ['blocks-panel','layers-panel'])$('#'+p).classList.toggle('panel-body-hidden',p!==id);layers();}
-async function downloadWebsite(){try{const blob=await siteZip(editor,brief);download(blob,exportName(brief));toast('Website ZIP downloaded. Unzip it and open index.html.');}catch{toast('Export failed. Please try again.');}}
+async function downloadWebsite(){try{const blob=await siteZip(editor,brief);download(blob,exportName(brief));document.querySelectorAll('#checks-dialog[open],#export-dialog[open]').forEach(d=>d.close());toast('Website ZIP downloaded. Unzip it and open index.html.');}catch{toast('Export failed. Please try again.');}}
 editor.on('load',()=>{
  const saved=readSaved(localStorage);importing=true;
  if(saved.ok&&saved.data){loadProject(saved.data);$('#save-status').textContent='Saved on this device';}else{const starter=createStarter(brief);editor.setComponents(starter.html);editor.setStyle(starter.css);registerBlocks();if(!saved.ok)toast(saved.error);}
@@ -54,8 +62,8 @@ $('#brief-form').onsubmit=e=>{e.preventDefault();try{const next=normalizeBrief(O
  brief=next;importing=true;const starter=createStarter(brief);editor.setComponents(starter.html);editor.setStyle(starter.css);editor.UndoManager.clear();importing=false;selectComponent(null);$('#project-kind').textContent='Your project';
  }else{const changedTheme=brief.theme!==next.theme;brief=next;if(changedTheme)editor.addStyle(createStarter(brief).css);}
  updateNames();registerBlocks();layers();markDirty();$('#brief-dialog').close();toast(mode==='new'?'Your website starter is ready. Click anything to make it yours.':'Brief and export metadata updated.');}catch(err){$('#brief-error').textContent=err.message;}};
-$('#save').onclick=save;$('#backup').onclick=()=>{download(new Blob([JSON.stringify(snapshot(brief,editor.getProjectData()),null,2)],{type:'application/json'}),fileSlug(brief.name)+'-project.json');toast('Project backup downloaded. Restore this file to keep editing.');};
-$('#restore-file').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>6*1024*1024)throw new Error('Project files must be under 6 MB.');const data=validateSnapshot(JSON.parse(await file.text()));if(dirty&&!confirm('Restore this backup and replace the open canvas?'))return;loadProject(data);editor.UndoManager.clear();markDirty();toast('Project restored. Save it on this device to keep it.');}catch(err){toast('Could not restore. '+(err.message.includes('JSON')?'Choose a valid project backup.':err.message));}finally{e.target.value='';}};
+$('#save').onclick=save;$('#backup').onclick=()=>{try{download(new Blob([serializeBackup(snapshot(brief,editor.getProjectData()))],{type:'application/json'}),fileSlug(brief.name)+'-project.json');toast('Project backup downloaded. Restore this file to keep editing.');}catch(err){toast(err.message);}};
+$('#restore-file').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>MAX_BACKUP_BYTES)throw new Error('Project files must be under 32 MB.');const data=validateSnapshot(JSON.parse(await file.text()));if(dirty&&!confirm('Restore this backup and replace the open canvas?'))return;loadProject(data);editor.UndoManager.clear();markDirty();toast('Project restored. Save it on this device to keep it.');}catch(err){toast('Could not restore. '+(err.message.includes('JSON')?'Choose a valid project backup.':err.message));}finally{e.target.value='';}};
 $('#undo').onclick=()=>{editor.UndoManager.undo();layers();};$('#redo').onclick=()=>{editor.UndoManager.redo();layers();};
 $('#apply-text').onclick=()=>{if(selected&&!$('#selected-text').disabled){selected.components(esc($('#selected-text').value));markDirty();toast('Text updated.');}};
 $('#font-size').onchange=e=>{const size=Number(e.target.value);if(selected&&size>=8&&size<=180)selected.addStyle({'font-size':size+'px'});};

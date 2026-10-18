@@ -49,6 +49,7 @@ test('business brief, real editor, save/reload, project restore and independent 
 test('mobile controls, section reorder, safe restore and no horizontal overflow',async({page},testInfo)=>{
  await page.setViewportSize({width:390,height:844});await page.goto('/');
  await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
+ await expect(page.getByRole('button',{name:'Project backup',exact:true})).toBeVisible();
  await page.getByRole('button',{name:'Sections',exact:true}).click();
  await page.getByRole('button',{name:'Add About section',exact:true}).click();
  await expect(page.frameLocator('.gjs-frame').locator('[data-section="About"]')).toHaveCount(2);
@@ -57,6 +58,26 @@ test('mobile controls, section reorder, safe restore and no horizontal overflow'
  await expect(page.locator('#layers button[data-action="select"]').last()).toContainText('Footer');
  await page.locator('#restore-file').setInputFiles({name:'bad.json',mimeType:'application/json',buffer:Buffer.from('{broken')});
  await expect(page.getByRole('status')).toContainText('Could not restore');
+ await page.locator('#restore-file').setInputFiles({name:'bad-page.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify({schema:1,app:'REA Studio',brief:{name:'Broken'},project:{pages:[null],styles:[]}}))});
+ await expect(page.getByRole('status')).toContainText('Could not restore');
+ await expect(page.frameLocator('.gjs-frame').locator('h1')).toContainText('Malaba Studio');
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.screenshot({path:testInfo.outputPath('studio-mobile.png'),fullPage:true});
+});
+test('drag a reusable block onto the real canvas and replace an embedded image',async({page},testInfo)=>{
+ await page.goto('/');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
+ const canvas=page.frameLocator('.gjs-frame');
+ const before=await canvas.locator('section').count();
+ const block=page.locator('.gjs-block').filter({hasText:'About'});const from=await block.boundingBox();const target=await page.locator('.gjs-frame').boundingBox();
+ await page.mouse.move(from.x+from.width/2,from.y+from.height/2);await page.mouse.down();
+ await page.mouse.move(target.x+target.width/2,target.y+target.height/2,{steps:30});await page.mouse.up();
+ await expect.poll(()=>canvas.locator('section').count()).toBe(before+1);
+ await canvas.locator('.hero-art img').click();
+ await expect(page.getByRole('button',{name:'Replace image',exact:true})).toBeVisible();
+ const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aF1kAAAAASUVORK5CYII=','base64');
+ await page.locator('#image-file').setInputFiles({name:'sample.png',mimeType:'image/png',buffer:png});
+ await page.getByLabel('Image description').fill('Uploaded example image');
+ await expect(canvas.locator('.hero-art img')).toHaveAttribute('src',/^data:image\/png/);
+ await expect(canvas.locator('.hero-art img')).toHaveAttribute('alt','Uploaded example image');
+ await page.screenshot({path:testInfo.outputPath('drag-and-image.png'),fullPage:true});
 });
