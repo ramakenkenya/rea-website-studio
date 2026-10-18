@@ -1,4 +1,5 @@
 import {test,expect} from '@playwright/test';
+import {mockImageHost,addUrlPhoto} from './photo-fixture.js';
 const ready=async page=>{await page.goto('./');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();};
 test('desktop tools leave the canvas interactive and reveal inserted sections without closing',async({page},info)=>{
  await ready(page);await page.getByRole('button',{name:'Studio tools',exact:true}).click();
@@ -12,7 +13,8 @@ test('desktop tools leave the canvas interactive and reveal inserted sections wi
  await expect(page.getByRole('button',{name:'Studio tools',exact:true})).toHaveAttribute('aria-expanded','true');
  await page.getByRole('button',{name:'Save project',exact:true}).click();await expect(page.locator('#save-status')).toContainText('Saved');
  await page.screenshot({path:info.outputPath('desktop-live-drawer.png'),fullPage:true});
- await page.getByRole('button',{name:'Close studio tools',exact:true}).click();await expect(drawer).not.toBeVisible();
+ await page.getByRole('button',{name:'Close studio tools',exact:true}).click();
+ await page.getByRole('button',{name:'Preview website',exact:true}).click({timeout:5000});await expect(page.locator('#studio-preview')).toBeVisible();await page.getByRole('button',{name:'Close website preview',exact:true}).click();await expect(drawer).not.toBeVisible();
  await page.getByRole('button',{name:'Studio tools',exact:true}).click();await expect(page.getByRole('tab',{name:'Library',exact:true})).toHaveAttribute('aria-selected','true');
 });
 test('phone tools use a bottom sheet while the canvas and newly added section stay visible',async({page},info)=>{
@@ -38,7 +40,7 @@ test('keyboard tabs, iframe Escape and nested previews keep focus and panel stat
  await page.getByLabel('New page name',{exact:true}).fill('Keep my draft');
  await page.frameLocator('.gjs-frame').locator('h1').click();await expect(page.getByLabel('New page name',{exact:true})).toHaveValue('Keep my draft');
  await page.frameLocator('.gjs-frame').locator('h1').press('Escape');await expect(page.locator('#studio-tools')).not.toBeVisible();await expect(trigger).toBeFocused();
- await trigger.click();await page.getByRole('button',{name:'Preview website',exact:true}).click();await expect(page.locator('#studio-preview')).toBeVisible();
+ await trigger.click();await page.getByRole('button',{name:'Open full website preview',exact:true}).click();await expect(page.locator('#studio-preview')).toBeVisible();
  await page.keyboard.press('Escape');await expect(page.locator('#studio-preview')).not.toBeVisible();await expect(page.locator('#studio-tools')).toBeVisible();
 });
 test('landscape phones retain room to edit a complete field and reach its action',async({page},info)=>{
@@ -52,4 +54,11 @@ test('landscape phones retain room to edit a complete field and reach its action
  await expect(page.getByRole('button',{name:'Close studio tools',exact:true})).toBeInViewport();
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.screenshot({path:info.outputPath('landscape-tools.png'),fullPage:true});
+});
+test('creating a website from an open drawer dismisses the previous project tools',async({page})=>{
+ await mockImageHost(page);await ready(page);await page.getByRole('button',{name:'Studio tools',exact:true}).click();await page.getByRole('tab',{name:'Assets',exact:true}).click();
+ await page.getByRole('button',{name:'New website',exact:true}).click();await page.getByLabel('Business name',{exact:true}).fill('A fresh studio');await page.getByRole('button',{name:'Create website',exact:true}).click();
+ await expect(page.locator('#studio-tools')).not.toBeVisible();
+ await page.getByRole('button',{name:'Studio tools',exact:true}).click();await page.getByRole('tab',{name:'Assets',exact:true}).click();await addUrlPhoto(page,'New website photo','https://images.example/new-project.jpg');
+ await expect(page.getByRole('button',{name:'Insert New website photo',exact:true})).toBeVisible();
 });
