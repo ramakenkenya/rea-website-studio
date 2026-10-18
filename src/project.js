@@ -36,3 +36,17 @@ export function readSaved(storage){try{const raw=storage.getItem(STORAGE_KEY);re
 export const fileSlug=name=>name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'my-website';
 export const MAX_BACKUP_BYTES=32*1024*1024;
 export function serializeBackup(data){const text=JSON.stringify(data,null,2);if(new TextEncoder().encode(text).length>MAX_BACKUP_BYTES)throw new Error('This project is too large for a 32 MB backup. Reduce the number or size of images.');return text;}
+
+// Upgrade the original bundled sample while preserving its canvas edits.
+export function migrateBundledSample(data){
+ const valid=validateSnapshot(data);
+ const previousName=String.fromCharCode(77,97,108,97,98,97)+' Studio';
+ if(valid.brief.name!==previousName)return valid;
+ const replace=value=>{
+  if(typeof value==='string')return value.replaceAll(previousName,'Rama Studio');
+  if(Array.isArray(value))return value.map(replace);
+  if(value&&typeof value==='object')return Object.fromEntries(Object.entries(value).map(([key,child])=>[key,replace(child)]));
+  return value;
+ };
+ return validateSnapshot({...valid,brief:replace(valid.brief),project:replace(valid.project)});
+}

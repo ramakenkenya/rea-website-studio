@@ -2,7 +2,7 @@
 
 ## Make a website
 
-1. Open the studio. The initial Malaba Studio page is an example.
+1. Open the studio. The initial Rama Studio page is an example.
 2. Choose **New website** and enter your business name, description, services and contact email. Choose a visual direction. This creates a starter from your brief; it is not AI-written content.
 3. Click an element in the canvas. Use **Selected text → Apply text**, color and size controls, or double-click text to edit it directly.
 4. Drag reusable sections into the canvas or use **Quick add**. Open **Layers** to select and move sections with the arrows. Undo/redo are above the canvas.
@@ -26,3 +26,9 @@ The project/save and export architecture follows source-verified REA findings fr
 - Manual handoff of exported customer sites; this app does not push to visitors' repositories.
 - Static websites; no contact form backend, analytics or ecommerce checkout.
 - Review all generated copy, images, links and rights before publishing.
+
+### Publishing this studio
+
+For a single publishing path, set the repository's **Settings → Pages → Build and deployment → Source** to **GitHub Actions**. The `Studio - test, record and deploy` workflow tests and publishes the compiled `dist` folder. A compatibility trigger republishes the compiled app after the legacy branch publisher completes while that older setting remains enabled.
+
+Run `npm run build` before `npm run test:e2e`; browser tests exercise the built app at the repository URL path. Every deployment also checks that the live page references bundled assets rather than source JavaScript.

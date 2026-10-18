@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {normalizeBrief,snapshot,validateSnapshot,readSaved,writeSaved,escapeHtml} from '../src/project.js';
+import {normalizeBrief,snapshot,validateSnapshot,readSaved,writeSaved,escapeHtml,migrateBundledSample} from '../src/project.js';
 import {createStarter} from '../src/templates.js';
 import {buildDocument} from '../src/export.js';
-const brief={name:'Malaba Studio',description:'Spaces made for everyday life.',services:'Architecture, Interiors',email:'hello@example.com',title:'Malaba Studio — spaces for life',theme:'editorial'};
+const brief={name:'Rama Studio',description:'Spaces made for everyday life.',services:'Architecture, Interiors',email:'hello@example.com',title:'Rama Studio — spaces for life',theme:'editorial'};
 test('brief requires a name and rejects an unsafe contact URL',()=>{
  assert.throws(()=>normalizeBrief({...brief,name:'  '}),/name/i);
  assert.throws(()=>normalizeBrief({...brief,email:'javascript:alert(1)'}),/email/i);
@@ -17,7 +17,7 @@ test('starter text is escaped and uses the supplied business content',()=>{
 test('snapshot round trips project JSON separately from site export',()=>{
  const p=snapshot(brief,{pages:[{component:{tagName:'body',components:[{type:'text',content:'My page'}]}}],styles:[]});
  const loaded=validateSnapshot(JSON.parse(JSON.stringify(p)));
- assert.equal(loaded.project.pages[0].component.components[0].content,'My page');assert.equal(loaded.brief.name,'Malaba Studio');
+ assert.equal(loaded.project.pages[0].component.components[0].content,'My page');assert.equal(loaded.brief.name,'Rama Studio');
 });
 test('corrupted and executable project backups are rejected',()=>{
  assert.throws(()=>validateSnapshot({schema:99}),/project/i);
@@ -40,7 +40,7 @@ test('valid image-heavy backups use the same size contract as restore',async()=>
  const {serializeBackup,MAX_BACKUP_BYTES}=await import('../src/project.js');
  const data=snapshot(brief,{pages:[{component:{type:'image',attributes:{src:'data:image/png;base64,'+'a'.repeat(7*1024*1024)}}}],styles:[]});
  const serialized=serializeBackup(data);assert.ok(serialized.length>6*1024*1024);
- assert.equal(validateSnapshot(JSON.parse(serialized)).brief.name,'Malaba Studio');
+ assert.equal(validateSnapshot(JSON.parse(serialized)).brief.name,'Rama Studio');
  assert.throws(()=>serializeBackup(snapshot(brief,{pages:[{component:{content:'a'.repeat(MAX_BACKUP_BYTES)}}],styles:[]})),/large|size|MB/i);
 });
 test('malformed page or frame structures are rejected before replacing a website',()=>{
@@ -52,4 +52,17 @@ test('browser-normalized executable URL schemes are rejected in backups',()=>{
  for(const href of ['java\nscript:alert(1)','java\tscript:alert(1)','\u0000javascript:alert(1)','data:\ntext/html,hello']){
   assert.throws(()=>validateSnapshot(snapshot(brief,{pages:[{component:{tagName:'a',attributes:{href}}}],styles:[]})),/unsafe/i);
  }
+});
+
+test('old bundled sample is renamed without losing edits or changing custom projects',()=>{
+ const oldName=String.fromCharCode(77,97,108,97,98,97)+' Studio';
+ const old=snapshot({...brief,name:oldName,title:oldName+' — spaces with intention'},{pages:[{component:{tagName:'body',components:[{content:oldName},{content:'Keep my custom edit'}]}}],styles:[]});
+ const renamed=migrateBundledSample(old);
+ assert.equal(renamed.brief.name,'Rama Studio');
+ assert.equal(renamed.brief.title,'Rama Studio — spaces with intention');
+ assert.equal(renamed.project.pages[0].component.components[0].content,'Rama Studio');
+ assert.equal(renamed.project.pages[0].component.components[1].content,'Keep my custom edit');
+ assert.equal(old.brief.name,oldName);
+ const custom=snapshot({...brief,name:'Custom Company'},{pages:[{component:{content:'Custom Company'}}],styles:[]});
+ assert.deepEqual(migrateBundledSample(custom),custom);
 });

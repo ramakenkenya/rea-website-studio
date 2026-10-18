@@ -32,3 +32,11 @@ Live URL: https://ramakenkenya.github.io/rea-website-studio/ . Cloud-browser ver
 [Passing browser recordings](https://drive.google.com/file/d/1j0NDJADosg4mE-Oj8KMEIzBCEQOstTGz/view) · [Automated walkthrough MP4](https://drive.google.com/file/d/10doU_1nWsVUW3ANiG_16KS7tfS4Up7zn/view)
 
 No account storage, AI service or automated customer-site publishing is implied. Physical Android touch testing and comprehensive standards audits remain follow-up checks.
+
+## Outage repair and sample rename — 18 October 2026
+
+- Confirmed that the live HTML referenced `/src/main.js` rather than a compiled Vite asset. The legacy branch Pages publisher had overwritten the tested app after a documentation commit.
+- Removed the application workflow's path filter, so documentation pushes also receive a tested build. Added a completion trigger for the legacy Pages workflow so the compiled app is republished after that publisher finishes.
+- The preferred final repository setting is Settings → Pages → Build and deployment → Source → GitHub Actions. The connector cannot change this setting and the cloud browser is signed out; the compatibility trigger supports the current branch-publishing setting.
+- Changed the bundled example to Rama Studio across the interface, documentation and test fixtures. Old saved examples and restored backups receive the new sample name while keeping canvas edits; unrelated project names are preserved.
+- Browser acceptance tests now use the production build at `/rea-website-studio/` rather than the development server. Added an explicit startup and sample-name check, plus a post-deployment HTTP check of the published HTML and bundled assets.
