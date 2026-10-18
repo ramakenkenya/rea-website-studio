@@ -17,11 +17,12 @@ export function studioDrawer({dialog,trigger,editor}){
  dialog.addEventListener('close',()=>{
   doc.body.classList.remove('studio-drawer-open');trigger.setAttribute('aria-expanded','false');refresh();
   if(opener?.isConnected)opener.focus({preventScroll:true});
+  dialog.inert=true;dialog.setAttribute('aria-hidden','true');
  });
  compact.addEventListener('change',()=>{if(dialog.open)alignCanvas();});
  if(typeof ResizeObserver!=='undefined')new ResizeObserver(refresh).observe(canvas);
  return {
-  open(){if(dialog.open)return;opener=doc.activeElement===doc.body?trigger:doc.activeElement;doc.body.classList.add('studio-drawer-open');dialog.show();trigger.setAttribute('aria-expanded','true');dialog.querySelector('[aria-selected="true"]')?.focus({preventScroll:true});alignCanvas();},
+  open(){if(dialog.open)return;opener=doc.activeElement===doc.body?trigger:doc.activeElement;dialog.inert=false;dialog.removeAttribute('aria-hidden');doc.body.classList.add('studio-drawer-open');dialog.show();trigger.setAttribute('aria-expanded','true');dialog.querySelector('[aria-selected="true"]')?.focus({preventScroll:true});alignCanvas();},
   close,
   reveal(component){if(!component)return;editor.select(component);requestAnimationFrame(()=>{component.getEl()?.scrollIntoView({block:'start',inline:'nearest',behavior:'instant'});if(dialog.open)alignCanvas();});}
  };

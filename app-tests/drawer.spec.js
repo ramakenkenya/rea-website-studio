@@ -7,7 +7,7 @@ test('desktop tools leave the canvas interactive and reveal inserted sections wi
  const sheet=await drawer.boundingBox(),canvasBox=await page.locator('.canvas-area').boundingBox();
  expect(canvasBox.x+canvasBox.width).toBeLessThanOrEqual(sheet.x+1);
  await page.getByRole('tab',{name:'Library',exact:true}).click();await page.getByRole('button',{name:'Insert FAQ',exact:true}).click();
- const faq=page.frameLocator('.gjs-frame').locator('.extra-faq');await expect(faq).toBeInViewport();
+ const faq=page.frameLocator('.gjs-frame').locator('[data-section="FAQ"]');await expect(faq).toBeInViewport();
  await faq.locator('h2').click();await expect(drawer).toBeVisible();
  await expect(page.getByRole('button',{name:'Studio tools',exact:true})).toHaveAttribute('aria-expanded','true');
  await page.getByRole('button',{name:'Save project',exact:true}).click();await expect(page.locator('#save-status')).toContainText('Saved');
@@ -22,7 +22,7 @@ test('phone tools use a bottom sheet while the canvas and newly added section st
  const box=await drawer.boundingBox();expect(box.y).toBeGreaterThan(280);expect(box.y+box.height).toBeLessThanOrEqual(845);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.getByRole('tab',{name:'Library',exact:true}).click();await page.getByRole('button',{name:'Insert FAQ',exact:true}).click();
- const faq=page.frameLocator('.gjs-frame').locator('.extra-faq');await expect(faq.locator('h2')).toBeInViewport();
+ const faq=page.frameLocator('.gjs-frame').locator('[data-section="FAQ"]');await expect(faq.locator('h2')).toBeInViewport();
  const frame=await page.locator('.gjs-frame').boundingBox(),heading=await faq.locator('h2').boundingBox();
  expect(heading.y).toBeGreaterThanOrEqual(frame.y);expect(heading.y+heading.height).toBeLessThan(box.y);
  await faq.locator('h2').click();await expect(drawer).toBeVisible();
@@ -40,4 +40,16 @@ test('keyboard tabs, iframe Escape and nested previews keep focus and panel stat
  await page.frameLocator('.gjs-frame').locator('h1').press('Escape');await expect(page.locator('#studio-tools')).not.toBeVisible();await expect(trigger).toBeFocused();
  await trigger.click();await page.getByRole('button',{name:'Preview website',exact:true}).click();await expect(page.locator('#studio-preview')).toBeVisible();
  await page.keyboard.press('Escape');await expect(page.locator('#studio-preview')).not.toBeVisible();await expect(page.locator('#studio-tools')).toBeVisible();
+});
+test('landscape phones retain room to edit a complete field and reach its action',async({page},info)=>{
+ await page.setViewportSize({width:844,height:390});await page.emulateMedia({reducedMotion:'reduce'});await ready(page);
+ await page.getByRole('button',{name:'Studio tools',exact:true}).click();await page.getByRole('tab',{name:'Brand',exact:true}).click();
+ const pane=page.locator('#studio-tool-pane');
+ const usable=await pane.evaluate(el=>{const style=getComputedStyle(el);return el.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom);});
+ expect(usable).toBeGreaterThanOrEqual(100);
+ await page.getByLabel('Corner radius',{exact:true}).fill('12');await page.getByRole('button',{name:'Apply brand',exact:true}).click();
+ await expect(page.getByLabel('Corner radius',{exact:true})).toHaveValue('12');
+ await expect(page.getByRole('button',{name:'Close studio tools',exact:true})).toBeInViewport();
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await page.screenshot({path:info.outputPath('landscape-tools.png'),fullPage:true});
 });
