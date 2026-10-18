@@ -33,9 +33,9 @@ Open **Studio tools** beside the page bar. Everything below operates on real pro
 | 27 | System font pairings | Brand → Font pairing |
 | 28 | Content width | Brand → Content width |
 | 29 | Corner radius | Brand → Corner radius |
-| 30 | Embedded business logo | Brand → Upload business logo |
-| 31 | Embedded favicon | Site → Upload favicon |
-| 32 | Reusable image library | Assets → Upload / Insert |
+| 30 | Hosted business logo | Brand → Business logo URL |
+| 31 | Hosted favicon | Site → Favicon URL |
+| 32 | Reusable image URL library | Assets → Find photos / Saved pictures |
 | 33 | Image search | Assets → Search assets |
 | 34 | Save and reuse styled sections | Library → Save selected section |
 | 35 | Duplicate selected elements | Selection inspector |
@@ -60,7 +60,7 @@ Open **Studio tools** beside the page bar. Everything below operates on real pro
 1. Download a project backup of work you want to keep.
 2. Start from your brief, or choose a starter under Library. A starter replaces only the selected page after confirmation.
 3. Add pages, adjust names and slugs, then choose the home page. Navigation updates throughout the site.
-4. Use Brand for shared colors, fonts and spacing. Upload original images in Assets.
+4. Use Brand for shared colors, fonts and spacing. Find CC0 pictures or add image URLs in Assets.
 5. Select canvas elements to change text, styles, links or device visibility. Save a useful section in Library.
 6. Name a restore point before a large experiment. Save the project or enable autosave.
 7. Add the final public URL and page metadata. Use Checks and Preview website.
@@ -73,3 +73,5 @@ Pure tests check migration, constrained metadata, exported documents, link gener
 These checks do not establish comprehensive accessibility conformance, search ranking, every browser/device combination or continuous recording of the coding session. The release walkthrough and test videos show real application actions; REA raw logs and source hashes provide separate investigation evidence.
 
 Search visibility follows [Google's noindex guidance](https://developers.google.com/search/docs/crawling-indexing/block-indexing): exported noindex pages retain the meta tag, stay crawlable and are omitted from sitemap.xml. Deploy robots.txt at the domain root; project-folder hosting cannot override a site's root robots.txt.
+
+Image workflow updated in v0.2.1: uploads were removed, CC0 photo search and ready-to-use photos were added, and saved photos can create responsive galleries. See [image research and usage](IMAGE_WORKFLOW.md).

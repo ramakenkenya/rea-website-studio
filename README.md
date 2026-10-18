@@ -1,10 +1,16 @@
-# REA Studio v0.2 — one idea, a whole website
+# REA Studio v0.2.1 — one idea, a whole website
 
 [Open the studio](https://ramakenkenya.github.io/rea-website-studio/) · [User guide](docs/USING_THE_STUDIO.md) · [50 additions](docs/V2_FEATURES.md) · [REA evidence](docs/V2_REA_FINDINGS.md)
 
 A free visual workspace for creating portable static websites. Turn a business brief into an editable starting page, add linked pages, shape your brand, reuse images and sections, check the whole website, then download independent HTML/CSS files in one ZIP.
 
 The v0.2 workspace adds a page bar and **Studio tools → Pages, Brand, Assets, Library, History and Site**. It includes coffee shop, furniture showroom and personal portfolio starters, ten new section types, shared branding, restore points, opt-in autosave, multipage preview and SEO/handoff files. Existing one-page project backups remain readable.
+
+## Image workflow
+
+Image uploads have been replaced by HTTPS image URLs. Studio tools → Assets searches Wikimedia Commons for CC0 raster images without API credentials, includes a small verified CC0 collection, and saves pictures for reuse. Choose saved pictures to build a responsive gallery. Logos and favicons use image URLs too. Source/creator/license records are retained and exported in IMAGE-CREDITS.txt. Older embedded images remain compatible.
+
+Photo search depends on Wikimedia availability and fair-use limits. External images need internet access and can change or disappear. Commons allows direct embedding but recommends hosting copies for reliability; this static URL workflow does not promise permanent hosting. Only CC0 results are offered; source status and other rights should be checked before publication. See [image research and workflow](docs/IMAGE_WORKFLOW.md).
 
 ## How REA contributed
 
@@ -29,7 +35,7 @@ npm run test:e2e
 
 Original studio code, copy and SVG artwork are [MIT licensed](LICENSE). GrapesJS is BSD-3-Clause; JSZip uses its MIT option; REA-authored tool code is MIT. Full third-party notices remain in `public/licenses/`. No new runtime package, commercial SDK, remote font service or licensed stock template was added.
 
-Projects and uploaded images are stored on the current device. Use project JSON backups to move between devices or recover from browser-storage deletion. Autosave is optional, storage quotas can apply, and five restore points share that storage. The UI supports up to 20 pages, 30 library images and 20 saved sections; image uploads are PNG/JPG/WebP up to 2 MB each.
+Projects and uploaded images are stored on the current device. Use project JSON backups to move between devices or recover from browser-storage deletion. Autosave is optional, storage quotas can apply, and five restore points share that storage. The UI supports up to 20 pages, 30 library images and 20 saved sections; new images are external HTTPS URLs; legacy embedded-image backups remain readable.
 
 Generated websites are static files ready for manual publishing. They contain no form backend, checkout, account system or automatic hosting integration. External image URLs still depend on their original host. Supply the final public URL before export for canonical links, sitemap and reliable nested 404 navigation. Noindex pages are excluded from the sitemap. Quality checks are basic hints; review content, contrast, accessibility and real devices before publishing.
 
