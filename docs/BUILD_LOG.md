@@ -10,3 +10,15 @@ Plan: docs/superpowers/plans/2026-10-18-static-studio.md
 - First CI browser run caught a restore lifecycle failure: layer refresh ran while GrapesJS had no wrapper. The wrapper guard, import-state finally block and prevalidation now protect restore; recorded desktop and mobile roundtrip tests passed on the next run.
 - Fresh review found unsafe URL normalization, malformed-page mutation, inconsistent backup size and hidden mobile backup. Reproducing unit cases failed before repairs. Nine unit tests now pass; browser mobile backup and malformed restore cases passed.
 - Native HTML5 block dragging did not insert through the editor iframe in the recorded test. Switched to GrapesJS's supported pointer sorter (nativeDnD:false); the same drag acceptance test must pass before deployment.
+
+## Verification record
+
+- Node unit tests: 9 passed after the review fixes (including 7 MB backup roundtrip and malformed/unsafe import rejection).
+- Existing REA evidence-classification tests: 7 passed.
+- Production build passed with the editor in its own bundle. GrapesJS contributes a relatively large initial editor download (~291 KB gzipped), retained for the full editor capability.
+- First recorded CI run 39120936422 failed on restore lifecycle; fixed.
+- Second run 39121169276 passed the complete brief/edit/save/reload/restore/independent ZIP-export journey and mobile layout/restore checks. Its drag test exposed native cross-frame insertion failure; follow-up uses the supported pointer sorter.
+- Full browser recordings and screenshots are retained as GitHub Actions artifacts, including failures. No uninterrupted coding-session recording is claimed.
+
+- Final feature-branch run 39121299809 passed all 3 recorded browser scenarios, 9 app unit tests and 7 REA classifier tests. The pointer-sorter change passed the original drag test, followed by image replacement. All Important review findings have reproducing regression coverage or browser acceptance coverage.
+- User-authorized integration to main and Pages deployment follows the green feature-branch run. Physical phone testing and full standards audits are not claimed.
