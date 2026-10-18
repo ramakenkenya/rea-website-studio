@@ -1,3 +1,27 @@
+# REA Studio — first usable release
+
+[Open the studio](https://ramakenkenya.github.io/rea-website-studio/) · [How to use it](docs/USING_THE_STUDIO.md) · [REA findings](docs/FIRST_FINDINGS.md)
+
+A responsive visual website workspace: business brief, three starting directions, drag-and-drop sections, text and image editing, accessible section reordering, undo/redo, device previews, local project save/reopen, project backup/restore, basic quality checks and portable HTML/CSS ZIP export.
+
+The first release uses browser-local storage. Brief-to-layout content is deterministic; no AI or cloud-account service is implied. Customer websites are exported for manual publishing. REA investigated selected source interfaces; GrapesJS supplies the visual editor.
+
+## Build and verification
+
+```sh
+npm ci
+npm test
+npm run build
+npx playwright install --with-deps chromium
+npm run test:e2e
+```
+
+Recorded acceptance run [39121299809](https://github.com/ramakenkenya/rea-website-studio/actions/runs/39121299809) passed all three browser scenarios, nine application unit tests, seven REA evidence tests and the production build. The workflow records videos and screenshots as artifacts. Pages deploys only from main after these checks succeed.
+
+Third-party notices are retained in `public/licenses/`. This release is a prototype with tested core journeys; physical Android touch-device testing and a comprehensive accessibility/security/performance audit remain follow-up work.
+
+---
+
 # REA Website Studio - investigation checkpoint
 
 The purpose is to demonstrate REA's capabilities through an evidence-based investigation of a website builder, then use the findings to build a guided static-website studio.
