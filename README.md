@@ -1,74 +1,36 @@
-# REA Studio — first usable release
+# REA Studio v0.2 — one idea, a whole website
 
-[Open the studio](https://ramakenkenya.github.io/rea-website-studio/) · [How to use it](docs/USING_THE_STUDIO.md) · [REA findings](docs/FIRST_FINDINGS.md)
+[Open the studio](https://ramakenkenya.github.io/rea-website-studio/) · [User guide](docs/USING_THE_STUDIO.md) · [50 additions](docs/V2_FEATURES.md) · [REA evidence](docs/V2_REA_FINDINGS.md)
 
-A responsive visual website workspace: business brief, three starting directions, drag-and-drop sections, text and image editing, accessible section reordering, undo/redo, device previews, local project save/reopen, project backup/restore, basic quality checks and portable HTML/CSS ZIP export.
+A free visual workspace for creating portable static websites. Turn a business brief into an editable starting page, add linked pages, shape your brand, reuse images and sections, check the whole website, then download independent HTML/CSS files in one ZIP.
 
-The first release uses browser-local storage. Brief-to-layout content is deterministic; no AI or cloud-account service is implied. Customer websites are exported for manual publishing. REA investigated selected source interfaces; GrapesJS supplies the visual editor.
+The v0.2 workspace adds a page bar and **Studio tools → Pages, Brand, Assets, Library, History and Site**. It includes coffee shop, furniture showroom and personal portfolio starters, ten new section types, shared branding, restore points, opt-in autosave, multipage preview and SEO/handoff files. Existing one-page project backups remain readable.
 
-## Build and verification
+## How REA contributed
+
+[Cloud run 39131482263](https://github.com/ramakenkenya/rea-website-studio/actions/runs/39131482263) investigated four selected GrapesJS files at a pinned commit. The verified source locations informed page management, page-component export, asset handling and project persistence. [The findings](docs/V2_REA_FINDINGS.md) retain raw-evidence hashes and analysis limits. Runtime behavior is checked separately with the installed editor and recorded browser journeys.
+
+GrapesJS supplies visual editing. REA supplied selected-source static analysis; it does not run in the browser. Brief and starter generation use authored templates. There is no paid AI endpoint or simulated cloud deployment inside the application.
+
+## Build and verify
 
 ```sh
-npm ci
+npm ci --ignore-scripts --no-audit --no-fund
 npm test
+python3 -m unittest discover -s tests -v
 npm run build
 npx playwright install --with-deps chromium
 npm run test:e2e
 ```
 
-Recorded acceptance run [39121299809](https://github.com/ramakenkenya/rea-website-studio/actions/runs/39121299809) passed all three browser scenarios, nine application unit tests, seven REA evidence tests and the production build. The workflow records videos and screenshots as artifacts. Pages deploys only from main after these checks succeed.
+[The deployment workflow](.github/workflows/studio-pages.yml) runs unit, REA evidence and production-browser checks, retaining real videos and screenshots. Main also records a deliberate release walkthrough. Deployment follows passing checks and waits for the legacy Pages publisher before publishing the compiled app.
 
-Third-party notices are retained in `public/licenses/`. This release is a prototype with tested core journeys; physical Android touch-device testing and a comprehensive accessibility/security/performance audit remain follow-up work.
+## Ownership, licenses and limits
 
----
+Original studio code, copy and SVG artwork are [MIT licensed](LICENSE). GrapesJS is BSD-3-Clause; JSZip uses its MIT option; REA-authored tool code is MIT. Full third-party notices remain in `public/licenses/`. No new runtime package, commercial SDK, remote font service or licensed stock template was added.
 
-# REA Website Studio - investigation checkpoint
+Projects and uploaded images are stored on the current device. Use project JSON backups to move between devices or recover from browser-storage deletion. Autosave is optional, storage quotas can apply, and five restore points share that storage. The UI supports up to 20 pages, 30 library images and 20 saved sections; image uploads are PNG/JPG/WebP up to 2 MB each.
 
-The purpose is to demonstrate REA's capabilities through an evidence-based investigation of a website builder, then use the findings to build a guided static-website studio.
+Generated websites are static files ready for manual publishing. They contain no form backend, checkout, account system or automatic hosting integration. External image URLs still depend on their original host. Supply the final public URL before export for canonical links, sitemap and reliable nested 404 navigation. Noindex pages are excluded from the sitemap. Quality checks are basic hints; review content, contrast, accessibility and real devices before publishing.
 
-## Latest milestone — cloud REA analysis passed
-
-[GitHub Actions run 39119285001](https://github.com/ramakenkenya/rea-website-studio/actions/runs/39119285001) successfully ran REA on two selected GrapesJS files. The raw artifact and source hashes were verified. [First findings](docs/FIRST_FINDINGS.md) connect recovered project-data and HTML/CSS methods to exact source locations, with limitations retained.
-
-This is selected-source static analysis. The website-builder app, browser recordings and deployment are still pending.
-
-## Initial workspace attempt
-
-- The cloud workspace runs Node 24.19.0 and npm 11.9.0.
-- REA 6.7.0 was installed in a dedicated directory, with lifecycle scripts and optional packages disabled.
-- GrapesJS was fetched at commit `3b2c671c0ab50f052a219b987dea8738ea75886e` (core package version 0.23.8, BSD-3-Clause).
-- A real REA command inventoried the application, then failed before selected-source parsing completed.
-- The failure is `capability_unavailable`: procps `ps`, when launched from Node in this environment, reports `fatal library error, lookup self`.
-- The same process-inspection command succeeds when launched from Python. Direct Node `spawnSync` and `execFile` reproductions fail. This identifies the affected launch boundary; it does not prove the underlying host defect.
-- No process-ownership checks were patched or replaced.
-- This is NOT a completed semantic analysis, working builder, recorded browser demonstration or deployment.
-
-## Next cloud run
-
-The included GitHub Actions workflow uses a standard Ubuntu runner, locked REA dependencies and an exact reference commit. It uploads raw output, progress logs, a manifest and a status summary, including failure evidence.
-
-The repository is now available at https://github.com/ramakenkenya/rea-website-studio. It was created public by the owner. This checkpoint initializes it with the investigation package; the first GitHub Actions run has completed successfully and its evidence has been inspected. No unrelated repository is changed.
-
-See [the cloud execution log](docs/CLOUD_LOG.md) for dated progress and recorded decisions.
-
-## Reproduce on a compatible Linux host
-
-```sh
-npm ci --prefix toolchain --ignore-scripts --omit=optional --no-audit --no-fund
-python3 -m unittest discover -s tests -v
-git clone https://github.com/GrapesJS/grapesjs.git /path/to/grapesjs
-git -C /path/to/grapesjs checkout 3b2c671c0ab50f052a219b987dea8738ea75886e
-python3 scripts/run_investigation.py --reference /path/to/grapesjs --rea "$PWD/toolchain/node_modules/.bin/rea" --output "$PWD/output"
-```
-
-The source-analysis probe does not need a Codex/Claude installation, AI API key or a native decompiler. It uses the actual REA CLI. Runtime/browser investigations are a separate later checkpoint.
-
-## Next acceptance criteria
-
-1. Standard-runner REA analysis returns explicit success and a canonical analysis record.
-2. Findings are inspected and tied to exact reference-source locations.
-3. Observed, inferred and unverified claims remain distinct.
-4. Save/reopen and static-export behaviour are exercised in a supported browser.
-5. The evidence informs the specification before the application is implemented.
-
-The full product remains: discovery -> content/assets -> design references -> mock-ups -> editable website -> checks -> static export and publishing. REA investigation and evidence are the central demonstration.
+Historical investigation attempts and the initial release are preserved in [the cloud log](docs/CLOUD_LOG.md) and [first findings](docs/FIRST_FINDINGS.md).

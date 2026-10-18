@@ -1,7 +1,7 @@
 name: Studio - test, record and deploy
 on:
   push:
-    branches: [main, feature/static-studio, fix/**]
+    branches: [main, feature/static-studio, feature/multipage-studio, fix/**]
   workflow_dispatch:
 permissions:
   contents: read
@@ -25,6 +25,8 @@ jobs:
       - run: npm run build
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
+        env:
+          RECORD_WALKTHROUGH: ${{ github.ref == 'refs/heads/main' && '1' || '' }}
       - name: Preserve browser recordings and test reports
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
