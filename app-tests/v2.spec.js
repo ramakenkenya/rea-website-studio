@@ -28,6 +28,7 @@ test('multipage site keeps edits, page metadata and portable links through ZIP a
  expect(zip.file('index.html')).toBeTruthy();expect(zip.file('collection.html')).toBeTruthy();expect(zip.file('robots.txt')).toBeTruthy();expect(zip.file('404.html')).toBeTruthy();
  expect(await zip.file('collection.html').async('string')).toContain('Our furniture collection');
  expect(await zip.file('index.html').async('string')).toContain('collection.html');
+ for(const file of ['index.html','collection.html'])expect((await zip.file(file).async('string')).match(/<header\b/g)).toHaveLength(1);
  const files={};for(const name of Object.keys(zip.files))if(!zip.files[name].dir)files[name]=await zip.file(name).async('string');
  const standalone=await context.newPage();await standalone.route('https://portable.example/**',route=>{const name=new URL(route.request().url()).pathname.slice(1)||'index.html';return route.fulfill({status:files[name]?200:404,contentType:name.endsWith('.css')?'text/css':'text/html',body:files[name]||files['404.html']});});
  await standalone.goto('https://portable.example/index.html');await standalone.getByRole('link',{name:'Our products',exact:true}).click();await expect(standalone).toHaveURL('https://portable.example/collection.html');await expect(standalone.locator('h1')).toHaveCount(1);
@@ -82,4 +83,14 @@ test('invalid settings are rejected without poisoning the open project',async({p
  await expect(page.getByRole('button',{name:'Add page',exact:true})).toBeVisible();
  await close(page);await page.getByRole('button',{name:'Save project',exact:true}).click();
  await expect(page.locator('#save-status')).toHaveText('Saved on this device');
+});
+
+test('long page names and duplicates remain saveable',async({page})=>{
+ await ready(page);await tools(page,'Pages');
+ await page.getByLabel('New page name',{exact:true}).fill('A'.repeat(180));
+ await page.getByRole('button',{name:'Add page',exact:true}).click();
+ await page.getByRole('button',{name:'Duplicate page',exact:true}).click();
+ await expect(page.locator('#studio-page-tabs button[data-page]')).toHaveCount(3);
+ await page.getByRole('tab',{name:'Site',exact:true}).click();await close(page);
+ await page.getByRole('button',{name:'Save project',exact:true}).click();await expect(page.locator('#save-status')).toHaveText('Saved on this device');
 });

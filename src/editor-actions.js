@@ -19,3 +19,17 @@ export function insertReusableSection(editor,section){
  if(section.css)editor.addStyle(section.css);
  return editor.addComponents(section.html,{at:Math.max(0,editor.getWrapper().components().length-1),cloneRules:true});
 }
+
+// Model traversal also works for pages whose canvas has never been rendered.
+export function studioNavigation(wrapper){
+ return wrapper.findType(c=>c.getAttributes()['data-studio-nav']==='true'||c.get('tagName')==='header'&&c.getClasses().includes('site-nav'),{max:1})[0];
+}
+export function studioShortcut(event,editor,save){
+ const original=event._parentEvent||event;
+ if(!(event.ctrlKey||event.metaKey)||event.altKey)return;
+ const key=event.key.toLowerCase();
+ if(key!=='s'&&original.target?.closest?.('input,textarea,select,[contenteditable=true]'))return;
+ if(!['s','z','y'].includes(key))return;
+ event.preventDefault();if(original!==event)original.preventDefault();
+ if(key==='s')save();else if(key==='y'||event.shiftKey)editor.UndoManager.redo();else editor.UndoManager.undo();
+}
