@@ -1,3 +1,4 @@
+import {previewDocument} from './preview.js';
 import {mountShopPane} from './shop-pane.js';
 import {createStudio,pageFile,validateSlug,validateSiteUrl,brandCss,navigationHtml,rewriteNavigation} from './site-model.js';
 import {escapeHtml as esc,fileSlug,snapshot,writeSaved,validateSnapshot} from './project.js';
@@ -85,16 +86,8 @@ export function mountStudio({editor,getBrief,setBrief,toast,markDirty,capture,re
  let previewChannel='';
  window.addEventListener('message',event=>{const frame=$('#studio-preview-frame'),data=event.data;if(!preview.open||event.source!==frame.contentWindow||!data||data.channel!==previewChannel)return;if(data.kind==='escape'){preview.close();return;}if(data.kind==='page'&&typeof data.file==='string'){if(data.file.endsWith('.html')&&previewFiles[data.file])renderPreview(data.file,data.hash);else toast('This link points outside the exported pages.');}});
  function renderPreview(name,hash=''){
-  if(!previewFiles[name])return;previewName=name;$('#studio-preview-page').value=name;previewChannel=crypto.randomUUID();let html=previewFiles[name];
-  html=html.replace(/<link\b[^>]*rel="stylesheet"[^>]*>/g,tag=>{const path=tag.match(/href="([^"]+)"/)?.[1];return previewFiles[path]?`<style>${previewFiles[path].replace(/<\/style/gi,'<\\/style')}</style>`:tag;});
-  html=html.replace('<script src="rea-shop.js" defer></script>',previewFiles['rea-shop.js']?`<script>${previewFiles['rea-shop.js'].replace(/<\/script/gi,'<\\/script')}</script>`:'');
-  const bridge=(function previewBridge(channel,current,fragment){
-   document.addEventListener('click',event=>{const anchor=event.target.closest('a');if(!anchor)return;const href=anchor.getAttribute('href')||'';if(href.startsWith('#')||/^(?:https?:|mailto:|tel:)/i.test(href))return;event.preventDefault();const [file,hash='']=href.split('#');parent.postMessage({channel,kind:'page',file:file.replace(/^\.\//,'')||current,hash},'*');});
-   document.addEventListener('keydown',event=>{if(event.key==='Escape')parent.postMessage({channel,kind:'escape'},'*');});
-   if(fragment)try{document.getElementById(decodeURIComponent(fragment))?.scrollIntoView();}catch{}
-  }).toString();
-  html=html.replace('</body>',`<script>(${bridge})(${JSON.stringify(previewChannel)},${JSON.stringify(name)},${JSON.stringify(hash).replace(/</g,'\\u003c')});</script></body>`);
-  $('#studio-preview-frame').srcdoc=html;
+  if(!previewFiles[name])return;previewName=name;$('#studio-preview-page').value=name;previewChannel=crypto.randomUUID();
+  $('#studio-preview-frame').srcdoc=previewDocument({files:previewFiles,name,channel:previewChannel,hash});
  }
  $('#studio-preview-page').onchange=e=>renderPreview(e.target.value);
  function showPreview(){sync();previewFiles=exportFiles(editor,getBrief(),state);const files=Object.keys(previewFiles).filter(f=>f.endsWith('.html')&&f!=='404.html');$('#studio-preview-page').innerHTML=files.map(f=>`<option value="${esc(f)}">${esc(f)}</option>`).join('');renderPreview(pageFile(meta(),state));preview.showModal();}

@@ -37,3 +37,11 @@ test('shop markup escapes product content and contains no executable project scr
  const s=normalizeShop({...raw,products:[{...product,name:'<img src=x>',description:'A "quoted" cup'}]});const html=shopSection(s);
  assert.ok(html.includes('&lt;img'));assert.ok(!html.includes('<script'));assert.ok(html.includes('data-rea-shop'));
 });
+import grapesjs from 'grapesjs';
+import {shopComponents} from '../src/shop-model.js';
+test('shop discovery finds catalog sections on pages that have never rendered',()=>{
+ const editor=grapesjs.init({headless:true,storageManager:false,components:[]});try{const page=editor.Pages.add({id:'unseen',component:{tagName:'main',components:[{tagName:'section',attributes:{'data-rea-shop':'true'}}]}});assert.equal(shopComponents(page.getMainComponent()).length,1);}finally{editor.destroy();}
+});
+test('shop discovery ignores markers nested inside another generated shop',()=>{
+ const editor=grapesjs.init({headless:true,storageManager:false,components:[{tagName:'section',attributes:{'data-rea-shop':'true'},components:[{tagName:'section',attributes:{'data-rea-shop':'true'}}]}]});try{assert.equal(shopComponents(editor.getWrapper()).length,1);}finally{editor.destroy();}
+});
