@@ -7,6 +7,8 @@
 4. Select the page and click Insert shop on this page. Only one shop is inserted on a page; clicking again refreshes it. Products/settings are shared across shop sections on all pages.
 5. Use Full preview to test a shopping list, then Save project and export the website ZIP. Keep rea-shop.js and rea-shop.css beside all HTML files. Upload the complete ZIP contents to GitHub Pages or another static host.
 
+Keep saved product pictures in Assets to retain their source records in IMAGE-CREDITS.txt.
+
 Edit product content using Shop tools. Generated shop content is refreshed from the saved catalog when exported, so direct canvas edits to product cards are replaced. Re-export and republish after product or price changes.
 
 ## Customer journey
