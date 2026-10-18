@@ -22,3 +22,13 @@ Plan: docs/superpowers/plans/2026-10-18-static-studio.md
 
 - Final feature-branch run 39121299809 passed all 3 recorded browser scenarios, 9 app unit tests and 7 REA classifier tests. The pointer-sorter change passed the original drag test, followed by image replacement. All Important review findings have reproducing regression coverage or browser acceptance coverage.
 - User-authorized integration to main and Pages deployment follows the green feature-branch run. Physical phone testing and full standards audits are not claimed.
+
+## Deployment complete — 18 October 2026
+
+Merged PR #1 at 4ed14bea6c6e8f2f3150759271e19c29f92bc02e. Production workflow [39121436193](https://github.com/ramakenkenya/rea-website-studio/actions/runs/39121436193) passed test-build and deploy, including 9 app unit tests, 7 REA evidence tests and 3 recorded browser scenarios.
+
+Live URL: https://ramakenkenya.github.io/rea-website-studio/ . Cloud-browser verification observed the editor, example website and enabled Save project control. The browser-test evidence ZIP and an MP4 walkthrough are preserved in the REA project folder; the MP4 is slowed to half speed for readability.
+
+[Passing browser recordings](https://drive.google.com/file/d/1j0NDJADosg4mE-Oj8KMEIzBCEQOstTGz/view) · [Automated walkthrough MP4](https://drive.google.com/file/d/10doU_1nWsVUW3ANiG_16KS7tfS4Up7zn/view)
+
+No account storage, AI service or automated customer-site publishing is implied. Physical Android touch testing and comprehensive standards audits remain follow-up checks.
