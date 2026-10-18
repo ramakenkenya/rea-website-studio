@@ -4,7 +4,7 @@ import fs from 'node:fs/promises';
 const ready=async page=>{await page.goto('./');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();};
 const tools=async(page,name)=>{await page.getByRole('button',{name:'Studio tools',exact:true}).click();await page.getByRole('tab',{name,exact:true}).click();};
 const close=page=>page.getByRole('button',{name:'Close studio tools',exact:true}).click();
-test('multipage site keeps edits, page metadata and portable links through ZIP and restore',async({page},info)=>{
+test('multipage site keeps edits, page metadata and portable links through ZIP and restore',async({page,context},info)=>{
  await ready(page);await tools(page,'Pages');
  await page.getByLabel('New page name',{exact:true}).fill('Our products');
  await page.getByLabel('Page layout',{exact:true}).selectOption('products');
@@ -27,6 +27,9 @@ test('multipage site keeps edits, page metadata and portable links through ZIP a
  expect(zip.file('index.html')).toBeTruthy();expect(zip.file('collection.html')).toBeTruthy();expect(zip.file('robots.txt')).toBeTruthy();expect(zip.file('404.html')).toBeTruthy();
  expect(await zip.file('collection.html').async('string')).toContain('Our furniture collection');
  expect(await zip.file('index.html').async('string')).toContain('collection.html');
+ const files={};for(const name of Object.keys(zip.files))if(!zip.files[name].dir)files[name]=await zip.file(name).async('string');
+ const standalone=await context.newPage();await standalone.route('https://portable.example/**',route=>{const name=new URL(route.request().url()).pathname.slice(1)||'index.html';return route.fulfill({status:files[name]?200:404,contentType:name.endsWith('.css')?'text/css':'text/html',body:files[name]||files['404.html']});});
+ await standalone.goto('https://portable.example/index.html');await standalone.getByRole('link',{name:'Our products',exact:true}).click();await expect(standalone).toHaveURL('https://portable.example/collection.html');await expect(standalone.locator('h1')).toHaveCount(1);
  await page.getByRole('button',{name:'Save project',exact:true}).click();await page.reload();await expect(page.locator('#studio-page-tabs button[data-page]')).toHaveCount(2);
  await page.screenshot({path:info.outputPath('multipage-studio.png'),fullPage:true});
 });
@@ -55,4 +58,16 @@ test('studio tools remain reachable on a phone without horizontal overflow',asyn
  for(const name of ['Brand','Assets','Library','History','Site','Pages']){await page.getByRole('tab',{name,exact:true}).click();await expect(page.getByRole('button',{name:'Close studio tools',exact:true})).toBeVisible();}
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.screenshot({path:info.outputPath('v2-mobile-tools.png'),fullPage:true});
+});
+
+test('autosave and five named restore points preserve an earlier edited website',async({page},info)=>{
+ await ready(page);await tools(page,'History');await page.getByLabel('Autosave this project on this device',{exact:true}).check();
+ for(let i=1;i<=5;i++){await page.getByLabel('Restore point name',{exact:true}).fill('Version '+i);await page.getByRole('button',{name:'Create restore point',exact:true}).click();}
+ await expect(page.locator('[data-checkpoint]')).toHaveCount(5);await close(page);
+ const canvas=page.frameLocator('.gjs-frame');await canvas.locator('h1').click();await page.getByLabel('Selected text').fill('A completely new headline');await page.getByRole('button',{name:'Apply text',exact:true}).click();
+ await expect(page.locator('#save-status')).toHaveText('Autosaved on this device',{timeout:10000});
+ await page.reload();await expect(page.frameLocator('.gjs-frame').locator('h1')).toHaveText('A completely new headline');
+ await tools(page,'History');page.once('dialog',d=>d.accept());await page.getByRole('button',{name:'Restore Version 1',exact:true}).click();
+ await expect(page.frameLocator('.gjs-frame').locator('h1')).toContainText('Rama Studio');
+ await page.getByRole('button',{name:'Save project',exact:true}).click();await page.screenshot({path:info.outputPath('history-restored.png'),fullPage:true});
 });
