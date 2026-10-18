@@ -43,3 +43,9 @@ test('404 uses public base URLs for home navigation and styles on nested missing
  const noUrl=exportFiles(editor,brief,{...studio,site:{...studio.site,url:''}});
  assert.match(noUrl['404.html'],/href="styles.css"/);assert.match(noUrl['404.html'],/href="index.html">Return home/);
 });
+
+test('saved photo license and source metadata survive validation and travel in the ZIP',()=>{
+ const asset={id:'photo',name:'Coffee',alt:'Cup of coffee',src:'https://upload.wikimedia.org/coffee.jpg',sourceUrl:'https://commons.wikimedia.org/wiki/File:Coffee.jpg',license:'CC0',licenseUrl:'https://creativecommons.org/publicdomain/zero/1.0/',artist:'Photographer'};
+ const state=createStudio(project,brief,{...studio,assets:[asset]});assert.deepEqual(state.assets[0],asset);
+ const files=exportFiles(editor,brief,state);assert.match(files['IMAGE-CREDITS.txt'],/CC0/);assert.match(files['IMAGE-CREDITS.txt'],/Photographer/);assert.match(files['IMAGE-CREDITS.txt'],/https:\/\/commons.wikimedia.org/);
+});

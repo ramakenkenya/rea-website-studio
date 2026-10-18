@@ -23,3 +23,7 @@ test('forwarded canvas shortcuts run once and honor original typing target',()=>
  studioShortcut(event('s'),editor,()=>calls.save++);studioShortcut(event('z'),editor,()=>calls.save++);studioShortcut(event('y'),editor,()=>calls.save++);studioShortcut(event('z',true),editor,()=>calls.save++);
  assert.deepEqual(calls,{save:1,undo:1,redo:1,prevent:6});
 });
+test('used photo credits remain exportable after removing its saved-library entry',async()=>{
+ const {exportFiles}=await import('../src/export.js');const {createStudio}=await import('../src/site-model.js');const editor=grapesjs.init({headless:true,storageManager:false,components:[{type:'image',attributes:{src:'https://example.com/coffee.jpg',alt:'Coffee','data-photo-name':'Coffee','data-photo-source':'https://commons.wikimedia.org/wiki/File:Coffee.jpg','data-photo-artist':'Coffee photographer','data-photo-license':'CC0','data-photo-license-url':'https://creativecommons.org/publicdomain/zero/1.0/'}}]});
+ try{const brief={name:'Studio'},state=createStudio(editor.getProjectData(),brief,{assets:[]}),files=exportFiles(editor,brief,state);assert.ok(files['IMAGE-CREDITS.txt'],'Canvas photo credits must survive library removal');assert.match(files['IMAGE-CREDITS.txt'],/Coffee photographer/);}finally{editor.destroy();}
+});

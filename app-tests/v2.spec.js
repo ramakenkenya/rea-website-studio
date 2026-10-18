@@ -1,6 +1,7 @@
 import {test,expect} from '@playwright/test';
 import JSZip from 'jszip';
 import fs from 'node:fs/promises';
+import {mockImageHost,addUrlPhoto} from './photo-fixture.js';
 const ready=async page=>{await page.goto('./');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();};
 const tools=async(page,name)=>{await page.getByRole('button',{name:'Studio tools',exact:true}).click();await page.getByRole('tab',{name,exact:true}).click();};
 const close=page=>page.getByRole('button',{name:'Close studio tools',exact:true}).click();
@@ -46,9 +47,7 @@ test('brand, reusable blocks, assets, site settings and checkpoints are real con
  await tools(page,'Library');await page.getByLabel('Section name',{exact:true}).fill('My FAQ');await page.getByRole('button',{name:'Save selected section',exact:true}).click();
  await expect(page.getByRole('button',{name:'Insert My FAQ',exact:true})).toBeVisible();
  await page.getByRole('tab',{name:'Assets',exact:true}).click();
- const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aF1kAAAAASUVORK5CYII=','base64');
- await page.getByLabel('Upload images',{exact:true}).setInputFiles({name:'product.png',mimeType:'image/png',buffer:png});
- await expect(page.getByRole('button',{name:'Insert product.png',exact:true})).toBeVisible();
+ await mockImageHost(page);await addUrlPhoto(page,'product');await expect(page.getByRole('button',{name:'Insert product',exact:true})).toBeVisible();
  await page.getByRole('tab',{name:'Site',exact:true}).click();await page.getByLabel('Public site URL',{exact:true}).fill('https://example.com/shop/');
  await page.getByRole('button',{name:'Save site settings',exact:true}).click();
  await page.getByRole('tab',{name:'History',exact:true}).click();await page.getByLabel('Restore point name',{exact:true}).fill('Before edits');

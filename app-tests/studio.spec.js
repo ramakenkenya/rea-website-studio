@@ -1,6 +1,7 @@
 import {test,expect} from '@playwright/test';
 import JSZip from 'jszip';
 import fs from 'node:fs/promises';
+import {mockImageHost,addUrlPhoto,photoUrl} from './photo-fixture.js';
 test('business brief, real editor, save/reload, project restore and independent export',async({page,context},testInfo)=>{
  await page.goto('./');
  await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
@@ -64,7 +65,7 @@ test('mobile controls, section reorder, safe restore and no horizontal overflow'
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.screenshot({path:testInfo.outputPath('studio-mobile.png'),fullPage:true});
 });
-test('drag a reusable block onto the real canvas and replace an embedded image',async({page},testInfo)=>{
+test('drag a reusable block onto the real canvas and replace an image by URL',async({page},testInfo)=>{
  await page.goto('./');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
  const canvas=page.frameLocator('.gjs-frame');
  const before=await canvas.locator('section').count();
@@ -73,12 +74,8 @@ test('drag a reusable block onto the real canvas and replace an embedded image',
  await page.mouse.move(target.x+target.width/2,target.y+target.height/2,{steps:30});await page.mouse.up();
  await expect.poll(()=>canvas.locator('section').count()).toBe(before+1);
  await canvas.locator('.hero-art img').click();
- await expect(page.getByRole('button',{name:'Replace image',exact:true})).toBeVisible();
- const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aF1kAAAAASUVORK5CYII=','base64');
- await page.locator('#image-file').setInputFiles({name:'sample.png',mimeType:'image/png',buffer:png});
- await page.getByLabel('Image description').fill('Uploaded example image');
- await expect(canvas.locator('.hero-art img')).toHaveAttribute('src',/^data:image\/png/);
- await expect(canvas.locator('.hero-art img')).toHaveAttribute('alt','Uploaded example image');
+ await mockImageHost(page);await page.getByRole('button',{name:'Choose online image',exact:true}).click();await addUrlPhoto(page,'Linked example image');await page.getByRole('button',{name:'Insert Linked example image',exact:true}).click();await page.getByRole('button',{name:'Close studio tools',exact:true}).click();
+ await expect(canvas.locator('.hero-art img')).toHaveAttribute('src',photoUrl);await expect(canvas.locator('.hero-art img')).toHaveAttribute('alt','Linked example image');
  await page.screenshot({path:testInfo.outputPath('drag-and-image.png'),fullPage:true});
 });
 

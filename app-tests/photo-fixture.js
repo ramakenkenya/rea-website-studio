@@ -1,0 +1,3 @@
+export const photoUrl='https://images.example/studio-logo.png';
+export async function mockImageHost(page){await page.route('https://images.example/**',route=>route.fulfill({contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="80" height="60"><rect width="80" height="60" fill="#6b8e68"/></svg>'}));}
+export async function addUrlPhoto(page,name='studio logo',src=photoUrl){await page.getByRole('button',{name:'Add image URL',exact:true}).click();await page.getByLabel('Image URL',{exact:true}).fill(src);await page.getByLabel('Picture description',{exact:true}).fill(name);await page.getByRole('button',{name:'Save image URL',exact:true}).click();await page.getByRole('button',{name:`Insert ${name}`,exact:true}).waitFor();}
