@@ -1,7 +1,7 @@
 name: Studio - test, record and deploy
 on:
   push:
-    branches: [main, feature/static-studio, fix/pages-and-sample]
+    branches: [main, feature/static-studio, fix/**]
   workflow_dispatch:
 permissions:
   contents: read

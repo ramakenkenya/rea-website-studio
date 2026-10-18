@@ -93,3 +93,58 @@ test('published build opens at the repository path with the renamed sample',asyn
  expect(errors).toEqual([]);
  await page.screenshot({path:testInfo.outputPath('rama-studio-repaired.png'),fullPage:true});
 });
+
+test('coffee brief rebuilds the visible site, preview and export after explicit confirmation',async({page,context},testInfo)=>{
+ await page.goto('./');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
+ const canvas=page.frameLocator('.gjs-frame');
+ await page.getByRole('button',{name:'Brief',exact:true}).click();
+ await page.getByLabel('Business name').fill('Ember & Bean');
+ await page.getByLabel('What do you do?').fill('Kenyan coffee, warm pastries, and a comfortable place to pause.');
+ await page.getByLabel('Services, separated by commas').fill('Specialty Coffee, Fresh Pastries, Breakfast');
+ await page.getByLabel('Contact email').fill('hello@ember.example');
+ await page.getByLabel('Page title').fill('Ember & Bean Coffee House');
+ await page.getByLabel('Button text').fill('Visit our coffee house');
+ await expect(page.getByRole('button',{name:'Save details only',exact:true})).toBeVisible({timeout:1000});
+ await page.getByRole('button',{name:'Save details only',exact:true}).click();
+ await expect(canvas.locator('h1')).toContainText('Rama Studio');
+ await expect(page.locator('#project-name')).toHaveText('Ember & Bean');
+ await page.getByRole('button',{name:'Brief',exact:true}).click();
+ await expect(page.getByLabel('Business name')).toHaveValue('Ember & Bean');
+ page.once('dialog',dialog=>dialog.dismiss());
+ await page.getByRole('button',{name:'Build page from brief',exact:true}).click();
+ await expect(page.locator('#brief-dialog')).toBeVisible();
+ await expect(canvas.locator('h1')).toContainText('Rama Studio');
+ page.once('dialog',dialog=>{expect(dialog.message()).toContain('replaces');return dialog.accept();});
+ await page.getByRole('button',{name:'Build page from brief',exact:true}).click();
+ await expect(canvas.locator('h1')).toContainText('Ember & Bean');
+ await expect(canvas.locator('.site-brand')).toContainText('Ember & Bean');
+ await expect(canvas.locator('.hero-description')).toHaveText('Kenyan coffee, warm pastries, and a comfortable place to pause.');
+ await expect(canvas.locator('.service-card h3')).toHaveText(['Specialty Coffee','Fresh Pastries','Breakfast']);
+ await expect(canvas.locator('.hero-copy .site-button')).toContainText('Visit our coffee house');
+ await expect(canvas.locator('.hero-copy .site-button')).toHaveAttribute('href','mailto:hello@ember.example');
+ const popupEvent=context.waitForEvent('page');await page.getByRole('button',{name:'Preview website',exact:true}).click();
+ const preview=await popupEvent;await expect(preview.locator('h1')).toContainText('Ember & Bean');await expect(preview).toHaveTitle('Ember & Bean Coffee House');
+ await page.getByRole('button',{name:'Export site',exact:true}).click();
+ const downloadEvent=page.waitForEvent('download');await page.getByRole('button',{name:'Download website ZIP',exact:true}).click();
+ const zip=await JSZip.loadAsync(await fs.readFile(await (await downloadEvent).path()));
+ const html=await zip.file('index.html').async('string');expect(html).toContain('Ember &amp; Bean');expect(html).not.toContain('Rama Studio');
+ await page.getByRole('button',{name:'Save project',exact:true}).click();await page.reload();
+ await expect(page.frameLocator('.gjs-frame').locator('h1')).toContainText('Ember & Bean');
+ await page.screenshot({path:testInfo.outputPath('coffee-brief-applied.png'),fullPage:true});
+});
+
+test('saving only details preserves a custom heading on mobile',async({page})=>{
+ await page.setViewportSize({width:390,height:844});await page.goto('./');
+ await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
+ const canvas=page.frameLocator('.gjs-frame');
+ await canvas.locator('h1').click();
+ await page.getByRole('button',{name:'Edit',exact:true}).click();
+ await page.getByLabel('Selected text').fill('My custom headline');
+ await page.getByRole('button',{name:'Apply text',exact:true}).click();
+ await page.getByRole('button',{name:'Brief',exact:true}).click();
+ await page.getByLabel('Business name').fill('Keep My Design');
+ await expect(page.getByRole('button',{name:'Build page from brief',exact:true})).toBeVisible({timeout:1000});
+ await page.getByRole('button',{name:'Save details only',exact:true}).click();
+ await expect(canvas.locator('h1')).toContainText('My custom headline');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});
