@@ -5,7 +5,7 @@ import {remoteImageUrl} from './images.js';
 const types=new Set(['text','services','gallery','faq','shop','pricing','team','statistics','hours','contact','cta']);
 const palettes={editorial:{paper:'#f5f1e9',ink:'#202c2d',accent:'#ad462e'},coastal:{paper:'#eff6f4',ink:'#143b3b',accent:'#12675d'},midnight:{paper:'#1b2530',ink:'#f5f0e8',accent:'#e7b78c'}};
 const clean=v=>String(v??'').trim();
-const lines=v=>clean(v).split(/\r?\n/).map(clean).filter(Boolean);
+const lines=v=>clean(v).split(/\r\n?|\n/).map(clean).filter(Boolean);
 const columns=v=>String(v).split('|').map(clean);
 const id=v=>{const s=clean(v);if(!/^[a-z][a-z0-9-]{0,63}$/.test(s))throw Error('Use IDs with lowercase letters, numbers and hyphens.');return s;};
 export function sectionHasContent(s,draft){

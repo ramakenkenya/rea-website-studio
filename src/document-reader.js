@@ -6,7 +6,7 @@ export const MAX_DOCUMENT_BYTES=5*1024*1024;
 const W='http://schemas.openxmlformats.org/wordprocessingml/2006/main';
 const known=new Map(spec.fields.map(f=>[f.key,f]));
 const recordStart={page:'page.id',section:'section.page',product:'product.page',gallery:'gallery.section',faq:'faq.section'};
-const clean=v=>String(v??'').trim().replace(/^\[Your answer\]$/i,'');
+const clean=v=>String(v??'').replace(/\r\n?/g,'\n').trim().replace(/^\[Your answer\]$/i,'');
 function assemble(entries,source){
  const result={fields:{},records:{page:[],section:[],product:[],gallery:[],faq:[]},source};
  const current={};let recognized=0;

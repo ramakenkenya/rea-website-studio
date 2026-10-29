@@ -58,3 +58,6 @@ test('Word multiline answers keep every paragraph after controls are removed',as
 test('fragment links to omitted empty optional sections fail clearly',()=>{
  const raw=sampleRaw();raw.records.gallery=[];raw.records.page[0]['page.hero.button']='See rooms | lookbook.html#rooms';assert.equal(reviewDocument(raw).ok,false);
 });
+test('PDF style carriage returns work as multiline record separators',()=>{
+ const raw=sampleRaw();raw.fields['site.pages']=raw.fields['site.pages'].replaceAll('\n','\r');assert.equal(reviewDocument(raw).ok,true);
+});

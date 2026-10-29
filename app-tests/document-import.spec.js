@@ -43,3 +43,12 @@ test('replacement requires a deliberate choice and preserves the saved project u
 test('phone review fits without horizontal overflow and all actions remain reachable',async({page},info)=>{
  await page.setViewportSize({width:390,height:844});await ready(page);await open(page);await upload(page,await completedPdf(),'completed.pdf');await expect(page.getByRole('button',{name:'Create website from document',exact:true})).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:info.outputPath('phone-document-review.png'),fullPage:true});
 });
+test('closing Brief while the document reader loads discards the late result',async({page})=>{
+ await ready(page);let release;const gate=new Promise(resolve=>{release=resolve;});await page.route('**/assets/document-reader-*.js',async route=>{await gate;await route.continue();});
+ await open(page);await upload(page,await completedPdf(),'completed.pdf');await page.getByRole('button',{name:'Cancel',exact:true}).click();release();
+ await page.getByRole('button',{name:'New website',exact:true}).click();await expect(page.getByLabel('Business name',{exact:true})).toHaveValue('');await expect(page.getByRole('button',{name:'Create website',exact:true})).toBeVisible();await expect(page.locator('#studio-page-tabs [data-page]')).toHaveCount(1);
+});
+test('an imported project cannot inherit a pending autosave from the previous project',async({page})=>{
+ await ready(page);await page.getByRole('button',{name:'Studio tools',exact:true}).click();await page.getByRole('tab',{name:'History',exact:true}).click();await page.getByLabel('Autosave this project on this device',{exact:true}).check();await page.getByRole('button',{name:'Close studio tools',exact:true}).click();await page.getByRole('button',{name:'Save project',exact:true}).click();const before=await page.evaluate(()=>localStorage.getItem('rea-studio.project.v1'));
+ await open(page);await upload(page,await completedPdf(),'completed.pdf');await page.getByLabel('Replace the open website with this document',{exact:true}).check();await page.getByRole('button',{name:'Create website from document',exact:true}).click();await expect(page.locator('#project-name')).toHaveText('Rama Living PDF');await page.waitForTimeout(1800);expect(await page.evaluate(()=>localStorage.getItem('rea-studio.project.v1'))).toBe(before);
+});
