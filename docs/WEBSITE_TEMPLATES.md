@@ -28,7 +28,13 @@ Creating a website does not publish it and does not automatically save over a pr
 
 ## Completed examples
 
-`public/templates/Rama_Living_Completed_Example.docx` demonstrates four pages, six products, a gallery and FAQs. `Rama_Living_Completed_Example.pdf` demonstrates the fixed PDF records with one page and one product. These are fictional test examples. Image URLs in the Word example use a placeholder host; replace them with your own working image URLs for a public website.
+Both `public/templates/Rama_Living_Completed_Example.docx` and `.pdf` create the same four-page fictional showroom with six photographed products, nine gallery photographs and FAQs. Both contain visible photo previews, real HTTPS photo URLs and creator/source/CC0 credits. The 21-page PDF retains 115 interactive fields; do not print it to PDF before importing. The Word file retains tagged editable content controls. Download both in `Rama_Living_Completed_Examples.zip`.
+
+The checked-in JPEGs live in `public/example-photos/`; originals, creators, licence URLs and acquisition URLs are recorded in `docs/example-photos.json` and `public/example-photos/CREDITS.txt`. Two photos come from the original Rama Living project (Carlos ZGZ and Lo, Wikimedia Commons); seven come from ISO Republic. All source pages declare CC0. The photos illustrate room ideas, not exact fictional products.
+
+Regenerate both examples and the ZIP without a network connection: `python3 scripts/create-completed-example.py`. Dependencies: python-docx, reportlab, pypdf and Pillow. The shared source of website content is `docs/rama-living-example.json`. PDF repeated record names use `key__2`, `key__3`, etc.; the reader orders them by numeric record index and the template field order. Blank templates and existing PDFs retain their original field names.
+
+Published examples are tested directly by `app-tests/completed-example.test.js` and `app-tests/completed-example.spec.js`. Browser tests download the actual documents through the UI, serve the exact checked-in JPEG bytes, assert `naturalWidth`, inspect computed layout styles, save/reload, export and exercise the shopping list. The old synthetic fixtures remain for parser edge cases only.
 
 ## Verification
 

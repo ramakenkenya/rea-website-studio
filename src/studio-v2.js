@@ -8,6 +8,7 @@ import {auditSite} from './quality.js';
 import './studio-v2.css';
 import {mountPhotoPane} from './photo-pane.js';
 import {verifyImage} from './images.js';
+import {shopCss} from './shop-style.js';
 import {studioDrawer} from './studio-drawer.js';
 import {duplicateElement,duplicateEditorPage,captureReusableSection,insertReusableSection,studioNavigation,studioShortcut} from './editor-actions.js';
 const uid=()=>crypto.randomUUID();
@@ -34,7 +35,7 @@ export function mountStudio({editor,getBrief,setBrief,toast,markDirty,capture,re
  function applyCanvasLanguage(){if(!state)return;const doc=editor.Canvas.getDocument();if(doc)for(const node of [doc.documentElement,doc.body])if(node){node.lang=state.site.language;node.dir=state.site.direction;}}
  function applyBrand(){if(!state)return;editor.addStyle(brandCss(state));for(const p of editor.Pages.getAll())p.getMainComponent().addAttributes({lang:state.site.language,dir:state.site.direction});applyCanvasLanguage();}
  function applyNavigation(){if(!state||busy)return;busy=true;try{for(const p of editor.Pages.getAll()){const wrapper=p.getMainComponent();const nav=studioNavigation(wrapper);const html=navigationHtml(state,p.id);if(nav)nav.replaceWith(rewriteNavigation(nav.toHTML(),state,p.id),{cloneRules:true});else if(state.pages.length>1)wrapper.append(html,{at:0});}}finally{busy=false;}onSelect?.(null);}
- function init(input){if(dialog.open)dialog.close();logoRequest++;faviconRequest++;busy=true;try{state=createStudio(editor.getProjectData(),getBrief(),input||{});initialized=true;}finally{busy=false;}applyBrand();renderBar();}
+ function init(input){if(dialog.open)dialog.close();logoRequest++;faviconRequest++;busy=true;try{state=createStudio(editor.getProjectData(),getBrief(),input||{});initialized=true;}finally{busy=false;}applyBrand();if(state.shop.products.length)editor.addStyle(shopCss);renderBar();}
  function open(next=tab){if(!initialized)return;sync();if(dialog.open&&next===tab)return;tab=next;dialog.querySelectorAll('[data-tool-tab]').forEach(b=>{const selected=b.dataset.toolTab===tab;b.setAttribute('aria-selected',String(selected));b.tabIndex=selected?0:-1;});$('#studio-tool-pane').setAttribute('aria-labelledby','studio-tab-'+tab);renderPane();$('#studio-tool-pane').scrollTop=0;drawer.open();}
  function error(message){const el=$('#v2-message');if(el&&dialog.open)el.textContent=message;else toast(message);}
  function run(action){try{action();}catch(e){error(e.message);}}

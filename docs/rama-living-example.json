@@ -1,0 +1,163 @@
+{
+  "fields": {
+    "business.name": "Rama Living",
+    "business.description": "Thoughtful furniture for the rooms you live in. Explore comfortable seating, useful workspaces and simple storage.",
+    "business.services": "Living room, Dining, Home office, Bedroom, Storage",
+    "brand.colors": "#F6F1E8, #2C2520, #244638",
+    "brand.font": "serif",
+    "site.home": "home",
+    "site.pages": "home | Home | index.html\nshop | Shop | shop.html\nlookbook | Lookbook | lookbook.html\nabout | About & Help | about.html",
+    "footer.text": "Make room for everyday living.\nRama Living is a fictional furniture brand used to demonstrate Rama Studio.",
+    "site.notice": "Fictional showroom. Prices and products are illustrative. CC0 photographs show room inspiration, not the exact products offered.",
+    "business.goal": "Browse furniture and prepare a shopping list.",
+    "site.language": "en"
+  },
+  "records": {
+    "page": [
+      {
+        "page.id": "home",
+        "page.title": "Rama Living | Furniture",
+        "page.hero.id": "home-hero",
+        "page.hero.heading": "Make room for everyday living.",
+        "page.hero.body": "Considered furniture and useful spaces.",
+        "page.hero.button": "Browse furniture | shop.html",
+        "page.hero.image": "https://ramakenkenya.github.io/rea-website-studio/example-photos/living.jpg | A light living room with a sofa and natural wood furniture"
+      },
+      {
+        "page.id": "shop",
+        "page.title": "shop",
+        "page.hero.id": "shop-hero",
+        "page.hero.heading": "Choose your next favourite piece.",
+        "page.hero.body": "Considered furniture and useful spaces.",
+        "page.hero.button": "Browse furniture | shop.html",
+        "page.hero.image": "https://ramakenkenya.github.io/rea-website-studio/example-photos/dining.jpg | A wooden dining table with chairs"
+      },
+      {
+        "page.id": "lookbook",
+        "page.title": "lookbook",
+        "page.hero.id": "lookbook-hero",
+        "page.hero.heading": "See the room before you choose.",
+        "page.hero.body": "Considered furniture and useful spaces.",
+        "page.hero.button": "Browse furniture | shop.html",
+        "page.hero.image": "https://ramakenkenya.github.io/rea-website-studio/example-photos/original-1.jpg | An eclectic living room photographed by Carlos ZGZ"
+      },
+      {
+        "page.id": "about",
+        "page.title": "about",
+        "page.hero.id": "about-hero",
+        "page.hero.heading": "Good furniture should fit your life.",
+        "page.hero.body": "Considered furniture and useful spaces.",
+        "page.hero.button": "Browse furniture | shop.html",
+        "page.hero.image": "https://ramakenkenya.github.io/rea-website-studio/example-photos/original-2.jpg | A furnished living room with shelves and seating"
+      }
+    ],
+    "section": [
+      {
+        "section.page": "shop",
+        "section.id": "catalogue",
+        "section.type": "shop",
+        "section.heading": "Our collection"
+      },
+      {
+        "section.page": "lookbook",
+        "section.id": "rooms",
+        "section.type": "gallery",
+        "section.heading": "Room inspiration"
+      },
+      {
+        "section.page": "about",
+        "section.id": "help",
+        "section.type": "faq",
+        "section.heading": "Ordering questions"
+      },
+      {
+        "section.page": "home",
+        "section.id": "values",
+        "section.type": "services",
+        "section.heading": "Choose with purpose",
+        "section.items": "Comfort | A place to settle in.\nPracticality | Room for everyday life."
+      }
+    ],
+    "product": [
+      {
+        "product.page": "shop",
+        "product.code": "RL-SOF-001",
+        "product.name": "Nia Sofa",
+        "product.price": "48000 | KES",
+        "product.description": "A soft place to land at the end of the day. Room inspiration photo; example product only.",
+        "product.category": "Living room",
+        "product.options": "Size: Standard; Colour: Sand, Charcoal",
+        "product.available": "available",
+        "product.image": "https://ramakenkenya.github.io/rea-website-studio/example-photos/sofa.jpg | A comfortable sofa in a bright furnished room"
+      },
+      {
+        "product.page": "shop",
+        "product.code": "RL-DIN-002",
+        "product.name": "Pamoja Dining Table",
+        "product.price": "32000 | KES",
+        "product.description": "Gather for everyday meals and conversations. Room inspiration photo; example product only.",
+        "product.category": "Dining",
+        "product.options": "Size: Standard; Colour: Sand, Charcoal",
+        "product.available": "available",
+        "product.image": "https://ramakenkenya.github.io/rea-website-studio/example-photos/dining.jpg | A wooden dining table with chairs"
+      },
+      {
+        "product.page": "shop",
+        "product.code": "RL-OFF-003",
+        "product.name": "Kazi Office Desk",
+        "product.price": "18500 | KES",
+        "product.description": "A calmer corner for focused work. Room inspiration photo; example product only.",
+        "product.category": "Office",
+        "product.options": "Size: Standard; Colour: Sand, Charcoal",
+        "product.available": "available",
+        "product.image": "https://ramakenkenya.github.io/rea-website-studio/example-photos/desk.jpg | A simple desk with a house plant and framed artwork"
+      },
+      {
+        "product.page": "shop",
+        "product.code": "RL-BED-004",
+        "product.name": "Tulivu Bed",
+        "product.price": "38500 | KES",
+        "product.description": "Settle into a bedroom that feels like yours. Room inspiration photo; example product only.",
+        "product.category": "Bedroom",
+        "product.options": "Size: Standard; Colour: Sand, Charcoal",
+        "product.available": "available",
+        "product.image": "https://ramakenkenya.github.io/rea-website-studio/example-photos/bed.jpg | A furnished bedroom with a bed and soft pillows"
+      },
+      {
+        "product.page": "shop",
+        "product.code": "RL-STO-005",
+        "product.name": "Nyumba TV Stand",
+        "product.price": "15000 | KES",
+        "product.description": "Keep the living room organised around the things you enjoy. Room inspiration photo; example product only.",
+        "product.category": "Storage",
+        "product.options": "Size: Standard; Colour: Sand, Charcoal",
+        "product.available": "available",
+        "product.image": "https://ramakenkenya.github.io/rea-website-studio/example-photos/tv.jpg | A television and low cabinet in a minimal living room"
+      },
+      {
+        "product.page": "shop",
+        "product.code": "RL-STO-006",
+        "product.name": "Soma Bookshelf",
+        "product.price": "8500 | KES",
+        "product.description": "Give books, keepsakes and favourite objects a home. Room inspiration photo; example product only.",
+        "product.category": "Storage",
+        "product.options": "Size: Standard; Colour: Sand, Charcoal",
+        "product.available": "available",
+        "product.image": "https://ramakenkenya.github.io/rea-website-studio/example-photos/shelf.jpg | A bookshelf in a London interior"
+      }
+    ],
+    "gallery": [
+      {
+        "gallery.section": "rooms",
+        "gallery.images": "https://ramakenkenya.github.io/rea-website-studio/example-photos/living.jpg | A light living room with a sofa and natural wood furniture | A light living room with a sofa and natural wood furniture\nhttps://ramakenkenya.github.io/rea-website-studio/example-photos/sofa.jpg | A comfortable sofa in a bright furnished room | A comfortable sofa in a bright furnished room\nhttps://ramakenkenya.github.io/rea-website-studio/example-photos/dining.jpg | A wooden dining table with chairs | A wooden dining table with chairs\nhttps://ramakenkenya.github.io/rea-website-studio/example-photos/bed.jpg | A furnished bedroom with a bed and soft pillows | A furnished bedroom with a bed and soft pillows\nhttps://ramakenkenya.github.io/rea-website-studio/example-photos/tv.jpg | A television and low cabinet in a minimal living room | A television and low cabinet in a minimal living room\nhttps://ramakenkenya.github.io/rea-website-studio/example-photos/shelf.jpg | A bookshelf in a London interior | A bookshelf in a London interior\nhttps://ramakenkenya.github.io/rea-website-studio/example-photos/desk.jpg | A simple desk with a house plant and framed artwork | A simple desk with a house plant and framed artwork\nhttps://ramakenkenya.github.io/rea-website-studio/example-photos/original-1.jpg | An eclectic living room photographed by Carlos ZGZ | An eclectic living room photographed by Carlos ZGZ\nhttps://ramakenkenya.github.io/rea-website-studio/example-photos/original-2.jpg | A furnished living room with shelves and seating | A furnished living room with shelves and seating",
+        "gallery.credits": "https://ramakenkenya.github.io/rea-website-studio/example-photos/living.jpg | Erika Wittlieb | https://isorepublic.com/photo/living-room-interior/ | CC0\nhttps://ramakenkenya.github.io/rea-website-studio/example-photos/sofa.jpg | Hency Xu | https://isorepublic.com/photo/sofa-in-room/ | CC0\nhttps://ramakenkenya.github.io/rea-website-studio/example-photos/dining.jpg | Erika Wittlieb | https://isorepublic.com/photo/dining-table/ | CC0\nhttps://ramakenkenya.github.io/rea-website-studio/example-photos/bed.jpg | Erika Wittlieb | https://isorepublic.com/photo/interior-of-bedroom/ | CC0\nhttps://ramakenkenya.github.io/rea-website-studio/example-photos/tv.jpg | Patrick Perkins | https://isorepublic.com/photo/television-in-room/ | CC0\nhttps://ramakenkenya.github.io/rea-website-studio/example-photos/shelf.jpg | ISO Legacy | https://isorepublic.com/photo/london-bookshelf/ | CC0\nhttps://ramakenkenya.github.io/rea-website-studio/example-photos/desk.jpg | Kristin Hardwick | https://isorepublic.com/photo/house-plant-desk/ | CC0\nhttps://ramakenkenya.github.io/rea-website-studio/example-photos/original-1.jpg | Carlos ZGZ from Paris, France | https://commons.wikimedia.org/wiki/File:Living_room_(15246771173).jpg | CC0\nhttps://ramakenkenya.github.io/rea-website-studio/example-photos/original-2.jpg | Lo | https://commons.wikimedia.org/wiki/File:The_living_room_that_needs_houseplants.jpg | CC0"
+      }
+    ],
+    "faq": [
+      {
+        "faq.section": "help",
+        "faq.items": "Can I pay here? | This fictional demonstration takes no payments.\nHow do I order? | Add products to a shopping list, then review the request. A real business can add its WhatsApp number in Studio tools.\nAre these exact product photos? | No. These CC0 photos illustrate room ideas. Products and prices are examples."
+      }
+    ]
+  }
+}

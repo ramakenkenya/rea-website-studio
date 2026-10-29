@@ -5,7 +5,9 @@ import {sectionHasContent} from './document-model.js';
 const para=value=>String(value||'').split(/\n\s*\n/).filter(Boolean).map(t=>`<p>${e(t).replaceAll('\n','<br>')}</p>`).join('');
 const button=b=>b?`<a class="site-button" href="${e(b.href)}">${e(b.label)}</a>`:'';
 const image=a=>a?`<img src="${e(a.src)}" alt="${e(a.alt||'')}" loading="lazy">`:'';
-const style=(selector,properties,media)=>({selectors:[selector],style:properties,...(media?{mediaText:media,atRuleType:'media'}:{})});
+// Raw selectors must use selectorsAdd. Selector model strings represent class
+// names, so passing '.site-nav nav' there escapes it into a different selector.
+const style=(selector,properties,media)=>({selectors:[],selectorsAdd:selector,style:properties,...(media?{mediaText:media,atRuleType:'media'}:{})});
 export const DOCUMENT_STYLES=[
  style('body',{margin:'0','font-family':'Arial, sans-serif','line-height':'1.65'}),
  style('.site-nav',{display:'flex','justify-content':'space-between','align-items':'center',gap:'24px',padding:'24px'}),
@@ -23,6 +25,12 @@ export const DOCUMENT_STYLES=[
  style('.site-footer',{padding:'36px 24px','border-top':'1px solid currentColor'}),
  style('.site-footer nav',{display:'flex',gap:'18px','flex-wrap':'wrap'}),
  style('.site-hero',{padding:'40px 20px'},'(max-width: 640px)'),style('.site-nav',{padding:'20px'},'(max-width: 640px)')
+ ,style('*, *::before, *::after',{'box-sizing':'border-box'})
+ ,style('.site-nav nav a',{'text-decoration':'none','font-weight':'600'})
+ ,style('.site-hero:has(> img)',{'grid-template-columns':'minmax(0, 1fr) minmax(0, 1fr)'},'(min-width: 760px)')
+ ,style('.site-hero > img',{width:'100%','aspect-ratio':'4/3','object-fit':'cover'})
+ ,style('.site-footer a',{'text-decoration':'none'})
+ ,style('.site-nav nav',{'flex-wrap':'wrap',gap:'16px'},'(max-width: 640px)')
 ];
 function sectionHtml(s,draft){
  if(!sectionHasContent(s,draft))return '';
@@ -50,7 +58,7 @@ function contactHtml(d){return [d.brief.email?`<p><a href="mailto:${e(d.brief.em
 export function documentSite(draft){
  const {brief}=draft;const pages=draft.pages.map(p=>({id:p.id,name:p.name,component:{tagName:'body',attributes:{lang:draft.site.language,dir:draft.site.direction},components:[]}}));
  const assets=[];const seen=new Map();
- const asset=a=>{if(!a)return;const existing=seen.get(a.src);if(existing){for(const key of ['artist','license','sourceUrl'])if(a[key])existing[key]=a[key];return;}const record={id:'import-photo-'+assets.length,name:a.alt||'Imported photo',src:a.src,alt:a.alt||'',artist:a.artist||'',license:a.license||'',sourceUrl:a.sourceUrl||'',licenseUrl:''};seen.set(a.src,record);assets.push(record);};
+ const asset=a=>{if(!a)return;const existing=seen.get(a.src);const licenseUrl=a.license==='CC0'?'https://creativecommons.org/publicdomain/zero/1.0/':'';if(existing){for(const key of ['artist','license','sourceUrl'])if(a[key])existing[key]=a[key];if(licenseUrl)existing.licenseUrl=licenseUrl;return;}const record={id:'import-photo-'+assets.length,name:a.alt||'Imported photo',src:a.src,alt:a.alt||'',artist:a.artist||'',license:a.license||'',sourceUrl:a.sourceUrl||'',licenseUrl};seen.set(a.src,record);assets.push(record);};
  for(const p of draft.pages)asset(p.hero.image);for(const g of draft.galleries)g.images.forEach(asset);for(const p of draft.shop.products)if(p.image)asset({src:p.image,alt:p.alt});
  const project={pages,styles:DOCUMENT_STYLES};
  const studio=createStudio(project,brief,{version:2,homeId:draft.homeId,pages:draft.pages.map(p=>({id:p.id,name:p.name,slug:p.slug,title:p.title,description:p.description,nav:true,noindex:false})),site:draft.site,shop:draft.shop,assets,autosave:false});

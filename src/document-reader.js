@@ -72,7 +72,11 @@ export async function readWebsiteDocument(input,filename){
   const form=pdf.getForm();if(form.hasXFA())throw Error('Use our fillable PDF template; XFA forms are not supported.');
   const fields=form.getFields();if(fields.length>150)throw Error('This PDF has too many form fields. Use our template.');
   if(!fields.some(f=>known.has(f.getName())))throw Error('Use our fillable PDF with saved form fields. Scans and flattened PDFs cannot be imported.');
-  entries=fields.filter(f=>f instanceof PDFTextField).map(f=>[f.getName(),f.getText()||'']);
+  // Repeated PDF records use key__2, key__3, etc. Sort by record index and
+  // template field order, independent of the PDF editor's internal field order.
+  const order=new Map(spec.fields.map((f,i)=>[f.key,i]));
+  const groups=['business','brand','site','footer','contact','page','section','product','gallery','faq'];
+  entries=fields.filter(f=>f instanceof PDFTextField).map(f=>{const match=/^(.*?)__(\d+)$/.exec(f.getName());return {key:match?match[1]:f.getName(),index:match?Number(match[2]):1,value:f.getText()||''};}).filter(f=>known.has(f.key)).sort((a,b)=>groups.indexOf(a.key.split('.')[0])-groups.indexOf(b.key.split('.')[0])||a.index-b.index||order.get(a.key)-order.get(b.key)).map(f=>[f.key,f.value]);
  }
  return assemble(entries,{filename:String(filename).slice(0,180),format});
 }
