@@ -8,6 +8,12 @@ const clean=v=>String(v??'').trim();
 const lines=v=>clean(v).split(/\r?\n/).map(clean).filter(Boolean);
 const columns=v=>String(v).split('|').map(clean);
 const id=v=>{const s=clean(v);if(!/^[a-z][a-z0-9-]{0,63}$/.test(s))throw Error('Use IDs with lowercase letters, numbers and hyphens.');return s;};
+export function sectionHasContent(s,draft){
+ if(s.type==='gallery')return draft.galleries.some(g=>g.section===s.id&&g.images.length);
+ if(s.type==='faq')return draft.faqs.some(f=>f.section===s.id&&f.items.length);
+ if(s.type==='shop')return draft.shop.products.length>0;
+ return !!(s.heading||s.body||s.button||s.items.length||s.type==='hours'&&draft.contact?.hours.length||s.type==='contact'&&(draft.brief.email||draft.shop.phone||draft.contact?.address||draft.contact?.socials.length));
+}
 export function importLink(value,pageFiles){
  const s=clean(value);if(!s)return '';
  if(/[\u0000-\u0020<>"'\\]/.test(s))throw Error('Invalid link destination.');
@@ -49,7 +55,7 @@ export function reviewDocument(raw,overrides={}){
  if(files.size!==draft.pages.length)issues.push('Page addresses must be unique.');
  const button=value=>{const [label,href,...extra]=columns(value||'');if(!label&&!href)return null;if(!label||!href||extra.length)throw Error('Use button text | destination.');return {label:text(label,180),href:importLink(href,files)};};
  const image=value=>{const [src,alt,...extra]=columns(value||'');if(!src)return null;if(extra.length)throw Error('Use image URL | description.');if(!alt)warnings.push('An image has no alternative text. Add a description in Assets.');return {src:remoteImageUrl(src),alt:text(alt,320)};};
- const sectionIds=new Set();const uniqueSection=value=>{const key=id(value);if(sectionIds.has(key))throw Error('Duplicate section ID: '+key);sectionIds.add(key);return key;};
+ const sectionIds=new Set();const uniqueSection=value=>{const key=id(value);if(key==='shopping-list')throw Error('The shopping-list section ID is reserved for the shop.');if(sectionIds.has(key))throw Error('Duplicate section ID: '+key);sectionIds.add(key);return key;};
  for(const p of draft.pages)p.hero=attempt('Hero on '+p.name,()=>({id:uniqueSection(p.record['page.hero.id']||p.id+'-hero'),heading:text(p.record['page.hero.heading']||(p.id===home?draft.brief.name:p.name),180),body:text(p.record['page.hero.body']|| (p.id===home?draft.brief.description:'')),button:button(p.record['page.hero.button']),image:image(p.record['page.hero.image'])}),{id:p.id+'-hero',heading:p.name,body:''});
  draft.sections=sectionRecords.slice(0,100).map(s=>attempt('Section '+(s['section.id']||'without an ID'),()=>{
   const page=clean(s['section.page']);if(!used.has(page))throw Error('Unknown page ID: '+page);
@@ -84,6 +90,11 @@ export function reviewDocument(raw,overrides={}){
  if(!/^[a-z]{2,8}(?:-[a-z0-9]{1,8})*$/i.test(language))issues.push('Use a language code such as en, sw or en-GB.');
  draft.homeId=home;draft.site={name:draft.brief.name,language,direction:/right to left|\brtl\b/.test(lang)?'rtl':'ltr',brand,logo:attempt('Logo',()=>clean(f['brand.logo'])?remoteImageUrl(f['brand.logo']):'','')};
  draft.footer=text(f['footer.text']);draft.notice=text(f['site.notice']);draft.contact={address:text(f['contact.address']),hours:lines(f['contact.hours']).map(columns),socials:lines(f['contact.socials']).map(row=>attempt('Social link',()=>{const [label,href,...extra]=columns(row);if(!label||!href||extra.length)throw Error('Use platform name | HTTPS profile URL.');return {label:text(label,100),href:remoteImageUrl(href)};},null)).filter(Boolean)};
+ // Resolve fragments against their target page after all section records are known.
+ for(const p of draft.pages){
+  const links=[p.hero.button?.href,...draft.sections.filter(s=>s.page===p.id).flatMap(s=>[s.button?.href,...s.items.map(item=>item.href)])].filter(Boolean);
+  for(const href of links){if(!href.includes('#')||/^[a-z]+:/i.test(href))continue;const [file,fragment]=href.split('#');const target=file?draft.pages.find(q=>(q.id===home?'index.html':q.slug+'.html')===file):p;const ids=new Set([target?.hero.id,...draft.sections.filter(s=>s.page===target?.id&&sectionHasContent(s,draft)).map(s=>s.id)]);if(draft.shop.products.length&&(draft.productPages.includes(target?.id)||draft.sections.some(s=>s.page===target?.id&&s.type==='shop')))ids.add('shopping-list');if(!ids.has(fragment))issues.push('Unknown section link on '+p.name+': '+href);}
+ }
  if(!draft.brief.email)warnings.push('No public email supplied. You can add one above or leave it empty.');
  if(!pageRecords.length)warnings.push('No page content records found. A Home page will use your brief.');
  if(!draft.shop.phone&&draft.shop.products.length)warnings.push('No WhatsApp number supplied. The shop will offer the copy-list option.');

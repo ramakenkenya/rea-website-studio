@@ -1,6 +1,7 @@
 import {escapeHtml as e,snapshot} from './project.js';
 import {createStudio,navigationHtml,brandCss} from './site-model.js';
 import {shopSection} from './shop-model.js';
+import {sectionHasContent} from './document-model.js';
 const para=value=>String(value||'').split(/\n\s*\n/).filter(Boolean).map(t=>`<p>${e(t).replaceAll('\n','<br>')}</p>`).join('');
 const button=b=>b?`<a class="site-button" href="${e(b.href)}">${e(b.label)}</a>`:'';
 const image=a=>a?`<img src="${e(a.src)}" alt="${e(a.alt||'')}" loading="lazy">`:'';
@@ -24,10 +25,11 @@ export const DOCUMENT_STYLES=[
  style('.site-hero',{padding:'40px 20px'},'(max-width: 640px)'),style('.site-nav',{padding:'20px'},'(max-width: 640px)')
 ];
 function sectionHtml(s,draft){
+ if(!sectionHasContent(s,draft))return '';
  const open=`<section id="${e(s.id)}" class="studio-block" data-section="${e(s.type)}">`;
  const heading=s.heading?`<h2>${e(s.heading)}</h2>`:'';
  let content='';
- if(s.type==='shop')return shopSection(draft.shop,draft.brief.name).replace('<section ',`<section id="${e(s.id)}" `);
+ if(s.type==='shop')return `<div id="${e(s.id)}" data-section="Shop">${heading||s.body?`<section class="studio-block">${heading}${para(s.body)}${button(s.button)}</section>`:button(s.button)}${shopSection(draft.shop,draft.brief.name)}</div>`;
  if(s.type==='gallery'){
   const g=draft.galleries.find(g=>g.section===s.id);if(!g?.images.length)return '';
   content=`<div class="doc-gallery">${g.images.map(a=>`<figure>${image(a)}${a.caption?`<figcaption>${e(a.caption)}</figcaption>`:''}${a.sourceUrl?`<figcaption><a href="${e(a.sourceUrl)}" target="_blank" rel="noopener noreferrer">Photo source</a>${a.artist?' · '+e(a.artist):''}${a.license?' · '+e(a.license):''}</figcaption>`:''}</figure>`).join('')}</div>`;
@@ -47,8 +49,8 @@ function sectionHtml(s,draft){
 function contactHtml(d){return [d.brief.email?`<p><a href="mailto:${e(d.brief.email)}">${e(d.brief.email)}</a></p>`:'',d.shop.phone?`<p><a href="tel:+${e(d.shop.phone)}">+${e(d.shop.phone)}</a></p>`:'',para(d.contact.address),...d.contact.socials.map(s=>`<p><a href="${e(s.href)}" target="_blank" rel="noopener noreferrer">${e(s.label)}</a></p>`)].join('');}
 export function documentSite(draft){
  const {brief}=draft;const pages=draft.pages.map(p=>({id:p.id,name:p.name,component:{tagName:'body',attributes:{lang:draft.site.language,dir:draft.site.direction},components:[]}}));
- const assets=[];const seen=new Set();
- const asset=a=>{if(!a||seen.has(a.src))return;seen.add(a.src);assets.push({id:'import-photo-'+assets.length,name:a.alt||'Imported photo',src:a.src,alt:a.alt||'',artist:a.artist||'',license:a.license||'',sourceUrl:a.sourceUrl||'',licenseUrl:''});};
+ const assets=[];const seen=new Map();
+ const asset=a=>{if(!a)return;const existing=seen.get(a.src);if(existing){for(const key of ['artist','license','sourceUrl'])if(a[key])existing[key]=a[key];return;}const record={id:'import-photo-'+assets.length,name:a.alt||'Imported photo',src:a.src,alt:a.alt||'',artist:a.artist||'',license:a.license||'',sourceUrl:a.sourceUrl||'',licenseUrl:''};seen.set(a.src,record);assets.push(record);};
  for(const p of draft.pages)asset(p.hero.image);for(const g of draft.galleries)g.images.forEach(asset);for(const p of draft.shop.products)if(p.image)asset({src:p.image,alt:p.alt});
  const project={pages,styles:DOCUMENT_STYLES};
  const studio=createStudio(project,brief,{version:2,homeId:draft.homeId,pages:draft.pages.map(p=>({id:p.id,name:p.name,slug:p.slug,title:p.title,description:p.description,nav:true,noindex:false})),site:draft.site,shop:draft.shop,assets,autosave:false});

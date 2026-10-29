@@ -18,10 +18,10 @@ export async function completedDocx(raw=sampleRaw(),{plain=false}={}){
  const headings={page:'Page content',section:'Section content',product:'Product record',gallery:'Photos and questions',faq:'Photos and questions'};
  const spec=JSON.parse(await fs.readFile(new URL('../docs/website-template-fields.json',import.meta.url)));
  const add=(key,value)=>{if(plain){body.appendChild(p(spec.fields.find(f=>f.key===key).label));body.appendChild(p(value));return;}
- const a=p(''),control=x.createElementNS(W,'w:sdt'),props=x.createElementNS(W,'w:sdtPr'),tag=x.createElementNS(W,'w:tag'),content=x.createElementNS(W,'w:sdtContent');tag.setAttributeNS(W,'w:val',key);props.appendChild(tag);content.appendChild(p(value));control.appendChild(props);control.appendChild(content);a.appendChild(control);body.appendChild(a);};
+ const a=p(''),control=x.createElementNS(W,'w:sdt'),props=x.createElementNS(W,'w:sdtPr'),tag=x.createElementNS(W,'w:tag'),content=x.createElementNS(W,'w:sdtContent');tag.setAttributeNS(W,'w:val',key);props.appendChild(tag);const answer=p(value);while(answer.firstChild)content.appendChild(answer.firstChild);control.appendChild(props);control.appendChild(content);a.appendChild(control);body.appendChild(a);};
  body.appendChild(p('Website content template'));for(const [key,value] of Object.entries(raw.fields))add(key,value);
  for(const [kind,records] of Object.entries(raw.records))for(const record of records){body.appendChild(p(headings[kind]));for(const [key,value] of Object.entries(record))add(key,value);}
- z.file('word/document.xml',new XMLSerializer().serializeToString(x));return z.generateAsync({type:'uint8array'});
+ z.file('word/document.xml',new XMLSerializer().serializeToString(x));return z.generateAsync({type:'uint8array',compression:'DEFLATE'});
 }
 export async function completedPdf(){
  const d=await PDFDocument.load(await fs.readFile(new URL('../public/templates/Rama_Studio_Website_Template_v1.pdf',import.meta.url)));

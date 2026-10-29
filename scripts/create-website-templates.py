@@ -93,7 +93,7 @@ INTRO = [
  'Word: replace each [Your answer] entry. Copy the full Page content and Section content records for more pages or sections. Copy optional product and photo records as needed.',
  'PDF: type into the shaded fields and save a copy, or print and write. This PDF contains one of each record; use Word when you need additional records or more writing space.',
  'Use stable IDs such as home and home-hero to connect pages and sections. Leave optional fields empty. Only include images you have permission to publish.',
- 'Document upload is not available yet. These templates prepare your content for the planned feature. Do not put passwords, payment details or private customer data in this brief.'
+ 'Upload your completed Word document or filled PDF in Brief using Upload completed template. Review the imported details before creating your website. Do not put passwords, payment details or private customer data in this brief.'
 ]
 
 def run():
@@ -133,7 +133,7 @@ def run():
   y=674
   if i==0:
    # Full instructions in Word and a compact PDF introduction fit above the fields.
-   intro='Keep labels unchanged. Replace examples with your own details. Upload is coming next. Read the use instructions on the final page.'
+   intro='Keep labels unchanged. Replace examples with your own details. Upload the completed document in Brief. Read the use instructions on the final page.'
    p=doc.add_paragraph(intro); p.runs[0].font.size=Pt(9)
    for line in simpleSplit(intro,'TemplateSans',9,504):
     c.setFont('TemplateSans',9); c.drawString(54,y,line); y-=12

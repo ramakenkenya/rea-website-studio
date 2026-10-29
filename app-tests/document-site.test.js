@@ -13,6 +13,7 @@ test('four-page import exports supplied copy, catalogue runtime, photos, FAQs an
  const editor={Pages:{getAll:()=>pages},getHtml:({component})=>component.html,getCss:()=>''};
  const files=exportFiles(editor,next.brief,next.studio);
  assert.equal(editor.Pages.getAll().length,4);assert.match(files['shop.html'],/Nia Sofa/);assert.match(files['shop.html'],/rea-shop\.js/);assert.match(files['lookbook.html'],/A comfortable living room/);assert.match(files['about.html'],/Can I pay here/);assert.match(files['IMAGE-CREDITS.txt'],/Demo Photographer/);
+ assert.match(files['shop.html'],/Our collection/);
  for(const name of ['index.html','shop.html','lookbook.html','about.html']){assert.equal((files[name].match(/<h1\b/g)||[]).length,1);assert.match(files[name],/href="shop.html"/);assert.doesNotMatch(files[name],/Your answer|Additional content notes/);}
 });
 test('plain document text stays text and review name overrides shared navigation',()=>{
@@ -27,4 +28,10 @@ test('transaction rolls back an application failure and never leaves old autosav
 });
 test('successful transaction validates first and leaves imported project for explicit save',async()=>{
  let current={id:'old'},resumed;await replaceImportedProject({capture:()=>current,pause:()=>{},apply:next=>{current=next;},resume:success=>{resumed=success;}},{id:'new'});assert.equal(current.id,'new');assert.equal(resumed,true);
+});
+test('empty optional catalogue omits internal editor guidance from generated public pages',()=>{
+ const raw=sampleRaw();raw.records.product=[];const next=documentSite(reviewDocument(raw).draft);const html=next.project.pages.map(p=>p.component.components).join('');assert.doesNotMatch(html,/Add your first product|Studio tools/);
+});
+test('a shared hero and gallery image retains supplied photo attribution',()=>{
+ const raw=sampleRaw();raw.records.page[0]['page.hero.image']='https://images.example/room.jpg | Room';const next=documentSite(reviewDocument(raw).draft);assert.equal(next.studio.assets[0].artist,'Demo Photographer');assert.equal(next.studio.assets[0].license,'CC0');
 });

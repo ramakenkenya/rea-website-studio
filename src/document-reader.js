@@ -33,21 +33,20 @@ function wordEntries(xml){
  const doc=new DOMParser({onError:()=>{malformed=true;}}).parseFromString(xml,'application/xml');
  if(malformed||!doc.getElementsByTagNameNS(W,'body').length)throw Error('Choose a valid Word template. Its XML could not be read.');
  const all=[...doc.getElementsByTagNameNS(W,'p')];const entries=[];
- const hasControls=doc.getElementsByTagNameNS(W,'tag').length>0;
- const headings={'Website content template':1,'Appearance and pages':2,'Page content':3,'Section content':4,'Product record':5,'Photos and questions':6,'Contact and final checks':7};
+ const headings={'Website content template':1,'Appearance and pages':2,'Page content':3,'Section content':4,'Product record':5,'Photos and questions':6,'Contact and final checks':7,'How to use this template':8};
+ const labels=new Set(spec.fields.map(f=>f.label));
  let group=1;
  const text=node=>{
-  const visit=n=>n.nodeType===3?n.nodeValue:n.nodeType===1&&['br','cr'].includes(n.localName)?'\n':n.nodeType===1&&n.localName==='tab'?'\t':[...n.childNodes].map(visit).join('');
+  const visit=n=>n.nodeType===3?n.nodeValue:n.nodeType===1&&['br','cr'].includes(n.localName)?'\n':n.nodeType===1&&n.localName==='tab'?'\t':[...n.childNodes].map(visit).join('')+(n.nodeType===1&&n.localName==='p'?'\n':'');
   return visit(node).trim();
  };
  for(let i=0;i<all.length;i++){
   const p=all[i];if(p.parentNode?.localName==='sdtContent')continue;
   const tags=[...p.getElementsByTagNameNS(W,'tag')];
   if(tags.length){for(const tag of tags){const key=tag.getAttributeNS(W,'val');let control=tag.parentNode;while(control&&control.localName!=='sdt')control=control.parentNode;const content=control?.getElementsByTagNameNS(W,'sdtContent')[0];if(content)entries.push([key,text(content)]);}continue;}
-  if(hasControls)continue;
   const value=text(p);if(headings[value]){group=headings[value];continue;}
   const field=spec.fields.find(f=>f.page===group&&f.label===value)||spec.fields.find(f=>f.page<=2&&f.label===value);
-  if(field){const next=all[++i];if(!next)throw Error('Missing answer after '+field.label);entries.push([field.key,text(next)]);}
+  if(field){let j=i+1;if(all[j]&&text(all[j])===field.guidance)j++;const next=all[j];if(!next)throw Error('Missing answer after '+field.label);if(next.getElementsByTagNameNS(W,'tag').length)continue;const answer=[text(next)];if(field.multiline)while(all[j+1]){const following=all[j+1],value=text(following);if(labels.has(value)||headings[value]||following.getElementsByTagNameNS(W,'tag').length)break;answer.push(value);j++;}entries.push([field.key,answer.join('\n').trim()]);i=j;}
  }
  return entries;
 }
