@@ -14,6 +14,7 @@ jobs:
           persist-credentials: false
       - name: Download the exact attributed sources
         run: |
+          python3 -m pip install Pillow==11.3.0
           python3 - <<'PY'
           import json, subprocess, pathlib, base64
           from PIL import Image
@@ -23,6 +24,7 @@ jobs:
             subprocess.run(['curl','--fail','--location','--retry','2','--max-time','60','-A','RamaStudioExample/1.0 (CC0 website template)',p['download'],'-o',str(dest)],check=True)
             im=Image.open(dest).convert('RGB');im.thumbnail((1100,900));im.save(dest,quality=82,optimize=True)
             print('PHOTO_START '+p['file'],flush=True)
-            print(base64.b64encode(dest.read_bytes()).decode(),flush=True)
+            encoded=base64.b64encode(dest.read_bytes()).decode()
+            for at in range(0,len(encoded),12000): print(encoded[at:at+12000],flush=True)
             print('PHOTO_END',flush=True)
           PY
