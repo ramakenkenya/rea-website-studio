@@ -1,0 +1,92 @@
+[
+  {
+    "id": "living",
+    "file": "living.jpg",
+    "download": "https://isorepublic.com/wp-content/uploads/2018/11/living-room-modern-1100x733.jpg",
+    "source": "https://isorepublic.com/photo/living-room-interior/",
+    "artist": "Erika Wittlieb",
+    "alt": "A light living room with a sofa and natural wood furniture",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "id": "sofa",
+    "file": "sofa.jpg",
+    "download": "https://isorepublic.com/wp-content/uploads/2018/11/indoor-sofa-1100x733.jpg",
+    "source": "https://isorepublic.com/photo/sofa-in-room/",
+    "artist": "Hency Xu",
+    "alt": "A comfortable sofa in a bright furnished room",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "id": "dining",
+    "file": "dining.jpg",
+    "download": "https://isorepublic.com/wp-content/uploads/2018/11/dining-table-1100x733.jpg",
+    "source": "https://isorepublic.com/photo/dining-table/",
+    "artist": "Erika Wittlieb",
+    "alt": "A wooden dining table with chairs",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "id": "bed",
+    "file": "bed.jpg",
+    "download": "https://isorepublic.com/wp-content/uploads/2018/11/bedroom-1100x733.jpg",
+    "source": "https://isorepublic.com/photo/interior-of-bedroom/",
+    "artist": "Erika Wittlieb",
+    "alt": "A furnished bedroom with a bed and soft pillows",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "id": "tv",
+    "file": "tv.jpg",
+    "download": "https://isorepublic.com/wp-content/uploads/2018/11/tv-room-1100x733.jpg",
+    "source": "https://isorepublic.com/photo/television-in-room/",
+    "artist": "Patrick Perkins",
+    "alt": "A television and low cabinet in a minimal living room",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "id": "shelf",
+    "file": "shelf.jpg",
+    "download": "https://isorepublic.com/wp-content/uploads/2018/11/london-bookshelf-1100x733.jpg",
+    "source": "https://isorepublic.com/photo/london-interior/",
+    "artist": "ISO Republic",
+    "alt": "A bookshelf in a London interior",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "id": "desk",
+    "file": "desk.jpg",
+    "download": "https://isorepublic.com/wp-content/uploads/2020/08/iso-republic-white-desk-plant-1100x733.jpg",
+    "source": "https://isorepublic.com/photo/house-plant-desk/",
+    "artist": "Kristin Hardwick",
+    "alt": "A simple desk with a house plant and framed artwork",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "id": "original-1",
+    "file": "original-1.jpg",
+    "download": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Living_room_%2815246771173%29.jpg/1280px-Living_room_%2815246771173%29.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Living_room_(15246771173).jpg",
+    "artist": "Carlos ZGZ from Paris, France",
+    "alt": "An eclectic living room photographed by Carlos ZGZ",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "id": "original-2",
+    "file": "original-2.jpg",
+    "download": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/The_living_room_that_needs_houseplants.jpg/1280px-The_living_room_that_needs_houseplants.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:The_living_room_that_needs_houseplants.jpg",
+    "artist": "Lo",
+    "alt": "A furnished living room with shelves and seating",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  }
+]
