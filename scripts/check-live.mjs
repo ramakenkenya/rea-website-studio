@@ -1,4 +1,7 @@
 import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import photos from '../docs/example-photos.json' with {type:'json'};
 const url=process.env.STUDIO_URL;
 assert(url,'STUDIO_URL must be set');
 async function check(){
@@ -13,7 +16,16 @@ async function check(){
   assert(resource.ok,`${asset} returned ${resource.status}`);
   assert(/javascript|text\/css/.test(resource.headers.get('content-type')||''),`${asset} returned an unexpected content type`);
  }
- console.log(`Verified production HTML and ${assets.length} bundled assets at ${url}`);
+ const downloads=['templates/Rama_Living_Completed_Example.docx','templates/Rama_Living_Completed_Example.pdf','templates/Rama_Living_Completed_Examples.zip',...photos.map(p=>'example-photos/'+p.file)];
+ for(const path of downloads){
+  const resource=await fetch(new URL(path,url),{cache:'no-store'});
+  assert(resource.ok,`${path} returned ${resource.status}`);
+  const published=new Uint8Array(await resource.arrayBuffer());
+  const expected=await readFile(new URL('../public/'+path,import.meta.url));
+  const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
+  assert.equal(hash(published),hash(expected),`${path} does not match the tested download`);
+ }
+ console.log(`Verified production HTML, ${assets.length} bundled assets and ${downloads.length} photo/example files at ${url}`);
 }
 for(let attempt=1;;attempt++){
  try{await check();break;}catch(error){
