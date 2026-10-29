@@ -13,7 +13,7 @@ import {duplicateElement,duplicateEditorPage,captureReusableSection,insertReusab
 const uid=()=>crypto.randomUUID();
 const field=(label,name,value='',type='text')=>`<label class="field">${label}<input name="${name}" type="${type}" maxlength="${name==='description'?320:type==='url'||['url','socialImage'].includes(name)?2048:180}" value="${esc(value)}"/></label>`;
 export function mountStudio({editor,getBrief,setBrief,toast,markDirty,capture,restore,onSelect,onSaved}){
- let logoRequest=0,faviconRequest=0;
+ let logoRequest=0,faviconRequest=0,autosaveSuspended=false;
  let state=null,tab='Pages',autosaveTimer,busy=false,initialized=false,previewFiles={},previewName='index.html';
  const $=s=>document.querySelector(s);
  const bar=document.createElement('div');bar.className='studio-commandbar';bar.innerHTML='<span class="studio-version">YOUR WEBSITE · V0.3.0</span><div class="studio-pages-scroll" id="studio-page-tabs" aria-label="Website pages"></div><button class="btn green" id="studio-tools-button" aria-label="Studio tools">Studio tools <span aria-hidden="true">↗</span></button>';
@@ -79,7 +79,7 @@ export function mountStudio({editor,getBrief,setBrief,toast,markDirty,capture,re
  bindForm('#v2-favicon-form',async data=>{const request=++faviconRequest,form=$('#v2-favicon-form');const favicon=await verifyImage(data.favicon);if(request!==faviconRequest||!form.isConnected||!dialog.open)return;state=createStudio(editor.getProjectData(),getBrief(),{...state,site:{...state.site,favicon}});changed();toast('Favicon included in your export.');});$('#v2-remove-favicon').onclick=()=>{faviconRequest++;state.site.favicon='';changed();toast('Favicon removed.');};
  }
  }
- function scheduleAutosave(){clearTimeout(autosaveTimer);if(!initialized||!state.autosave||busy)return;autosaveTimer=setTimeout(()=>{try{const result=writeSaved(localStorage,capture());if(!result.ok)toast(result.error);else{onSaved?.();const el=$('#save-status');if(el)el.textContent='Autosaved on this device';}}catch{toast('Autosave failed. Download a project backup to keep your work.');}},1400);}
+ function scheduleAutosave(){clearTimeout(autosaveTimer);if(!initialized||!state.autosave||busy||autosaveSuspended)return;autosaveTimer=setTimeout(()=>{try{const result=writeSaved(localStorage,capture());if(!result.ok)toast(result.error);else{onSaved?.();const el=$('#save-status');if(el)el.textContent='Autosaved on this device';}}catch{toast('Autosave failed. Download a project backup to keep your work.');}},1400);}
  editor.on('update',()=>{if(initialized&&!busy)scheduleAutosave();});
  editor.on('canvas:frame:load',applyCanvasLanguage);
  editor.on('page:select',()=>{if(!initialized||busy)return;renderBar();editor.select(null);onSelect?.(null);if(dialog.open&&tab==='Pages')renderPane();});
@@ -101,5 +101,5 @@ export function mountStudio({editor,getBrief,setBrief,toast,markDirty,capture,re
  const disableCoreHistoryKeys=()=>{editor.Keymaps.remove('core:undo');editor.Keymaps.remove('core:redo');};
  disableCoreHistoryKeys();editor.on('load',disableCoreHistoryKeys);
  document.addEventListener('keydown',e=>studioShortcut(e,editor,()=>$('#save').click()));
- return {init,getState:()=>state,sync,open,applyNavigation,applyBrand,showPreview,audit:()=>auditSite(editor,getBrief(),state),scheduleAutosave,resetPage(){sync();applyBrand();if(state.pages.length>1)applyNavigation();changed();}};
+ return {suspendAutosave(){autosaveSuspended=true;clearTimeout(autosaveTimer);},resumeAutosave(){autosaveSuspended=false;},init,getState:()=>state,sync,open,applyNavigation,applyBrand,showPreview,audit:()=>auditSite(editor,getBrief(),state),scheduleAutosave,resetPage(){sync();applyBrand();if(state.pages.length>1)applyNavigation();changed();}};
 }
