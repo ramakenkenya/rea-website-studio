@@ -28,9 +28,9 @@
 
 **Interfaces:** `readWebsiteDocument(bytes,filename)` returns `{fields,records,source}`; `reviewDocument(raw,overrides)` returns `{ok,issues,warnings,draft}`. Draft contains validated brief, pages, sections, products, galleries and FAQs.
 
-- [ ] Write tests for real DOCX/PDF fields, repeated records, malformed input, limits and invalid content; observe RED.
-- [ ] Implement readers and review normalization; run Node tests to GREEN.
-- [ ] Commit the tested parsing unit.
+- [x] Write tests for real DOCX/PDF fields, repeated records, malformed input, limits and invalid content; observe RED.
+- [x] Implement readers and review normalization; run Node tests to GREEN.
+- [x] Commit the tested parsing unit.
 
 ### Task 2 Portable website generation and transactional replacement
 
@@ -38,9 +38,9 @@
 
 **Interfaces:** `documentSite(draft)` returns `{brief,project,studio}`; `replaceImportedProject(adapter,next)` captures, applies and rolls back through adapter methods.
 
-- [ ] Write failing tests for four-page catalogue generation, content preservation, exported navigation, injection escaping and rollback.
-- [ ] Implement component generation and transactional application, integrating existing brand/navigation/shop/export helpers.
-- [ ] Run targeted tests and the existing Node suite to GREEN; commit.
+- [x] Write failing tests for four-page catalogue generation, content preservation, exported navigation, injection escaping and rollback.
+- [x] Implement component generation and transactional application, integrating existing brand/navigation/shop/export helpers.
+- [x] Run targeted tests and the existing Node suite to GREEN; commit.
 
 ### Task 3 Brief UI and complete journeys
 
@@ -48,7 +48,7 @@
 
 **Interfaces:** `mountBriefImport({dialog,form,capture,apply,backup,onImported})` mounts manual/upload paths and review. Close invalidates pending reads. Main routes imported creation separately from manual starter submission.
 
-- [ ] Write browser tests for Word and PDF upload, manual precedence, invalid files, missing prices, cancel, replacing a saved project, backup restore, ZIP shop flow and phone layout; observe RED.
-- [ ] Implement the UI/controller and integration; update template guidance to active upload instructions.
-- [ ] Run Node and Python checks, production build and browser suite. Verify document renders and round trips.
-- [ ] Request one fresh whole-change review, fix important findings with regression tests, publish and verify live behavior.
+- [x] Write browser tests for Word and PDF upload, manual precedence, invalid files, missing prices, cancel, replacing a saved project, backup restore, ZIP shop flow and phone layout; observe RED.
+- [x] Implement the UI/controller and integration; update template guidance to active upload instructions.
+- [x] Run Node and Python checks, production build and browser suite. Verify document renders and round trips.
+- [x] Request one fresh whole-change review, fix important findings with regression tests, publish and verify live behavior.
