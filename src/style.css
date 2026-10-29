@@ -8,3 +8,14 @@
 @media(max-width:760px){.project-tools .btn,.top-actions .btn{min-height:44px}.layer-row button{min-height:44px;min-width:44px}}
 
 #brief-dialog .dialog-footer{flex-wrap:wrap}#brief-dialog .dialog-actions{flex-wrap:wrap;justify-content:flex-end;margin-left:auto}@media(max-width:760px){#brief-dialog .dialog-actions{width:100%}#brief-dialog .dialog-actions .btn{flex:1 1 auto}}
+
+/* Website planning documents use the existing studio palette and button styles. */
+.template-downloads{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 20px;margin:0 0 22px;border:1px solid var(--line);border-radius:8px;background:var(--paper)}
+.template-downloads h2{font-size:15px;line-height:1.4;margin:0 0 6px;color:var(--ink)}
+.template-downloads p{font-size:12px;line-height:1.6;margin:0;color:#4f615b}
+.template-downloads .template-status{font-size:11px;margin-top:5px;color:#4f615b}
+.template-download-actions{display:flex;flex-wrap:wrap;gap:8px;flex-shrink:0}
+.template-download-actions .btn{min-height:44px;text-decoration:none}
+.template-download-actions span{font-weight:400}
+@media(max-width:1250px){.template-downloads{align-items:flex-start;flex-direction:column;gap:14px}.template-download-actions{flex-shrink:1}}
+@media(max-width:760px){.template-downloads{padding:16px}.template-download-actions{width:100%}.template-download-actions .btn{flex:1 1 auto;white-space:normal}.template-downloads p{font-size:12px}}

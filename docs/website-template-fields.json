@@ -1,0 +1,363 @@
+{
+  "version": "1.0",
+  "status": "draft-import-format",
+  "fields": [
+    {
+      "key": "business.name",
+      "label": "Business name",
+      "page": 1,
+      "guidance": "Example: Rama Living",
+      "multiline": false
+    },
+    {
+      "key": "business.description",
+      "label": "What your business does",
+      "page": 1,
+      "guidance": "Describe your offer and who it helps in two or three sentences.",
+      "multiline": true
+    },
+    {
+      "key": "business.audience",
+      "label": "Who the website is for",
+      "page": 1,
+      "guidance": "Example: People furnishing their first home.",
+      "multiline": true
+    },
+    {
+      "key": "business.goal",
+      "label": "Main website goal",
+      "page": 1,
+      "guidance": "Example: Browse products and prepare a WhatsApp shopping list.",
+      "multiline": true
+    },
+    {
+      "key": "business.services",
+      "label": "Services or categories",
+      "page": 1,
+      "guidance": "Separate entries with commas. Example: Living room, Dining, Office",
+      "multiline": false
+    },
+    {
+      "key": "business.email",
+      "label": "Public email",
+      "page": 1,
+      "guidance": "Only include an address you want visitors to see.",
+      "multiline": false
+    },
+    {
+      "key": "business.phone",
+      "label": "Public phone or WhatsApp number",
+      "page": 1,
+      "guidance": "Include country code. Example: +2547XXXXXXXX",
+      "multiline": false
+    },
+    {
+      "key": "brand.style",
+      "label": "Visual style",
+      "page": 2,
+      "guidance": "Choose: editorial, coastal or midnight. Leave blank for editorial.",
+      "multiline": false
+    },
+    {
+      "key": "brand.colors",
+      "label": "Brand colours",
+      "page": 2,
+      "guidance": "Optional hex colours for background, text and buttons. Example: #F6F1E8",
+      "multiline": false
+    },
+    {
+      "key": "brand.font",
+      "label": "Font direction",
+      "page": 2,
+      "guidance": "Choose: serif, sans, modern or mono. Leave blank for serif.",
+      "multiline": false
+    },
+    {
+      "key": "brand.logo",
+      "label": "Logo image URL",
+      "page": 2,
+      "guidance": "Optional public HTTPS image address. A text business name is fine.",
+      "multiline": false
+    },
+    {
+      "key": "site.language",
+      "label": "Website language and direction",
+      "page": 2,
+      "guidance": "Example: English, left to right",
+      "multiline": false
+    },
+    {
+      "key": "site.pages",
+      "label": "Pages in navigation order",
+      "page": 2,
+      "guidance": "One per line: page ID | navigation name | address. Example: home | Home | index.html",
+      "multiline": true
+    },
+    {
+      "key": "site.home",
+      "label": "Home page ID",
+      "page": 2,
+      "guidance": "Use an ID from the list above. Example: home",
+      "multiline": false
+    },
+    {
+      "key": "site.description",
+      "label": "Website summary",
+      "page": 2,
+      "guidance": "A short description for search and sharing.",
+      "multiline": true
+    },
+    {
+      "key": "page.id",
+      "label": "Page ID",
+      "page": 3,
+      "guidance": "Match a page ID from your navigation list. Example: home",
+      "multiline": false
+    },
+    {
+      "key": "page.title",
+      "label": "Page title for search",
+      "page": 3,
+      "guidance": "Example: Rama Living | Furniture for Everyday Life",
+      "multiline": false
+    },
+    {
+      "key": "page.description",
+      "label": "Page description for search",
+      "page": 3,
+      "guidance": "Explain what visitors can find on this page.",
+      "multiline": true
+    },
+    {
+      "key": "page.sections",
+      "label": "Sections in display order",
+      "page": 3,
+      "guidance": "List section IDs. Example: home-hero, home-services, home-faq",
+      "multiline": false
+    },
+    {
+      "key": "page.hero.id",
+      "label": "Hero section ID",
+      "page": 3,
+      "guidance": "Example: home-hero",
+      "multiline": false
+    },
+    {
+      "key": "page.hero.heading",
+      "label": "Hero heading",
+      "page": 3,
+      "guidance": "Example: Make room for everyday living.",
+      "multiline": false
+    },
+    {
+      "key": "page.hero.body",
+      "label": "Hero paragraph",
+      "page": 3,
+      "guidance": "Write the exact introduction visitors should read.",
+      "multiline": true
+    },
+    {
+      "key": "page.hero.button",
+      "label": "Hero button text and destination",
+      "page": 3,
+      "guidance": "Example: Explore the collection | shop.html",
+      "multiline": false
+    },
+    {
+      "key": "page.hero.image",
+      "label": "Hero image URL and description",
+      "page": 3,
+      "guidance": "Optional HTTPS image URL | alternative text describing the image",
+      "multiline": true
+    },
+    {
+      "key": "section.page",
+      "label": "Page ID",
+      "page": 4,
+      "guidance": "Which page contains this section? Example: home",
+      "multiline": false
+    },
+    {
+      "key": "section.id",
+      "label": "Section ID",
+      "page": 4,
+      "guidance": "Unique within the website. Example: home-services",
+      "multiline": false
+    },
+    {
+      "key": "section.type",
+      "label": "Section type",
+      "page": 4,
+      "guidance": "Choose: text, services, gallery, faq, shop, pricing, team, statistics, hours, contact or cta.",
+      "multiline": false
+    },
+    {
+      "key": "section.heading",
+      "label": "Section heading",
+      "page": 4,
+      "guidance": "Write the exact heading visitors should see.",
+      "multiline": false
+    },
+    {
+      "key": "section.body",
+      "label": "Section text",
+      "page": 4,
+      "guidance": "Write the final copy. Use short paragraphs.",
+      "multiline": true
+    },
+    {
+      "key": "section.items",
+      "label": "Cards or repeated items",
+      "page": 4,
+      "guidance": "One per line: title | description | optional price or value | optional destination",
+      "multiline": true
+    },
+    {
+      "key": "section.button",
+      "label": "Section button text and destination",
+      "page": 4,
+      "guidance": "Optional. Example: Browse furniture | shop.html",
+      "multiline": false
+    },
+    {
+      "key": "product.page",
+      "label": "Shop page ID",
+      "page": 5,
+      "guidance": "Example: shop. Repeat this record for every product.",
+      "multiline": false
+    },
+    {
+      "key": "product.code",
+      "label": "Product code",
+      "page": 5,
+      "guidance": "A unique code. Example: RL-SOF-001",
+      "multiline": false
+    },
+    {
+      "key": "product.name",
+      "label": "Product name",
+      "page": 5,
+      "guidance": "Example: Nia Sofa",
+      "multiline": false
+    },
+    {
+      "key": "product.category",
+      "label": "Category",
+      "page": 5,
+      "guidance": "Example: Living room",
+      "multiline": false
+    },
+    {
+      "key": "product.description",
+      "label": "Product description",
+      "page": 5,
+      "guidance": "Describe the product and what is included.",
+      "multiline": true
+    },
+    {
+      "key": "product.price",
+      "label": "Price and currency",
+      "page": 5,
+      "guidance": "Numbers without thousands separators. Example: 48000 | KES",
+      "multiline": false
+    },
+    {
+      "key": "product.options",
+      "label": "Size and colour options",
+      "page": 5,
+      "guidance": "Example: Size: Three-seater; Colour: Sand, Charcoal, Olive",
+      "multiline": true
+    },
+    {
+      "key": "product.available",
+      "label": "Availability",
+      "page": 5,
+      "guidance": "Choose: available or unavailable.",
+      "multiline": false
+    },
+    {
+      "key": "product.image",
+      "label": "Product image URL and description",
+      "page": 5,
+      "guidance": "Public HTTPS image URL | alternative text",
+      "multiline": true
+    },
+    {
+      "key": "gallery.section",
+      "label": "Gallery section ID",
+      "page": 6,
+      "guidance": "Match a gallery section listed on a page. Example: room-gallery",
+      "multiline": false
+    },
+    {
+      "key": "gallery.images",
+      "label": "Gallery photos",
+      "page": 6,
+      "guidance": "One per line: HTTPS image URL | alternative text | optional caption",
+      "multiline": true
+    },
+    {
+      "key": "gallery.credits",
+      "label": "Photo credits and licence information",
+      "page": 6,
+      "guidance": "One per line: image URL | creator | source page URL | licence",
+      "multiline": true
+    },
+    {
+      "key": "faq.section",
+      "label": "FAQ section ID",
+      "page": 6,
+      "guidance": "Match a faq section listed on a page. Example: home-faq",
+      "multiline": false
+    },
+    {
+      "key": "faq.items",
+      "label": "Questions and answers",
+      "page": 6,
+      "guidance": "One per line: question | answer. Use the final wording.",
+      "multiline": true
+    },
+    {
+      "key": "contact.address",
+      "label": "Public location or service area",
+      "page": 7,
+      "guidance": "Optional. Do not include a private home address.",
+      "multiline": true
+    },
+    {
+      "key": "contact.hours",
+      "label": "Opening hours",
+      "page": 7,
+      "guidance": "One per line: day or day range | hours",
+      "multiline": true
+    },
+    {
+      "key": "contact.socials",
+      "label": "Public social links",
+      "page": 7,
+      "guidance": "One per line: platform name | HTTPS profile URL",
+      "multiline": true
+    },
+    {
+      "key": "footer.text",
+      "label": "Footer text",
+      "page": 7,
+      "guidance": "Example: Rama Living. Furniture for everyday life.",
+      "multiline": true
+    },
+    {
+      "key": "site.notice",
+      "label": "Business or demonstration notice",
+      "page": 7,
+      "guidance": "Optional. Example: Fictional showroom. Products and prices are illustrative.",
+      "multiline": true
+    },
+    {
+      "key": "site.notes",
+      "label": "Additional content notes",
+      "page": 7,
+      "guidance": "Optional notes for a person reviewing the brief. These are not public page copy.",
+      "multiline": true
+    }
+  ]
+}
