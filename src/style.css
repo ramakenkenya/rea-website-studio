@@ -9,6 +9,11 @@
 
 #brief-dialog .dialog-footer{flex-wrap:wrap}#brief-dialog .dialog-actions{flex-wrap:wrap;justify-content:flex-end;margin-left:auto}@media(max-width:760px){#brief-dialog .dialog-actions{width:100%}#brief-dialog .dialog-actions .btn{flex:1 1 auto}}
 
+/* Keep tutorial help visible beside the introduction on desktop and mobile. */
+.intro-actions{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex-shrink:0}
+.tutorial-link{min-height:44px;text-decoration:none;border-color:var(--green);color:var(--green)}
+@media(max-width:760px){.intro{flex-wrap:wrap;gap:14px}.intro-actions{align-items:flex-start}}
+
 /* Website planning documents use the existing studio palette and button styles. */
 .template-downloads{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 20px;margin:0 0 22px;border:1px solid var(--line);border-radius:8px;background:var(--paper)}
 .template-downloads h2{font-size:15px;line-height:1.4;margin:0 0 6px;color:var(--ink)}
