@@ -7,7 +7,9 @@ test('standalone text sample is readable offline at phone, tablet and desktop wi
  await page.goto('./samples/rama-ken/');
  await expect(page.locator('h1')).toContainText('RAMA');
  await expect(page.locator('[data-text-portrait]')).toHaveText(RAMA_PORTRAIT,{useInnerText:false});
- expect(await page.locator('img,canvas,script').count()).toBe(0);
+ expect(await page.locator('canvas,script').count()).toBe(0);
+ await expect(page.locator('.tp-hero img')).toHaveCount(0);
+ await expect(page.locator('.mm-section img')).toHaveCount(2);
  await page.context().setOffline(true);
  for(const width of [320,390,768,1440]){
   await page.setViewportSize({width,height:1000});
