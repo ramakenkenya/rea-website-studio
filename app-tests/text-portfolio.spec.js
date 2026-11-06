@@ -17,6 +17,11 @@ test('standalone text sample is readable offline at phone, tablet and desktop wi
   const portrait=await page.locator('.tp-art').boundingBox();expect(portrait.width).toBeGreaterThan(200);expect(portrait.height).toBeGreaterThan(240);
   expect(await page.locator('.tp-contact .tp-outline').evaluate(el=>el.getClientRects().length)).toBe(1);
   await page.screenshot({path:testInfo.outputPath(`sample-${width}.png`),fullPage:true});
+  await expect(page.getByRole('heading',{name:'THE WORK',exact:true})).toBeVisible();
+  const inset=await page.locator('.tp-inset-small').boundingBox(),word=await page.locator('.tp-inset-large').boundingBox();
+  expect(inset.x).toBeGreaterThanOrEqual(word.x);expect(inset.y).toBeGreaterThanOrEqual(word.y);
+  expect(inset.x+inset.width).toBeLessThan(word.x+word.width);expect(inset.y+inset.height).toBeLessThan(word.y+word.height);
+  await page.locator('.tp-work-head').screenshot({path:testInfo.outputPath(`inset-heading-${width}.png`)});
  }
  await page.emulateMedia({reducedMotion:'reduce'});
  expect(await page.evaluate(()=>getComputedStyle(document.documentElement).scrollBehavior)).toBe('auto');

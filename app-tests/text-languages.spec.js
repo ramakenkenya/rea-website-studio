@@ -14,6 +14,8 @@ test('Korean typography keeps a complete readable layout across phone and deskto
   for(const link of await page.locator('.tp-language-switch a').all())expect((await link.boundingBox()).height).toBeGreaterThanOrEqual(44);
   expect(await page.locator('.tp-art').evaluate(el=>getComputedStyle(el).fontFamily)).toContain('Courier');
   await page.screenshot({path:info.outputPath(`korean-${width}.png`),fullPage:true});
+  await expect(page.getByRole('heading',{name:'나의 작업',exact:true})).toBeVisible();
+  await page.locator('.tp-work-head').screenshot({path:info.outputPath(`inset-heading-korean-${width}.png`)});
  }
  await page.getByRole('link',{name:'English',exact:true}).click();await expect(page.locator('h1')).toContainText('RAMA');
 });
