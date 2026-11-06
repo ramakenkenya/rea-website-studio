@@ -46,7 +46,7 @@ test('static pages and self-contained bilingual preview support both languages w
 test('language links follow renamed pages and a Korean homepage, and disable a deleted language',()=>{
  const metadata=textSampleMetadata(),project=textSampleProject();metadata.homeId='text-ko';metadata.pages[0].slug='english-version';
  const studio=createStudio(project,TEXT_SAMPLE_BRIEF,metadata);
- const models=['en','ko'].map(locale=>({id:`text-${locale}`,getMainComponent:()=>({find:()=>[{getAttributes:()=>({'data-text-locale':locale})}]})}));
+ const models=['en','ko'].map(locale=>({id:`text-${locale}`,getMainComponent:()=>({findType:()=>[{getAttributes:()=>({'data-text-locale':locale})}]})}));
  const targets=textLanguageTargets(models,studio);assert.deepEqual(targets,{en:'english-version.html',ko:'index.html'});
  const html=createTextPortfolio(TEXT_SAMPLE_BRIEF,{sample:true}).html;
  const updated=rewriteTextLanguageLinks(html,targets);assert.match(updated,/data-language-target="en"[^>]*href="english-version.html"/);assert.match(updated,/data-language-target="ko"[^>]*href="index.html"/);
@@ -58,6 +58,7 @@ test('real editor loading preserves both languages internal links and exports on
  const editor=grapesjs.init({headless:true,storageManager:false,parser:{parserHtml:s=>new DOMParser().parseFromString(`<div xmlns="http://www.w3.org/1999/xhtml">${s.replaceAll('<br>','<br/>')}</div>`,'application/xml').documentElement}});
  editor.loadProjectData(textSampleProject());
  const studio=createStudio(editor.getProjectData(),TEXT_SAMPLE_BRIEF,textSampleMetadata());
+ assert.deepEqual(textLanguageTargets(Array.from(editor.Pages.getAll()),studio),{en:'index.html',ko:'ko.html'});
  for(const page of editor.Pages.getAll()){
   const html=page.getMainComponent().toHTML();
   for(const [,id] of html.matchAll(/href="#([^"]+)"/g))assert.ok(html.includes(`id="${id}"`),`${page.id}: missing ${id}`);
