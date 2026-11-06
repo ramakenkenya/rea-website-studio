@@ -19,6 +19,11 @@ export function pixelsToPortrait(rgba,width,height,{dark=true}={}){
 export function portraitMarkup(text,label='Portrait rendered in text characters'){
  return `<pre class="tp-art" data-text-portrait="true" role="img" aria-label="${e(label)}">${e(text)}</pre>`;
 }
+export function replacePortraitText(component,text){
+ // A model textnode bypasses the HTML fragment parser, which trims blank rows.
+ // Textnode handles HTML escaping on export; keep its content unencoded.
+ component.components([{type:'textnode',content:text}]);
+}
 
 // Decode only user-selected files. The source picture never leaves this browser.
 export async function portraitFromFile(file){
@@ -34,7 +39,9 @@ export async function portraitFromFile(file){
   const ctx=canvas.getContext('2d',{willReadFrequently:true});if(!ctx)throw Error('Picture conversion is unavailable in this browser.');
   ctx.fillStyle='#fff';ctx.fillRect(0,0,width,height);
   ctx.drawImage(bitmap,(bitmap.width-sw)/2,(bitmap.height-sh)/2,sw,sh,0,0,width,height);
-  return pixelsToPortrait(ctx.getImageData(0,0,width,height).data,width,height);
+  const text=pixelsToPortrait(ctx.getImageData(0,0,width,height).data,width,height);
+  if(!text.trim())throw Error('No portrait detail found. Choose a clearer photo on a plain background.');
+  return text;
  }finally{bitmap.close();}
 }
 
@@ -48,13 +55,13 @@ export function registerTextPortrait(editor){
 export function mountPortraitControls({editor,toast,markDirty}){
  const panel=document.createElement('div');panel.id='portrait-controls';panel.className='hide';
  panel.innerHTML='<div class="field-title">TEXT PORTRAIT</div><label class="field">Portrait description<input id="portrait-description" maxlength="240"/></label><label class="field">Replace portrait photo<input id="portrait-file" type="file" accept="image/jpeg,image/png,image/webp"/></label><p class="inspector-note">Choose a head-and-shoulders photo on a plain background. Converted on this device; only the characters are saved. JPEG, PNG or WebP · up to 8 MB.</p>';
- document.querySelector('#selected-controls').append(panel);
  const description=panel.querySelector('#portrait-description'),fileInput=panel.querySelector('#portrait-file');
  let selected=null,request=0;
- const clear=()=>{request++;selected=null;panel.classList.add('hide');fileInput.value='';};
+ const clear=()=>{request++;selected=null;panel.remove();fileInput.value='';};
  editor.on('component:selected',c=>{
   request++;selected=c.getAttributes()['data-text-portrait']==='true'?c:null;
-  panel.classList.toggle('hide',!selected);fileInput.value='';description.value=selected?.getAttributes()['aria-label']||'';
+  if(selected){document.querySelector('#selected-controls').append(panel);panel.classList.remove('hide');}else panel.remove();
+  fileInput.value='';description.value=selected?.getAttributes()['aria-label']||'';
  });
  editor.on('component:deselected page:select',clear);
  description.onchange=()=>{if(selected){selected.addAttributes({'aria-label':description.value.trim()||'Portrait rendered in text characters'});markDirty();}};
@@ -65,7 +72,7 @@ export function mountPortraitControls({editor,toast,markDirty}){
    const text=await portraitFromFile(file);
    // A late decode must not change another page, restored project or selection.
    if(ticket!==request||selected!==target||!target.getEl()?.isConnected)return;
-   target.components(e(text));target.addAttributes({'aria-label':description.value.trim()||'Portrait rendered in text characters'});
+   replacePortraitText(target,text);target.addAttributes({'aria-label':description.value.trim()||'Portrait rendered in text characters'});
    markDirty();toast('Text portrait updated. Your original photo stays on this device.');
   }catch(error){if(ticket===request)toast(error.message);}
   finally{fileInput.disabled=false;fileInput.value='';}

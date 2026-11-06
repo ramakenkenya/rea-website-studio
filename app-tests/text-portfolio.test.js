@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {pixelsToPortrait,portraitMarkup} from '../src/text-portrait.js';
+import {pixelsToPortrait,portraitMarkup,portraitFromFile,replacePortraitText,registerTextPortrait} from '../src/text-portrait.js';
+import grapesjs from 'grapesjs';
 import {createTextPortfolio,TEXT_SAMPLE_BRIEF} from '../src/text-portfolio.js';
 import {normalizeBrief,snapshot,validateSnapshot} from '../src/project.js';
 import {createStarter,THEMES} from '../src/templates.js';
@@ -42,4 +43,25 @@ test('completed sample has real projects, portable artwork and intact section na
  const s=createStudio({pages:[{id:'home'}]},TEXT_SAMPLE_BRIEF);
  assert.match(rewriteNavigation(p.html,s,'home'),/href="#work"/);
  assert.doesNotThrow(()=>assertSafeValue(p));
+});
+
+test('blank or oversized photos are rejected without storing an empty portrait',async()=>{
+ await assert.rejects(portraitFromFile({type:'image/png',size:8*1024*1024+1}),/smaller than 8 MB/);
+ await assert.rejects(portraitFromFile({type:'image/svg+xml',size:40}),/JPEG, PNG or WebP/);
+ const bitmap=globalThis.createImageBitmap,doc=globalThis.document;let closed=false;
+ globalThis.createImageBitmap=async()=>({width:120,height:88,close(){closed=true;}});
+ globalThis.document={createElement:()=>({getContext:()=>({fillRect(){},drawImage(){},getImageData:()=>({data:new Uint8ClampedArray(120*88*4).fill(255)})})})};
+ try{await assert.rejects(portraitFromFile({type:'image/png',size:100}),/No portrait detail/);assert.ok(closed);}
+ finally{if(bitmap===undefined)delete globalThis.createImageBitmap;else globalThis.createImageBitmap=bitmap;if(doc===undefined)delete globalThis.document;else globalThis.document=doc;}
+});
+
+test('uploaded character grids keep blank margins and escape markup through model restore and export',()=>{
+ const editor=grapesjs.init({headless:true,storageManager:false});registerTextPortrait(editor);
+ const portrait=editor.addComponents({type:'text-portrait',attributes:{'data-text-portrait':'true',class:'tp-art'}})[0];
+ const text=Array(5).fill(' '.repeat(120)).concat([' '.repeat(45)+'<&>'],Array(82).fill(' '.repeat(120))).join('\n');
+ replacePortraitText(portrait,text);
+ assert.equal(portrait.components().at(0).get('content'),text);assert.match(portrait.toHTML(),/&lt;&amp;&gt;/);assert.doesNotMatch(portrait.toHTML(),/&amp;lt;/);
+ const data=JSON.parse(JSON.stringify(editor.getProjectData()));editor.loadProjectData(data);
+ assert.equal(editor.getWrapper().components().at(0).components().at(0).get('content'),text);
+ editor.destroy();
 });

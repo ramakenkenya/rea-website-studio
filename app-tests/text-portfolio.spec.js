@@ -13,6 +13,7 @@ test('standalone text sample is readable offline at phone, tablet and desktop wi
   await page.setViewportSize({width,height:1000});
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   const portrait=await page.locator('.tp-art').boundingBox();expect(portrait.width).toBeGreaterThan(200);expect(portrait.height).toBeGreaterThan(240);
+  expect(await page.locator('.tp-contact .tp-outline').evaluate(el=>el.getClientRects().length)).toBe(1);
   await page.screenshot({path:testInfo.outputPath(`sample-${width}.png`),fullPage:true});
  }
  await page.emulateMedia({reducedMotion:'reduce'});
@@ -32,10 +33,12 @@ test('sample opens without overwriting a saved project; artwork survives restore
  await expect(page.frameLocator('.gjs-frame').locator('h1')).toContainText('RAMA');
  expect(await canvas.locator('.tp-art').textContent()).toBe(RAMA_PORTRAIT);
  const backupEvent=page.waitForEvent('download');await page.locator('#backup').click();const backup=await backupEvent;
+ await fs.copyFile(await backup.path(),testInfo.outputPath('rama-ken-project.json'));
  await page.locator('#restore-file').setInputFiles(await backup.path());await expect(page.getByRole('status')).toContainText('Project restored');
  expect(await canvas.locator('.tp-art').textContent()).toBe(RAMA_PORTRAIT);
  await page.locator('#export-top').click();const event=page.waitForEvent('download');await page.locator('#download-site').click();
- const zip=await JSZip.loadAsync(await fs.readFile(await(await event).path()));
+ const exported=await event;await fs.copyFile(await exported.path(),testInfo.outputPath('rama-ken-website.zip'));
+ const zip=await JSZip.loadAsync(await fs.readFile(await exported.path()));
  const files=Object.fromEntries(await Promise.all(Object.keys(zip.files).map(async name=>[name,await zip.file(name).async('string')])));
  const standalone=await context.newPage();
  await standalone.route('https://text-export.example/**',route=>{const name=new URL(route.request().url()).pathname.slice(1)||'index.html';return route.fulfill({contentType:name.endsWith('.css')?'text/css':'text/html',body:files[name]||''});});
