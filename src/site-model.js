@@ -4,7 +4,7 @@ import {normalizeShop,shopSection} from './shop-model.js';
 const e=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const object=value=>value&&typeof value==='object'&&!Array.isArray(value);
 const RESERVED=new Set(['index','404','styles','studio','robots','sitemap','readme','rea-shop']);
-const PALETTES={editorial:{paper:'#f5f1e9',ink:'#202c2d',accent:'#ad462e'},coastal:{paper:'#eff6f4',ink:'#143b3b',accent:'#12675d'},midnight:{paper:'#1b2530',ink:'#f5f0e8',accent:'#e7b78c'}};
+const PALETTES={editorial:{paper:'#f5f1e9',ink:'#202c2d',accent:'#ad462e'},coastal:{paper:'#eff6f4',ink:'#143b3b',accent:'#12675d'},midnight:{paper:'#1b2530',ink:'#f5f0e8',accent:'#e7b78c'},text:{paper:'#0b0b0b',ink:'#f3f1e9',accent:'#f3f1e9'}};
 export const SYSTEM_FONTS={serif:{body:'Arial,Helvetica,sans-serif',heading:'Georgia,"Times New Roman",serif'},editorial:{body:'Arial,Helvetica,sans-serif',heading:'Georgia,"Times New Roman",serif'},sans:{body:'Arial,Helvetica,sans-serif',heading:'Arial,Helvetica,sans-serif'},modern:{body:'system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif',heading:'system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif'},mono:{body:'Arial,Helvetica,sans-serif',heading:'"Courier New",monospace'}};
 const clean=value=>String(value??'').trim();
 function text(value,fallback='',max=320){const result=clean(value??fallback);if(result.length>max)throw new Error('Invalid studio text: too long.');return result;}
@@ -90,7 +90,7 @@ export function createStudio(project,brief={},input={}){
  const siteInput=input.site||{},brandInput=siteInput.brand||{};if(!object(brandInput))throw new Error('Invalid brand settings.');
  const palette=PALETTES[brief.theme]||PALETTES.editorial,brand={};
  for(const key of ['paper','ink','accent']){brand[key]=text(brandInput[key],palette[key],9);if(!/^#[a-f0-9]{6}$/i.test(brand[key]))throw new Error('Invalid brand color. Use a six-digit hex color.');}
- brand.font=text(brandInput.font,'serif',30);if(!Object.hasOwn(SYSTEM_FONTS,brand.font))throw new Error('Invalid brand font preset.');
+ brand.font=text(brandInput.font,brief.theme==='text'?'sans':'serif',30);if(!Object.hasOwn(SYSTEM_FONTS,brand.font))throw new Error('Invalid brand font preset.');
  brand.width=number(brandInput.width,1200,640,1800);brand.radius=number(brandInput.radius,0,0,48);
  const language=text(siteInput.language,'en',35);if(!/^[a-z]{2,8}(?:-[a-z0-9]{1,8})*$/i.test(language))throw new Error('Invalid site language.');
  const direction=text(siteInput.direction,'ltr',3);if(!['ltr','rtl'].includes(direction))throw new Error('Invalid text direction.');

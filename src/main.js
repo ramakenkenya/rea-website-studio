@@ -10,6 +10,8 @@ import {createStudio} from './site-model.js';
 import {EXTRA_BLOCKS,extraSection,EXTRA_CSS} from './blocks.js';
 import {mountBriefImport} from './brief-import.js';
 import {replaceImportedProject} from './import-transaction.js';
+import {registerTextPortrait,mountPortraitControls} from './text-portrait.js';
+import {createTextPortfolio,TEXT_SAMPLE_BRIEF,textSampleProject,textSampleMetadata} from './text-portfolio.js';
 const paths={grid:'M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z',spark:'m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z',file:'M14 2H5v20h14V7zM14 2v6h5M8 13h8M8 17h6',palette:'M12 3a9 9 0 1 0 0 18h2a2 2 0 0 0 0-4h-1a2 2 0 0 1 0-4h4c6 0 5-10-5-10zM7 8h.01M12 6h.01M17 8h.01',check:'m5 12 4 4L19 6',shield:'m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6zM8 12l3 3 5-6',arrow:'M5 12h14m-6-6 6 6-6 6',plus:'M12 5v14M5 12h14',close:'m6 6 12 12M6 18 18 6',download:'M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5',save:'M4 3h14l3 3v15H3V3zM7 3v7h10V3M7 21v-7h10v7',desktop:'M3 4h18v13H3zM8 21h8M12 17v4',tablet:'M5 2h14v20H5zM11 18h2',phone:'M7 2h10v20H7zM11 18h2',undo:'M4 4v6h6M4 10a8 8 0 1 1-1 7',redo:'M20 4v6h-6M20 10a8 8 0 1 0 1 7',image:'M3 3h18v18H3zM3 17l6-6 4 4 3-3 5 5M15 7h.01',text:'M4 5h16M12 5v15M8 20h8',layers:'m12 3 10 5-10 5L2 8zM2 12l10 5 10-5M2 16l10 5 10-5',up:'m6 15 6-6 6 6',down:'m6 9 6 6 6-6',trash:'M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7',cursor:'m5 3 14 10-7 1-3 7z',external:'M14 3h7v7M21 3 10 14M10 3H3v18h18v-7',mail:'M3 5h18v14H3zM3 5l9 8 9-8',lock:'M5 10h14v11H5zM8 10V6a4 4 0 0 1 8 0v4',book:'M12 5C8 2 5 3 2 4v16c5-2 7-1 10 1 3-2 5-3 10-1V4c-3-1-6-2-10 1zM12 5v16',align:'M4 6h16M4 10h11M4 14h16M4 18h11'};
 const icon=(name)=>`<svg aria-hidden="true" viewBox="0 0 24 24"><path d="${paths[name]||paths.grid}"/></svg>`;
 const sections=[['hero','Hero','spark'],['services','Services','grid'],['about','About','text'],['image','Image','image'],['contact','Contact','mail']];
@@ -35,7 +37,9 @@ const $=s=>document.querySelector(s);
 const toast=(msg)=>{clearTimeout(toastTimer);$('#toast').textContent=msg;toastTimer=setTimeout(()=>$('#toast').textContent='',5500);};
 const editor=grapesjs.init({container:'#gjs',height:'100%',width:'auto',storageManager:false,assetManager:{custom:{open:()=>studio.open('Assets'),close:()=>{}},upload:false,embedAsBase64:false,dropzone:false,openAssetsOnDrop:false},panels:{defaults:[]},blockManager:{appendTo:'#blocks'},selectorManager:{componentFirst:true},deviceManager:{devices:[{name:'Desktop',width:''},{name:'Tablet',width:'768px',widthMedia:'992px'},{name:'Mobile',width:'375px',widthMedia:'640px'}]},canvas:{styles:[],scripts:[]},parser:{optionsHtml:{allowScripts:false,allowUnsafeAttr:false,allowUnsafeAttrValue:false}},allowScripts:0,noticeOnUnload:false,fromElement:false,nativeDnD:false});
 let mode='new',selected=null;
+registerTextPortrait(editor);
 const studio=mountStudio({editor,getBrief:()=>brief,setBrief:next=>{brief=normalizeBrief(next);updateNames();registerBlocks();},toast,markDirty,capture:()=>capture(),restore:loadProject,onSelect:()=>{selectComponent(null);layers();},onSaved:()=>{dirty=false;}});
+mountPortraitControls({editor,toast,markDirty});
 function capture(){studio.sync();return snapshot(brief,editor.getProjectData(),studio.getState());}
 function markDirty(){if(importing||!ready)return;dirty=true;$('#save-status').textContent='Unsaved changes';}
 function updateNames(){for(const id of ['project-name','crumb-name'])$('#'+id).textContent=brief.name;}
@@ -60,7 +64,11 @@ function changePanel(id){document.querySelectorAll('[data-panel]').forEach(b=>b.
 async function downloadWebsite(){try{const blob=await siteZip(editor,brief,studio.getState());download(blob,exportName(brief));document.querySelectorAll('#checks-dialog[open],#export-dialog[open]').forEach(d=>d.close());toast('Website ZIP downloaded. Unzip it and open index.html.');}catch{toast('Export failed. Please try again.');}}
 editor.on('load',()=>{
  const saved=readSaved(localStorage);importing=true;
- if(saved.ok&&saved.data){loadProject(saved.data);$('#save-status').textContent='Saved on this device';}else{const starter=createStarter(brief);editor.setComponents(starter.html);editor.setStyle(starter.css);registerBlocks();if(!saved.ok)toast(saved.error);}
+ if(new URLSearchParams(location.search).get('sample')==='text-portfolio'){
+  brief=normalizeBrief(TEXT_SAMPLE_BRIEF);editor.loadProjectData(textSampleProject());editor.setStyle(createTextPortfolio(brief,{sample:true}).css);studio.init(textSampleMetadata());registerBlocks();$('#save-status').textContent='Sample · not saved yet';
+  history.replaceState(null,'',location.pathname+location.hash);
+  toast('Rama’s text portfolio is ready to edit. Your saved project is unchanged until you choose Save project.');
+ }else if(saved.ok&&saved.data){loadProject(saved.data);$('#save-status').textContent='Saved on this device';}else{const starter=createStarter(brief);editor.setComponents(starter.html);editor.setStyle(starter.css);registerBlocks();if(!saved.ok)toast(saved.error);}
  importing=false;ready=true;if(!studio.getState())studio.init();$('#save').disabled=false;layers();updateNames();editor.UndoManager.clear();
 });
 editor.on('update',markDirty);editor.on('component:selected',selectComponent);editor.on('component:deselected',()=>selectComponent(null));editor.on('component:add component:remove',()=>{if(ready)layers();});
@@ -70,7 +78,7 @@ const briefImport=mountBriefImport({dialog:$('#brief-dialog'),form:$('#brief-for
 },onImported:()=>{editor.UndoManager.clear();markDirty();toast('Document imported. Your website is ready to edit. Save the project to keep it.');}});
 $('#new-site').onclick=()=>openBrief('new');$('#mobile-brief').onclick=()=>openBrief('edit');
 $('#brief-form').onsubmit=e=>{e.preventDefault();if(briefImport.active()){briefImport.create();return;}try{
- const next=normalizeBrief(Object.fromEntries(new FormData(e.target)));
+ const next=normalizeBrief(Object.fromEntries(new FormData(e.target))),previousTheme=brief.theme;
  const currentState=studio.getState();if(currentState)createStudio(editor.getProjectData(),next,{...currentState,site:{...currentState.site,name:next.name},pages:currentState.pages.map(p=>p.id===editor.Pages.getSelected()?.id?{...p,title:next.title,description:next.description}:p)});
  const rebuild=mode==='new'||e.submitter?.dataset.action!=='details';
  if(rebuild){
@@ -82,7 +90,7 @@ $('#brief-form').onsubmit=e=>{e.preventDefault();if(briefImport.active()){briefI
   finally{importing=false;}
   selectComponent(null);$('#project-kind').textContent='Your project';
  }else{brief=next;}
- updateNames();registerBlocks();layers();studio.sync();if(studio.getState()){studio.getState().site.name=brief.name;const current=studio.getState().pages.find(p=>p.id===editor.Pages.getSelected()?.id);if(current){current.title=brief.title;current.description=brief.description;}if(rebuild)studio.resetPage();}markDirty();$('#brief-dialog').close();
+ updateNames();registerBlocks();layers();studio.sync();if(studio.getState()){studio.getState().site.name=brief.name;if(rebuild&&previousTheme!==brief.theme){const t=THEMES[brief.theme];Object.assign(studio.getState().site.brand,{paper:t.paper,ink:t.ink,accent:t.accent,font:brief.theme==='text'?'sans':'serif'});}const current=studio.getState().pages.find(p=>p.id===editor.Pages.getSelected()?.id);if(current){current.title=brief.title;current.description=brief.description;}if(rebuild)studio.resetPage();}markDirty();$('#brief-dialog').close();
  toast(rebuild?'Your website was built from this brief. Save the project to keep it.':'Project details saved. The visible page is unchanged.');
  }catch(err){$('#brief-error').textContent=err.message;}};
 $('#save').onclick=save;$('#backup').onclick=()=>{try{download(new Blob([serializeBackup(capture())],{type:'application/json'}),fileSlug(brief.name)+'-project.json');toast('Project backup downloaded. Restore this file to keep editing.');}catch(err){toast(err.message);}};
