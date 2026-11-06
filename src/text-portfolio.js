@@ -15,7 +15,10 @@ const placeholder=Array.from({length:88},(_,y)=>Array.from({length:120},(_,x)=>{
 export const TEXT_SAMPLE_PAGES=[{id:'text-en',name:'English',slug:'english',title:TEXT_SAMPLE_BRIEF.title,description:TEXT_SAMPLE_BRIEF.description,nav:false},{id:'text-ko',name:'한국어',slug:'ko',title:'라마 켄 — 아이디어를 실제로 만드는 일',description:PORTFOLIO_COPY.ko.intro,nav:false}];
 export function textSampleMetadata(){return {homeId:'text-en',pages:TEXT_SAMPLE_PAGES.map(p=>({...p})),autosave:false};}
 export function textSampleProject(){
- return {pages:TEXT_SAMPLE_PAGES.map((p,i)=>({id:p.id,name:p.name,component:createTextPortfolio(TEXT_SAMPLE_BRIEF,{sample:true,language:i?'ko':'en'}).html})),styles:[]};
+ return {pages:TEXT_SAMPLE_PAGES.map((p,i)=>{const html=createTextPortfolio(TEXT_SAMPLE_BRIEF,{sample:true,language:i?'ko':'en'}).html;return {id:p.id,name:p.name,component:i?prefixTextPortfolioIds(html):html};}),styles:[]};
+}
+export function prefixTextPortfolioIds(html){
+ return html.replace(/\bid="([^"]+)"/g,(_,id)=>`id="ko-${id}"`).replace(/href="#([^"]+)"/g,(_,id)=>`href="#${['en','ko'].includes(id)?id:'ko-'+id}"`);
 }
 
 export function createTextPortfolio(brief,{sample=false,language='en',languageLinks={en:'index.html',ko:'ko.html'}}={}){

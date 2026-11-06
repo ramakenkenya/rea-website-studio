@@ -50,10 +50,13 @@ test('sample opens without overwriting a saved project; artwork survives restore
  expect(await standalone.locator('.tp-art').evaluate(el=>getComputedStyle(el).whiteSpace)).toBe('pre');
  await standalone.screenshot({path:testInfo.outputPath('export-phone.png'),fullPage:true});
  await standalone.getByRole('link',{name:'한국어',exact:true}).click();
+ await expect(standalone.locator('header')).toHaveCount(1);
  await expect(standalone.locator('html')).toHaveAttribute('lang','ko');
  await expect(standalone.locator('h1')).toContainText('라마');
  await expect(standalone.locator('.tp-about-copy')).toContainText('한국에서 생활하며 공부');
  expect(await standalone.locator('.tp-art').textContent()).toBe(RAMA_PORTRAIT);
+ await standalone.getByRole('link',{name:'작업',exact:true}).click();await expect(standalone).toHaveURL(/#ko-work$/);
+ await expect(standalone.locator('#ko-work')).toBeVisible();
  expect(await standalone.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await standalone.screenshot({path:testInfo.outputPath('export-korean-phone.png'),fullPage:true});
  await standalone.getByRole('link',{name:'English',exact:true}).click();await expect(standalone.locator('h1')).toContainText('RAMA');

@@ -5,6 +5,8 @@ import {textSampleFiles,bilingualSampleDocument} from '../scripts/text-sample.mj
 import {assertSafeValue,createStudio} from '../src/site-model.js';
 import {buildDocument} from '../src/export.js';
 import {textLanguageTargets,rewriteTextLanguageLinks} from '../src/text-languages.js';
+import grapesjs from 'grapesjs';
+import {DOMParser} from '@xmldom/xmldom';
 
 test('English identity describes past study and life in South Korea without a current-location claim',()=>{
  const {html}=createTextPortfolio(TEXT_SAMPLE_BRIEF,{sample:true});
@@ -50,4 +52,17 @@ test('language links follow renamed pages and a Korean homepage, and disable a d
  const updated=rewriteTextLanguageLinks(html,targets);assert.match(updated,/data-language-target="en"[^>]*href="english-version.html"/);assert.match(updated,/data-language-target="ko"[^>]*href="index.html"/);
  const removed=rewriteTextLanguageLinks(html,{en:'index.html'});assert.match(removed,/data-language-target="ko"[^>]*aria-disabled="true"/);
  assert.doesNotMatch(removed,/href="ko.html"/);
+});
+
+test('real editor loading preserves both languages internal links and exports one localized header',()=>{
+ const editor=grapesjs.init({headless:true,storageManager:false,parser:{parserHtml:s=>new DOMParser().parseFromString(`<div xmlns="http://www.w3.org/1999/xhtml">${s.replaceAll('<br>','<br/>')}</div>`,'application/xml').documentElement}});
+ editor.loadProjectData(textSampleProject());
+ const studio=createStudio(editor.getProjectData(),TEXT_SAMPLE_BRIEF,textSampleMetadata());
+ for(const page of editor.Pages.getAll()){
+  const html=page.getMainComponent().toHTML();
+  for(const [,id] of html.matchAll(/href="#([^"]+)"/g))assert.ok(html.includes(`id="${id}"`),`${page.id}: missing ${id}`);
+  const out=buildDocument({html,brief:TEXT_SAMPLE_BRIEF,page:studio.pages.find(p=>p.id===page.id),studio});
+  assert.equal((out.match(/<header\b/g)||[]).length,1);
+ }
+ editor.destroy();
 });

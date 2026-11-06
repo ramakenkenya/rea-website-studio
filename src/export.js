@@ -5,11 +5,12 @@ import {escapeHtml as e,fileSlug} from './project.js';
 import {createStudio,pageFile,brandCss,rewriteNavigation,rewriteShopSections} from './site-model.js';
 import {textLanguageTargets,rewriteTextLanguageLinks} from './text-languages.js';
 export function buildDocument({html,brief,page,studio,cssFile='styles.css'}){
- const bodyHtml=studio?rewriteShopSections(rewriteNavigation(html,studio,page?.id),studio.shop,studio.site.name):html;
+ const textLocale=/\bdata-text-locale="(en|ko)"/.exec(html)?.[1];
+ const bodyHtml=studio?rewriteShopSections(textLocale?html:rewriteNavigation(html,studio,page?.id),studio.shop,studio.site.name):html;
  const hasShop=studio&&/data-rea-shop="true"/.test(bodyHtml);
  const body=/^\s*<body[\s>]/i.test(bodyHtml)?bodyHtml:`<body>${bodyHtml}</body>`;
  const title=page?.title||brief.title||brief.name,description=page?.description??brief.description??'';
- const language=/\bdata-text-locale="(en|ko)"/.exec(bodyHtml)?.[1]||studio?.site.language||'en',direction=studio?` dir="${e(studio.site.direction)}"`:'';
+ const language=textLocale||studio?.site.language||'en',direction=studio?` dir="${e(studio.site.direction)}"`:'';
  let extra=hasShop?'<link rel="stylesheet" href="rea-shop.css"><script src="rea-shop.js" defer></script>':'';
  if(studio){
   const site=studio.site,canonical=site.url&&page?`${site.url}/${pageFile(page,studio)}`:'';

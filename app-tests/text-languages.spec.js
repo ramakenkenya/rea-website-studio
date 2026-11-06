@@ -42,4 +42,7 @@ test('completed bilingual starter opens both editable languages from Library',as
  await page.getByRole('button',{name:'Open 한국어 page',exact:true}).click();
  await expect(page.frameLocator('.gjs-frame').locator('h1')).toContainText('라마');
  await expect(page.frameLocator('.gjs-frame').locator('header')).toHaveCount(1);
+ await page.getByRole('button',{name:'Studio tools',exact:true}).click();await page.getByRole('tab',{name:'Library',exact:true}).click();
+ await page.getByRole('button',{name:'Insert FAQ',exact:true}).click();await page.getByRole('button',{name:'Close studio tools',exact:true}).click();
+ expect(await page.frameLocator('.gjs-frame').locator('[data-section="FAQ"]').evaluate(el=>parseFloat(getComputedStyle(el).paddingTop))).toBeGreaterThan(0);
 });

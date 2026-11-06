@@ -1,4 +1,4 @@
-import {createTextPortfolio,TEXT_SAMPLE_BRIEF} from '../src/text-portfolio.js';
+import {createTextPortfolio,TEXT_SAMPLE_BRIEF,prefixTextPortfolioIds} from '../src/text-portfolio.js';
 import {buildDocument} from '../src/export.js';
 import {PORTFOLIO_COPY} from '../src/text-portfolio-copy.js';
 
@@ -21,7 +21,7 @@ export function textSampleFiles(){
 export function bilingualSampleDocument(){
  const english=createTextPortfolio(TEXT_SAMPLE_BRIEF,{sample:true,language:'en',languageLinks:{en:'#en',ko:'#ko'}});
  let korean=createTextPortfolio(TEXT_SAMPLE_BRIEF,{sample:true,language:'ko',languageLinks:{en:'#en',ko:'#ko'}}).html;
- korean=korean.replace(/\bid="([^"]+)"/g,(_,id)=>`id="ko-${id}"`).replace(/href="#([^"]+)"/g,(_,id)=>`href="#${['en','ko'].includes(id)?id:'ko-'+id}"`);
+ korean=prefixTextPortfolioIds(korean);
  const css=`${english.css}\n.tp-preview-ko{display:none}.tp-bilingual:has(#ko:target,[id^="ko-"]:target)>.tp-preview-en{display:none}.tp-bilingual:has(#ko:target,[id^="ko-"]:target)>.tp-preview-ko{display:block}`;
  const html=`<div class="tp-bilingual"><div id="en" class="tp-preview-en">${english.html}</div><div id="ko" class="tp-preview-ko">${korean}</div></div>`;
  return buildDocument({html,brief:{...TEXT_SAMPLE_BRIEF,title:'Rama Ken / 라마 켄 — Portfolio'}}).replace('<link rel="stylesheet" href="styles.css">',`<style>${css}</style>`);
