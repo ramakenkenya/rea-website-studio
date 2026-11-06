@@ -3,12 +3,13 @@ import {shopCss} from './shop-style.js';
 import JSZip from 'jszip';
 import {escapeHtml as e,fileSlug} from './project.js';
 import {createStudio,pageFile,brandCss,rewriteNavigation,rewriteShopSections} from './site-model.js';
+import {textLanguageTargets,rewriteTextLanguageLinks} from './text-languages.js';
 export function buildDocument({html,brief,page,studio,cssFile='styles.css'}){
  const bodyHtml=studio?rewriteShopSections(rewriteNavigation(html,studio,page?.id),studio.shop,studio.site.name):html;
  const hasShop=studio&&/data-rea-shop="true"/.test(bodyHtml);
  const body=/^\s*<body[\s>]/i.test(bodyHtml)?bodyHtml:`<body>${bodyHtml}</body>`;
  const title=page?.title||brief.title||brief.name,description=page?.description??brief.description??'';
- const language=studio?.site.language||'en',direction=studio?` dir="${e(studio.site.direction)}"`:'';
+ const language=/\bdata-text-locale="(en|ko)"/.exec(bodyHtml)?.[1]||studio?.site.language||'en',direction=studio?` dir="${e(studio.site.direction)}"`:'';
  let extra=hasShop?'<link rel="stylesheet" href="rea-shop.css"><script src="rea-shop.js" defer></script>':'';
  if(studio){
   const site=studio.site,canonical=site.url&&page?`${site.url}/${pageFile(page,studio)}`:'';
@@ -24,12 +25,12 @@ const LEGACY_README=`Created with REA Studio.\n\nOpen index.html beside styles.c
 export function exportFiles(editor,brief,studio){
  if(studio===undefined)return {'index.html':buildDocument({html:editor.getHtml({cleanId:true}),brief}),'styles.css':editor.getCss(),'README.txt':LEGACY_README};
  const editorPages=Array.from(editor.Pages.getAll()),actual=editorPages.map((p,i)=>({id:String(p.getId?.()??p.id??p.get?.('id')??`page-${i+1}`),name:p.get?.('name')??p.name}));
- const state=createStudio({pages:actual},brief,studio),files={};
+ const state=createStudio({pages:actual},brief,studio),files={},languageTargets=textLanguageTargets(editorPages,state);
  for(const page of state.pages){
   const item=editorPages[actual.findIndex(p=>p.id===page.id)],component=item.getMainComponent();
   if(!component)throw new Error(`Page "${page.name}" has no exportable content.`);
   const filename=pageFile(page,state),cssFile=page.id===state.homeId?'styles.css':page.slug+'.css';
-  files[filename]=buildDocument({html:editor.getHtml({component,cleanId:true}),brief,page,studio:state,cssFile});
+  files[filename]=buildDocument({html:rewriteTextLanguageLinks(editor.getHtml({component,cleanId:true}),languageTargets),brief,page,studio:state,cssFile});
   files[cssFile]=editor.getCss({component});
  }
  files['studio.css']=brandCss(state);

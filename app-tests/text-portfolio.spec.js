@@ -49,6 +49,18 @@ test('sample opens without overwriting a saved project; artwork survives restore
  expect(await standalone.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  expect(await standalone.locator('.tp-art').evaluate(el=>getComputedStyle(el).whiteSpace)).toBe('pre');
  await standalone.screenshot({path:testInfo.outputPath('export-phone.png'),fullPage:true});
+ await standalone.getByRole('link',{name:'한국어',exact:true}).click();
+ await expect(standalone.locator('html')).toHaveAttribute('lang','ko');
+ await expect(standalone.locator('h1')).toContainText('라마');
+ await expect(standalone.locator('.tp-about-copy')).toContainText('한국에서 생활하며 공부');
+ expect(await standalone.locator('.tp-art').textContent()).toBe(RAMA_PORTRAIT);
+ expect(await standalone.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await standalone.screenshot({path:testInfo.outputPath('export-korean-phone.png'),fullPage:true});
+ await standalone.getByRole('link',{name:'English',exact:true}).click();await expect(standalone.locator('h1')).toContainText('RAMA');
+ await page.getByRole('button',{name:'Open 한국어 page',exact:true}).click();
+ await expect(canvas.locator('h1')).toContainText('라마');
+ await page.locator('#save').click();await page.reload();
+ await page.getByRole('button',{name:'Open 한국어 page',exact:true}).click();await expect(canvas.locator('h1')).toContainText('라마');
 });
 
 test('generic text theme uses the brief and portrait photo replacement is saved as characters',async({page},testInfo)=>{
