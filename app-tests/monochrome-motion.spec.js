@@ -27,7 +27,7 @@ test('contrast section moves in opposite directions, pauses by keyboard and resp
  await section.screenshot({path:testInfo.outputPath('contrast-reduced-motion.png')});
 });
 
-test('single-file Korean contrast is localized and works offline; editor export preserves motion styles',async({page},testInfo)=>{
+test('single-file Korean contrast is localized and works offline; editor export preserves motion controls',async({page,context},testInfo)=>{
  await page.goto('./samples/rama-ken/preview.html#ko');
  await page.context().setOffline(true);
  const korean=page.locator('#ko .mm-section');
@@ -49,4 +49,19 @@ test('single-file Korean contrast is localized and works offline; editor export 
  const css=await zip.file('styles.css').async('string');
  expect(css).toContain('@keyframes mm-travel');expect(css).toContain('animation-play-state:paused');
  expect(css).toContain('prefers-reduced-motion');
+ const exported=await context.newPage();
+ await exported.route('https://motion-export.example/**',async route=>{
+  const path=new URL(route.request().url()).pathname.slice(1)||'index.html';
+  const file=zip.file(path);
+  await route.fulfill({status:file?200:404,contentType:path.endsWith('.css')?'text/css':'text/html',body:file?await file.async('string'):''});
+ });
+ await exported.goto('https://motion-export.example/');
+ const section=exported.locator('.mm-section');
+ expect(await section.locator('.mm-track').evaluateAll(els=>els.every(el=>getComputedStyle(el).animationName==='mm-travel'))).toBe(true);
+ await section.getByRole('checkbox').check();
+ expect(await section.locator('.mm-track').evaluateAll(els=>els.every(el=>getComputedStyle(el).animationPlayState==='paused'))).toBe(true);
+ await exported.setViewportSize({width:390,height:844});
+ await section.screenshot({path:testInfo.outputPath('contrast-export-390.png')});
+ await exported.emulateMedia({reducedMotion:'reduce'});
+ expect(await section.locator('.mm-track').evaluateAll(els=>els.every(el=>getComputedStyle(el).animationName==='none'))).toBe(true);
 });
