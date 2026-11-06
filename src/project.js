@@ -6,7 +6,7 @@ export function normalizeBrief(input={}){
  for(const key of ['name','description','services','email','title','cta','theme']) brief[key]=String(input[key]??'').trim().slice(0,key==='description'?320:180);
  if(!brief.name)throw new Error('Enter a business name.');
  if(brief.email&&!/^[^\s@<>"']+@[^\s@<>"']+\.[^\s@<>"']+$/.test(brief.email))throw new Error('Enter a valid contact email.');
- brief.title ||= brief.name;brief.cta ||= 'Let’s talk';brief.theme=['editorial','coastal','midnight'].includes(brief.theme)?brief.theme:'editorial';
+ brief.title ||= brief.name;brief.cta ||= 'Let’s talk';brief.theme=['editorial','coastal','midnight','text'].includes(brief.theme)?brief.theme:'editorial';
  return brief;
 }
 export function snapshot(brief,project,studio){const normalized=normalizeBrief(brief);return {schema:studio===undefined?1:2,app:'REA Studio',savedAt:new Date().toISOString(),brief:normalized,project,...(studio===undefined?{}:{studio:createStudio(project,normalized,studio)})};}

@@ -1,9 +1,10 @@
 import {escapeHtml as e,normalizeBrief} from './project.js';
 import {createStarter} from './templates.js';
+import {createTextPortfolio,TEXT_SAMPLE_BRIEF} from './text-portfolio.js';
 
 export const EXTRA_BLOCKS=[{id:'products',name:'Product grid'},{id:'gallery',name:'Image gallery'},{id:'faq',name:'FAQ'},{id:'testimonials',name:'Testimonials'},{id:'team',name:'Team'},{id:'pricing',name:'Pricing'},{id:'stats',name:'Statistics'},{id:'cta',name:'Call to action'},{id:'hours',name:'Opening hours'},{id:'social',name:'Social links'}];
 export const PAGE_PRESETS=[{id:'about',name:'About'},{id:'products',name:'Products'},{id:'contact',name:'Contact'}];
-export const STARTER_PACKS=[{id:'coffee',name:'Coffee shop'},{id:'furniture',name:'Furniture showroom'},{id:'portfolio',name:'Personal portfolio'}];
+export const STARTER_PACKS=[{id:'coffee',name:'Coffee shop'},{id:'furniture',name:'Furniture showroom'},{id:'portfolio',name:'Personal portfolio'},{id:'text-portfolio',name:'Rama Ken · text portfolio'}];
 
 // These styles are deliberately separate: the editor adds them when a single
 // block is inserted into a blank page or an imported website.
@@ -82,8 +83,9 @@ const PACKS={
  furniture:{name:'Field & Form',description:'Considered furniture for rooms that are lived in. Discover tactile materials, useful shapes and pieces that settle naturally into your home.',services:'Living room, Dining room, Lighting',email:'hello@example.com',title:'Field & Form — furniture for everyday living',cta:'Plan a visit',theme:'coastal',kicker:'LIVE WITH WHAT YOU LOVE.',headline:'Good company for your everyday.',art:'furniture',alt:'Original illustration of a softly upholstered lounge chair',foot:'Honest materials. Useful forms. Your own way of living.',products:[['The reading chair','furniture','A quiet corner starts here. Add upholstery options, dimensions and your real price.'],['The gathering table','table','Room for dinner and everything around it. Add finishes, sizes and lead times.'],['The evening light','lamp','A softer end to the day. Add materials, bulb specifications and availability.']]},
  portfolio:{name:'Alex Morgan',description:'Independent designer working across visual identities, print and digital experiences. I help good ideas find a clear and memorable form.',services:'Visual identity, Editorial design, Digital design',email:'hello@example.com',title:'Alex Morgan — independent designer',cta:'Discuss a project',theme:'editorial',kicker:'INDEPENDENT DESIGNER. OPEN TO IDEAS.',headline:'Clear ideas. A character of their own.',art:'portfolio',alt:'Original illustration of a design portfolio displayed on a screen',foot:'A selected collection of self-initiated design studies.',products:[['A printed perspective','print','Self-initiated editorial study exploring rhythm, colour and a considered use of space.'],['An identity in motion','identity','Concept identity study: a flexible mark and a warm, confident visual language.'],['A place for good ideas','portfolio','Digital concept study bringing information, hierarchy and a little personality together.']]}
 };
-export function starterBrief(kind){const p=PACKS[kind];if(!p)throw new Error(`Unknown starter pack: ${kind}`);return normalizeBrief(p);}
+export function starterBrief(kind){if(kind==='text-portfolio')return normalizeBrief(TEXT_SAMPLE_BRIEF);const p=PACKS[kind];if(!p)throw new Error(`Unknown starter pack: ${kind}`);return normalizeBrief(p);}
 export function starterPage(kind,input){
+ if(kind==='text-portfolio')return createTextPortfolio(input||TEXT_SAMPLE_BRIEF,{sample:true});
  const p=PACKS[kind];if(!p)throw new Error(`Unknown starter pack: ${kind}`);
  const b=briefValue(input||starterBrief(kind)),portfolio=kind==='portfolio';
  const hero=`<section class="site-hero pack-hero" data-section="Hero"><div class="hero-copy"><span class="eyebrow">${e(p.kicker)}</span><h1>${e(p.headline)}</h1><p class="hero-description">${e(b.description)}</p>${button(b.cta)}<div class="hero-foot">${e(p.foot)}</div></div><div class="hero-art">${img(p.art,p.alt)}<span class="art-caption">${e(b.name)} · ${portfolio?'SELECTED DESIGN STUDIES':'MAKE YOURSELF AT HOME'}</span></div></section>`;

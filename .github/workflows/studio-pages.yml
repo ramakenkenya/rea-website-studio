@@ -1,7 +1,7 @@
 name: Studio - test, record and deploy
 on:
   push:
-    branches: [main, feature/static-studio, feature/multipage-studio, fix/**]
+    branches: [main, feature/static-studio, feature/multipage-studio, feature/text-portfolio, fix/**]
   workflow_dispatch:
 permissions:
   contents: read
@@ -35,6 +35,7 @@ jobs:
           path: |
             test-results/
             playwright-report/
+            dist/samples/rama-ken/
           retention-days: 14
       - name: Package the tested website
         if: github.ref == 'refs/heads/main'

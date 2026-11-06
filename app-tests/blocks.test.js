@@ -58,10 +58,10 @@ test('page presets provide their own content, single main heading and contact ta
 });
 
 test('starter packs have relevant copy and original embedded artwork without architecture imagery',()=>{
- assert.deepEqual(STARTER_PACKS.map(x=>x.id),['coffee','furniture','portfolio']);
+ assert.deepEqual(STARTER_PACKS.map(x=>x.id),['coffee','furniture','portfolio','text-portfolio']);
  const expected={coffee:/coffee|espresso/i,furniture:/furniture|chair/i,portfolio:/portfolio|selected work/i};
  const art=new Set();
- for(const {id} of STARTER_PACKS){
+ for(const {id} of STARTER_PACKS.filter(p=>p.id!=='text-portfolio')){
   const next=starterBrief(id);assert.deepEqual(normalizeBrief(next),next);
   const page=starterPage(id,next);assertPage(page);
   assert.match(page.html,expected[id]);
