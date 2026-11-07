@@ -158,7 +158,6 @@ test('the portfolio example opens with its editable sections and motion',async({
  await expect(canvas.locator('.mm-stage')).toHaveCSS('background-image',/linear-gradient/);
  await expect(canvas.locator('.mm-track').first()).toHaveCSS('animation-name','mm-travel');
  await expect(page.getByRole('button',{name:'Open 한국어 page',exact:true})).toBeVisible();
- await page.getByLabel('Section category').selectOption('portfolio-reference');
  await page.getByRole('button',{name:'Add Editorial notes'}).click();
  await expect(canvas.locator('.tp-page main .tp-notes')).toHaveCount(2);
  await expect(canvas.locator('.tp-notes').last()).toHaveCSS('display','grid');
