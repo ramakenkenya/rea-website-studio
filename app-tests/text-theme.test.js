@@ -1,31 +1,19 @@
+import {TEXT_BLOCK_PRESETS,textBlockMarkup} from '../src/text-blocks.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import grapesjs from 'grapesjs';
 import {createStarter} from '../src/templates.js';
 import {normalizeBrief, snapshot, validateSnapshot} from '../src/project.js';
-import {assertSafeValue, createStudio, rewriteNavigation} from '../src/site-model.js';
+import {assertSafeValue} from '../src/site-model.js';
 import {TEXT_SECTIONS, textSection, updateTextSection} from '../src/text-theme.js';
 import {registerTextPortrait} from '../src/text-portrait.js';
 
 const brief=normalizeBrief({name:'North & Finch',description:'We make useful things.',services:'Research, Design',email:'hello@example.com',theme:'text'});
 
-test('Text only starts with brief-driven, independently editable sections',()=>{
+test('Text Only starts empty so authors can choose individual blocks',()=>{
  const starter=createStarter(brief);
- for(const key of ['header','hero','services','work','about','cta','footer']){
-  assert.match(starter.html,new RegExp('data-text-section="'+key+'"'));
- }
- assert.match(starter.html,/North &amp; Finch/);
- assert.match(starter.html,/>Research</);
- assert.match(starter.html,/>Design</);
- assert.match(starter.html,/mailto:hello@example.com/);
- assert.equal((starter.html.match(/<h1\b/g)||[]).length,1);
- assert.doesNotMatch(starter.html,/<(?:img|canvas|script)\b|Rama Ken|data-picture-to-text/);
- assert.match(starter.html,/type-hero type-layout-stacked type-style-serif/);
- assert.match(textSection('hero',brief,{layout:'split'}),/data-picture-to-text/);
- for(const [,anchor] of starter.html.matchAll(/href="#([^"]+)"/g))assert.ok(starter.html.includes('id="'+anchor+'"'));
+ assert.equal(starter.html,'');
  assert.doesNotThrow(()=>assertSafeValue(starter));
- const studio=createStudio({pages:[{id:'home',name:'Home'}]},brief);
- assert.match(rewriteNavigation(starter.html,studio,'home'),/href="#text-work"/);
 });
 
 test('each catalog preset is insertable, and switching appearance preserves model content through backup',()=>{
@@ -54,4 +42,18 @@ test('each catalog preset is insertable, and switching appearance preserves mode
   assert.match(editor.getHtml(),/My edited headline/);
   assert.match(editor.getHtml(),/type-style-outline/);
  }finally{editor.destroy();}
+});
+
+test('each styled preset creates one independent section of editable text',()=>{
+ const ids=new Set();
+ for(const preset of TEXT_BLOCK_PRESETS){
+  assert.ok(!ids.has(preset.id));ids.add(preset.id);
+  const html=textBlockMarkup(preset,{brief,primary:true});
+  assert.ok(html.includes(`data-styled-text-block="${preset.id}"`));
+  assert.ok(html.includes(`${preset.block} · ${preset.style}`));
+  assert.equal((html.match(/data-styled-text-block=/g)||[]).length,1);
+  assert.doesNotMatch(html,/<(?:img|canvas|script|svg|iframe)\b/);
+  assert.doesNotThrow(()=>assertSafeValue({html}));
+ }
+ assert.ok(TEXT_BLOCK_PRESETS.filter(p=>p.block==='Headline').length>=3);
 });

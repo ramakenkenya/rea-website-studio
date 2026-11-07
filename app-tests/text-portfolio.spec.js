@@ -73,12 +73,12 @@ test('sample opens without overwriting a saved project; artwork survives restore
  await page.getByRole('button',{name:'Open 한국어 page',exact:true}).click();await expect(canvas.locator('h1')).toContainText('라마');
 });
 
-test('generic text theme uses the brief and portrait photo replacement is saved as characters',async({page},testInfo)=>{
+test('Picture to Text remains available in the block palette and saves characters',async({page},testInfo)=>{
  await page.goto('./?sample=rama-studio');await expect(page.locator('#save')).toBeEnabled();
  await page.locator('#new-site').click();await page.getByLabel('Business name').fill('Independent Maker');await page.getByLabel('What do you do?').fill('I make useful things.');
  await page.getByRole('radio',{name:'Text only',exact:true}).check();await page.locator('#brief-submit').click();
- const canvas=page.frameLocator('.gjs-frame');await expect(canvas.locator('h1')).toContainText('Independent');
- await expect(canvas.locator('.tp-project').first()).toContainText('Your project 01');
+ const canvas=page.frameLocator('.gjs-frame');
+ await expect(canvas.locator('h1')).toHaveCount(0);
  await expect(canvas.locator('.tp-art')).toHaveCount(0);
  await page.getByLabel('Section category').selectOption('picture');
  await page.getByRole('button',{name:'Add Artwork with caption'}).click();

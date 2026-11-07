@@ -1,10 +1,11 @@
+import {TEXT_BLOCK_PRESETS,textBlockMarkup} from '../src/text-blocks.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {pixelsToPortrait,portraitMarkup,portraitFromFile,replacePortraitText,registerTextPortrait} from '../src/text-portrait.js';
 import grapesjs from 'grapesjs';
 import {createTextPortfolio,TEXT_SAMPLE_BRIEF} from '../src/text-portfolio.js';
 import {normalizeBrief,snapshot,validateSnapshot} from '../src/project.js';
-import {createStarter,THEMES} from '../src/templates.js';
+import {THEMES} from '../src/templates.js';
 import {createStudio,brandCss,assertSafeValue,rewriteNavigation} from '../src/site-model.js';
 
 test('bounded portrait conversion preserves rows, alpha and light/dark polarity',()=>{
@@ -25,12 +26,14 @@ test('text theme survives normalization, studio branding and backup validation',
  assert.match(brandCss(s),/Arial/);assert.equal(validateSnapshot(snapshot(b,p,s)).brief.theme,'text');
 });
 
-test('generic text template uses the brief and avoids personal claims',()=>{
+test('generic text blocks escape brief copy and contain editable text',()=>{
  const b=normalizeBrief({name:'A <B> & C',description:'Independent <maker>.',theme:'text',email:'maker@example.com'});
- const p=createStarter(b);assert.match(p.html,/A &lt;B&gt; &amp; C/);assert.match(p.html,/Independent &lt;maker&gt;/);
- assert.match(p.html,/mailto:maker@example.com/);assert.doesNotMatch(p.html,/data-text-portrait/);
- assert.doesNotMatch(p.html,/Gorilla|MvuaKenya|Rama Ken|<img\b|<canvas\b|<script\b/);
- assert.doesNotThrow(()=>assertSafeValue(p));
+ const headline=textBlockMarkup(TEXT_BLOCK_PRESETS.find(p=>p.id==='outline-echo'),{brief:b});
+ assert.match(headline,/A &lt;B&gt; &amp; C/);assert.match(headline,/Independent &lt;maker&gt;/);
+ const footer=textBlockMarkup(TEXT_BLOCK_PRESETS.find(p=>p.id==='utility-footer'),{brief:b});
+ assert.match(footer,/mailto:maker@example.com/);
+ assert.doesNotMatch(headline,/Gorilla|MvuaKenya|Rama Ken|<img\b|<canvas\b|<script\b/);
+ assert.doesNotThrow(()=>assertSafeValue({headline,footer}));
 });
 
 test('completed sample has real projects, portable artwork and intact section navigation',()=>{

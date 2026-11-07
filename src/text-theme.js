@@ -1,6 +1,7 @@
 import {escapeHtml as e} from './project.js';
 import {portraitMarkup} from './text-portrait.js';
 import {TEXT_THEME_CSS} from './text-theme-style.js';
+import {TEXT_BLOCK_CSS} from './text-block-style.js';
 
 const options=entries=>entries.map(([value,label])=>({value,label}));
 export const TEXT_SECTIONS=[
@@ -105,12 +106,12 @@ export function updateTextSection(section,appearance){
  if(config.id==='hero'&&appearance.layout==='split'&&!section.find('[data-picture-to-text]').length)section.append(textArtwork());
 }
 
-export function createTextTheme(brief){
- const sections=['header','hero','services','work','about','cta','footer'];
- return {html:sections.map(id=>textSection(id,brief,{starter:true,tone:id==='work'?'light':'inherit'})).join(''),css:TEXT_THEME_CSS};
+export function createTextTheme(){
+ return {html:'',css:TEXT_THEME_CSS+TEXT_BLOCK_CSS};
 }
 
 export function createTextThemePage(brief,name,kind){
+ if(kind==='blank')return createTextTheme();
  const ids={blank:[],about:['about','people'],products:['services','work'],contact:['cta','faq']}[kind]||[];
  return {html:['header','hero',...ids,'footer'].map(id=>textSection(id,brief,{headline:name})).join(''),css:TEXT_THEME_CSS};
 }

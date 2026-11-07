@@ -147,8 +147,8 @@ test('saving only details preserves a custom heading on mobile',async({page})=>{
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 
-test('the public entry loads the supplied portfolio as an editable example',async({page})=>{
- await page.goto('./');
+test('the portfolio example opens with its editable sections and motion',async({page})=>{
+ await page.goto('./?sample=portfolio-reference');
  await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
  const canvas=page.frameLocator('.gjs-frame');
  await expect(page.locator('#project-name')).toHaveText('Rama Ken');
