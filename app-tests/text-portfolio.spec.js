@@ -86,7 +86,12 @@ test('generic text theme uses the brief and portrait photo replacement is saved 
  // A small deterministic PNG exercises the browser's real decoder and converter.
  const png=await page.evaluate(async()=>{const c=document.createElement('canvas');c.width=100;c.height=100;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,100,100);x.fillStyle='#000';x.fillRect(20,10,60,80);return c.toDataURL().split(',')[1];});
  await page.locator('#portrait-file').setInputFiles({name:'portrait.png',mimeType:'image/png',buffer:Buffer.from(png,'base64')});
- await expect(page.getByRole('status')).toContainText('Text portrait updated');
+ await expect(page.locator('#apply-picture-text')).toBeEnabled();
+ expect(await canvas.locator('.tp-art').textContent()).toBe(before);
+ await page.selectOption('#picture-density','120');
+ await expect(page.locator('#apply-picture-text')).toBeEnabled();
+ await page.locator('#apply-picture-text').click();
+ await expect(page.getByRole('status')).toContainText('Text artwork applied');
  const after=await canvas.locator('.tp-art').textContent();expect(after).not.toBe(before);expect(after.split('\n')).toHaveLength(88);
  await page.locator('#portrait-description').fill('Portrait of Independent Maker');await page.locator('#portrait-description').blur();
  await page.locator('#save').click();await page.reload();

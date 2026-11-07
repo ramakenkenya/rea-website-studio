@@ -208,7 +208,7 @@ export function rewriteNavigation(html,studio,currentId){
  html=String(html);const nodes=scanElements(html),matches=[];let lastEnd=-1;
  for(const node of nodes){
   if(!['header','nav'].includes(node.tag)||!node.end||node.start<lastEnd)continue;
-  const marked=attribute(node,'data-studio-nav')==='true';
+  const marked=attribute(node,'data-studio-nav')==='true'||(studio.pages.length>1&&attribute(node,'data-text-section')==='header');
   const legacy=node.tag==='header'&&(attribute(node,'class')||'').split(/\s+/).includes('site-nav');
   if(marked||legacy){matches.push(node);lastEnd=node.end;}
  }

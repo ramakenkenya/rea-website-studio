@@ -22,7 +22,7 @@ export function insertReusableSection(editor,section){
 
 // Model traversal also works for pages whose canvas has never been rendered.
 export function studioNavigation(wrapper){
- return wrapper.findType(c=>c.getAttributes()['data-studio-nav']==='true'||c.get('tagName')==='header'&&c.getClasses().includes('site-nav'),{max:1})[0];
+ return wrapper.findType(c=>c.getAttributes()['data-studio-nav']==='true'||c.get('tagName')==='header'&&(c.getClasses().includes('site-nav')||c.getAttributes()['data-text-section']==='header'),{max:1})[0];
 }
 export function studioShortcut(event,editor,save){
  const original=event._parentEvent||event;
