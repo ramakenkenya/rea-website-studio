@@ -9,7 +9,7 @@ test('standalone text sample is readable offline at phone, tablet and desktop wi
  await expect(page.locator('[data-text-portrait]')).toHaveText(RAMA_PORTRAIT,{useInnerText:false});
  expect(await page.locator('canvas,script').count()).toBe(0);
  await expect(page.locator('.tp-hero img')).toHaveCount(0);
- await expect(page.locator('.mm-section img')).toHaveCount(2);
+ await expect(page.locator('img')).toHaveCount(0);
  await page.context().setOffline(true);
  for(const width of [320,390,768,1440]){
   await page.setViewportSize({width,height:1000});

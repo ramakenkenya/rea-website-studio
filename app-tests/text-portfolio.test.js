@@ -38,7 +38,7 @@ test('completed sample has real projects, portable artwork and intact section na
  assert.equal((p.html.match(/<h1\b/g)||[]).length,1);
  for(const name of ['Gorilla Rampage','MvuaKenya','Rama Studio'])assert.ok(p.html.includes(name));
  for(const [,id] of p.html.matchAll(/href="#([^"]+)"/g))assert.ok(p.html.includes(`id="${id}"`));
- assert.match(p.html,/Portrait of Rama Ken/);assert.doesNotMatch(p.html,/<(?:canvas|script)\b/);
+ assert.match(p.html,/Portrait of Rama Ken/);assert.doesNotMatch(p.html,/<(?:img|canvas|script)\b/);
  assert.match(p.css,/prefers-reduced-motion/);assert.match(p.css,/white-space:pre/);
  const s=createStudio({pages:[{id:'home'}]},TEXT_SAMPLE_BRIEF);
  assert.match(rewriteNavigation(p.html,s,'home'),/href="#work"/);

@@ -17,7 +17,7 @@ function assertPage(page){
 }
 
 test('all insertable blocks are portable safe sections with independent styling',()=>{
- assert.deepEqual(EXTRA_BLOCKS.map(x=>x.id),['products','gallery','faq','testimonials','team','pricing','stats','cta','hours','social','monochrome-motion']);
+ assert.deepEqual(EXTRA_BLOCKS.map(x=>x.id),['products','gallery','faq','testimonials','team','pricing','stats','cta','hours','social','split-process']);
  assert.ok(EXTRA_CSS.includes('@media'));
  for(const {id} of EXTRA_BLOCKS){
   const html=extraSection(id,brief);

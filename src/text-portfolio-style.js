@@ -1,5 +1,5 @@
-import {MONOCHROME_MOTION_CSS} from './monochrome-motion.js';
-export const TEXT_PORTFOLIO_CSS=MONOCHROME_MOTION_CSS+`
+import {SPLIT_PROCESS_CSS} from './split-process.js';
+export const TEXT_PORTFOLIO_CSS=SPLIT_PROCESS_CSS+`
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#0b0b0b;color:#f3f1e9;font:16px/1.65 Arial,Helvetica,sans-serif}a{color:inherit}button,a{touch-action:manipulation}::selection{background:#f3f1e9;color:#0b0b0b}
 .tp-page{--tp-paper:var(--studio-paper,#0b0b0b);--tp-ink:var(--studio-ink,#f3f1e9);--tp-muted:color-mix(in srgb,var(--tp-ink) 70%,var(--tp-paper));--tp-line:color-mix(in srgb,var(--tp-ink) 20%,var(--tp-paper));max-width:var(--studio-width,1280px);margin:auto;padding:0 40px;overflow-wrap:anywhere}
 .tp-page a{text-underline-offset:6px}.tp-page a:focus-visible,.tp-page summary:focus-visible{outline:2px solid currentColor;outline-offset:6px}.tp-mono{font-family:'Courier New',monospace;font-size:11px;line-height:1.5;letter-spacing:1.5px;text-transform:uppercase}.tp-muted{color:var(--tp-muted)}
