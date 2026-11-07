@@ -37,7 +37,7 @@ test('single-file sample changes language offline, keeps Korean section navigati
 });
 
 test('completed bilingual starter opens both editable languages from Library',async({page})=>{
- await page.goto('./');await expect(page.locator('#save')).toBeEnabled();page.on('dialog',d=>d.accept());
+ await page.goto('./?sample=rama-studio');await expect(page.locator('#save')).toBeEnabled();page.on('dialog',d=>d.accept());
  await page.getByRole('button',{name:'Studio tools',exact:true}).click();await page.getByRole('tab',{name:'Library',exact:true}).click();
  await page.getByRole('button',{name:'Use Rama Ken · text portfolio starter',exact:true}).click();
  await expect(page.locator('#studio-page-tabs button')).toHaveCount(2);

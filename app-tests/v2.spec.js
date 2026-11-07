@@ -2,7 +2,7 @@ import {test,expect} from '@playwright/test';
 import JSZip from 'jszip';
 import fs from 'node:fs/promises';
 import {mockImageHost,addUrlPhoto} from './photo-fixture.js';
-const ready=async page=>{await page.goto('./');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();};
+const ready=async page=>{await page.goto('./?sample=rama-studio');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();};
 const tools=async(page,name)=>{await page.getByRole('button',{name:'Studio tools',exact:true}).click();await page.getByRole('tab',{name,exact:true}).click();};
 const close=page=>page.getByRole('button',{name:'Close studio tools',exact:true}).click();
 test('multipage site keeps edits, page metadata and portable links through ZIP and restore',async({page,context},info)=>{

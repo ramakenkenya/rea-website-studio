@@ -16,7 +16,7 @@ async function loadedImages(frame,selector,count){
  for(const im of await images.all()){await im.scrollIntoViewIfNeeded();await expect.poll(()=>im.evaluate(i=>i.complete&&i.naturalWidth>300)).toBe(true);}
 }
 for(const ext of ['docx','pdf'])test(`real downloadable ${ext} example renders photos, styled navigation and shop; preserves them on export`,async({page,context},info)=>{
- await localPhotos(page);await page.goto('./');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
+ await localPhotos(page);await page.goto('./?sample=rama-studio');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
  await page.getByRole('button',{name:'New website',exact:true}).click();await page.getByRole('button',{name:'Upload completed template',exact:true}).click();
  await page.getByText('Try a completed example',{exact:true}).click();
  const link=page.getByRole('link',{name:ext==='pdf'?'Rama Living PDF example':'Rama Living Word example',exact:true});

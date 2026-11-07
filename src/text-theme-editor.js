@@ -1,4 +1,5 @@
 import {escapeHtml as e} from './project.js';
+import {referencePage,referenceContent,referencePresets} from './portfolio-reference.js';
 import {TEXT_SECTIONS,TEXT_STYLES,TEXT_TONES,textAppearance,textSection,textSectionConfig,textArtwork,updateTextSection} from './text-theme.js';
 
 const singleton=new Set(['header','hero','footer']);
@@ -11,11 +12,18 @@ export function mountTextSections({editor,getBrief,toast,markDirty}){
  const help=document.querySelector('.block-help');
  category.innerHTML=TEXT_SECTIONS.map(({id,name})=>`<option value="${id}">${e(name)}</option>`).join('');
  category.value='hero';
+ let showingReference=false;
 
  function add(block,id,name,layout){
   const wrapper=editor.getWrapper();
-  const previous=singleton.has(id)&&wrapper.find(`[data-text-section="${id}"]`)[0];
+  const page=referencePage(wrapper);
+  const referenceSelector={header:'header',hero:'.tp-hero',footer:'footer'}[id];
+  const previous=singleton.has(id)&&(wrapper.find(`[data-text-section="${id}"]`)[0]||page?.find(referenceSelector)[0]);
   if(previous){
+   if(!previous.getAttributes()['data-text-section']){
+    editor.select(previous);previous.getEl()?.scrollIntoView({block:'center'});
+    toast(`Editing the portfolio’s ${name}.`);return;
+   }
    updateTextSection(previous,{layout});
    editor.select(previous);
    select(previous);
@@ -23,11 +31,12 @@ export function mountTextSections({editor,getBrief,toast,markDirty}){
    toast(`${name} layout updated.`);
    return;
   }
-  const children=wrapper.components();
+  const container=(['header','footer'].includes(id)?page:referenceContent(page))||wrapper;
+  const children=container.components();
   const footer=children.find(c=>c.get('tagName')==='footer');
   const header=children.find(c=>c.get('tagName')==='header');
   const at=id==='header'?0:id==='hero'?(header?children.indexOf(header)+1:0):id==='footer'?children.length:footer?children.indexOf(footer):children.length;
-  const [component]=wrapper.append(block.get('content'),{at});
+  const [component]=container.append(block.get('content'),{at});
   editor.select(id==='picture'?component.find('[data-picture-to-text]')[0]:component);
   component.getEl()?.scrollIntoView({block:'center'});
   toast(`${name} added.`);
@@ -38,7 +47,27 @@ export function mountTextSections({editor,getBrief,toast,markDirty}){
   picker.hidden=!active;
   standard.hidden=active;
   help.textContent=active?'Choose a section, then add a layout. Header, Hero and Footer choices restyle the section already on this page.':'Drag a section onto your page. Or use a quick-add button below.';
+  const page=active&&referencePage(editor.getWrapper());
+  if(Boolean(page)!==showingReference){
+   showingReference=Boolean(page);
+   if(page){category.prepend(new Option('Portfolio styles','portfolio-reference'));category.value='portfolio-reference';}
+   else{category.querySelector('[value="portfolio-reference"]')?.remove();category.value='hero';}
+  }
   if(!active)return false;
+  if(page&&category.value==='portfolio-reference'){
+   help.textContent='Add a styled section from this portfolio.';
+   for(const {id,name,html} of referencePresets(page.getAttributes()['lang'])){
+    editor.Blocks.add('portfolio-reference-'+id,{
+     label:name,media:'<span class="text-block-sample text-block-rows" aria-hidden="true"><i></i><i></i><i></i></span>',select:true,
+     attributes:{class:'text-section-block',role:'button',tabindex:0,'aria-label':'Add '+name},
+     content:html,onClick:()=>{
+      const [added]=referenceContent(page).append(html);
+      editor.select(added);added.getEl()?.scrollIntoView({block:'center'});toast(`${name} added.`);
+     },
+    });
+   }
+   return true;
+  }
   const {id,name,layouts}=textSectionConfig(category.value);
   for(const {value,label} of layouts){
    const art=`<span class="text-block-sample text-block-${value}" aria-hidden="true"><i></i><i></i><i></i></span>`;
@@ -91,7 +120,12 @@ export function mountTextSections({editor,getBrief,toast,markDirty}){
   }
  }
 
- editor.on('block:drag:stop',component=>{
+ editor.on('block:drag:stop',(component,block)=>{
+  if(component&&block?.getId().startsWith('portfolio-reference-')){
+   const main=referenceContent(referencePage(editor.getWrapper()));
+   if(main&&component.parent()!==main)component.move(main,{at:main.components().length});
+   return;
+  }
   const id=component?.getAttributes()['data-text-section'];
   if(id==='picture'){editor.select(component.find('[data-picture-to-text]')[0]);return;}
   if(!singleton.has(id))return;

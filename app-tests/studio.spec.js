@@ -3,7 +3,7 @@ import JSZip from 'jszip';
 import fs from 'node:fs/promises';
 import {mockImageHost,addUrlPhoto,photoUrl} from './photo-fixture.js';
 test('business brief, real editor, save/reload, project restore and independent export',async({page,context},testInfo)=>{
- await page.goto('./');
+ await page.goto('./?sample=rama-studio');
  await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
  await page.getByRole('button',{name:'New website',exact:true}).click();
  await page.getByLabel('Business name').fill('Border Design');
@@ -48,7 +48,7 @@ test('business brief, real editor, save/reload, project restore and independent 
  await page.screenshot({path:testInfo.outputPath('studio-desktop.png'),fullPage:true});
 });
 test('mobile controls, section reorder, safe restore and no horizontal overflow',async({page},testInfo)=>{
- await page.setViewportSize({width:390,height:844});await page.goto('./');
+ await page.setViewportSize({width:390,height:844});await page.goto('./?sample=rama-studio');
  await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
  await expect(page.getByRole('button',{name:'Project backup',exact:true})).toBeVisible();
  await page.getByRole('button',{name:'Sections',exact:true}).click();
@@ -66,7 +66,7 @@ test('mobile controls, section reorder, safe restore and no horizontal overflow'
  await page.screenshot({path:testInfo.outputPath('studio-mobile.png'),fullPage:true});
 });
 test('drag a reusable block onto the real canvas and replace an image by URL',async({page},testInfo)=>{
- await page.goto('./');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
+ await page.goto('./?sample=rama-studio');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
  const canvas=page.frameLocator('.gjs-frame');
  const before=await canvas.locator('section').count();
  const block=page.locator('.gjs-block').filter({hasText:'About'});const from=await block.boundingBox();const target=await page.locator('.gjs-frame').boundingBox();
@@ -81,7 +81,7 @@ test('drag a reusable block onto the real canvas and replace an image by URL',as
 
 test('published build opens at the repository path with the renamed sample',async({page},testInfo)=>{
  const errors=[];page.on('pageerror',error=>errors.push(error.message));
- const response=await page.goto('./');
+ const response=await page.goto('./?sample=rama-studio');
  expect(response.ok()).toBe(true);
  await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
  await expect(page.locator('#project-name')).toHaveText('Rama Studio');
@@ -92,7 +92,7 @@ test('published build opens at the repository path with the renamed sample',asyn
 });
 
 test('coffee brief rebuilds the visible site, preview and export after explicit confirmation',async({page,context},testInfo)=>{
- await page.goto('./');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
+ await page.goto('./?sample=rama-studio');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
  const canvas=page.frameLocator('.gjs-frame');
  await page.getByRole('button',{name:'Brief',exact:true}).click();
  await page.getByLabel('Business name').fill('Ember & Bean');
@@ -132,7 +132,7 @@ test('coffee brief rebuilds the visible site, preview and export after explicit 
 });
 
 test('saving only details preserves a custom heading on mobile',async({page})=>{
- await page.setViewportSize({width:390,height:844});await page.goto('./');
+ await page.setViewportSize({width:390,height:844});await page.goto('./?sample=rama-studio');
  await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
  const canvas=page.frameLocator('.gjs-frame');
  await canvas.locator('h1').click();
@@ -145,4 +145,34 @@ test('saving only details preserves a custom heading on mobile',async({page})=>{
  await page.getByRole('button',{name:'Save details only',exact:true}).click();
  await expect(canvas.locator('h1')).toContainText('My custom headline');
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});
+
+test('the public entry loads the supplied portfolio as an editable example',async({page})=>{
+ await page.goto('./');
+ await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
+ const canvas=page.frameLocator('.gjs-frame');
+ await expect(page.locator('#project-name')).toHaveText('Rama Ken');
+ await expect(canvas.locator('.tp-hero .tp-art')).toBeVisible();
+ await expect(canvas.locator('.tp-work-head .tp-inset-heading')).toHaveText(/THE\s*WORK/);
+ await expect(canvas.locator('.mm-section h2')).toHaveText('A different perspective.');
+ await expect(canvas.locator('.mm-stage')).toHaveCSS('background-image',/linear-gradient/);
+ await expect(canvas.locator('.mm-track').first()).toHaveCSS('animation-name','mm-travel');
+ await expect(page.getByRole('button',{name:'Open 한국어 page',exact:true})).toBeVisible();
+ await page.getByLabel('Section category').selectOption('portfolio-reference');
+ await page.getByRole('button',{name:'Add Editorial notes'}).click();
+ await expect(canvas.locator('.tp-page main .tp-notes')).toHaveCount(2);
+ await expect(canvas.locator('.tp-notes').last()).toHaveCSS('display','grid');
+ await page.getByRole('button',{name:'Layers',exact:true}).click();
+ await expect(page.locator('#layers')).toContainText('Monochrome motion');
+ await page.getByRole('button',{name:'Preview website',exact:true}).click();
+ const preview=page.frameLocator('#studio-preview-frame');
+ await expect(preview.locator('.mm-stage')).toHaveCSS('background-image',/linear-gradient/);
+ await expect(preview.locator('.mm-track').first()).toHaveCSS('animation-name','mm-travel');
+ await preview.locator('.mm-control input').check();
+ await expect(preview.locator('.mm-track').first()).toHaveCSS('animation-play-state','paused');
+ await expect.poll(()=>preview.locator('.mm-positive').evaluate(image=>image.naturalWidth)).toBeGreaterThan(0);
+ await page.getByRole('button',{name:'Close website preview',exact:true}).click();
+ await page.getByRole('button',{name:'Save project',exact:true}).click();
+ await page.reload();
+ await expect(canvas.locator('.tp-page main .tp-notes')).toHaveCount(2);
 });
