@@ -2,7 +2,7 @@ import {test,expect} from '@playwright/test';
 import fs from 'node:fs/promises';
 import JSZip from 'jszip';
 import {completedDocx,completedPdf,sampleRaw} from './import-fixture.js';
-const ready=async page=>{await page.goto('./');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();};
+const ready=async page=>{await page.goto('./?sample=rama-studio');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();};
 const open=async page=>{await page.getByRole('button',{name:'New website',exact:true}).click();await page.getByRole('button',{name:'Upload completed template',exact:true}).click();};
 const upload=async(page,buffer,name='Rama Living.docx')=>{await page.getByLabel('Website template document',{exact:true}).setInputFiles({name,mimeType:name.endsWith('.pdf')?'application/pdf':'application/vnd.openxmlformats-officedocument.wordprocessingml.document',buffer:Buffer.from(buffer)});};
 test('Word import creates four editable pages, survives save and exports a working shop',async({page,context},info)=>{

@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 import {mockImageHost,addUrlPhoto} from './photo-fixture.js';
-const ready=async page=>{await page.goto('./');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();};
+const ready=async page=>{await page.goto('./?sample=rama-studio');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();};
 test('desktop tools leave the canvas interactive and reveal inserted sections without closing',async({page},info)=>{
  await ready(page);await page.getByRole('button',{name:'Studio tools',exact:true}).click();
  const drawer=page.locator('#studio-tools');

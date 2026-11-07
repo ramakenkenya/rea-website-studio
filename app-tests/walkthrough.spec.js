@@ -6,7 +6,7 @@ test('recorded release walkthrough — real multipage builder',async({page},info
  const pause=()=>page.waitForTimeout(1400);
  const tab=async name=>{await page.getByRole('tab',{name,exact:true}).click();await pause();};
  page.on('dialog',d=>d.accept());
- await page.goto('./');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();await pause();
+ await page.goto('./?sample=rama-studio');await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();await pause();
  await page.getByRole('button',{name:'Studio tools',exact:true}).click();await tab('Library');
  await page.getByRole('button',{name:'Use Coffee shop starter',exact:true}).click();await pause();
  await expect(page.frameLocator('.gjs-frame').locator('h1')).toBeVisible();

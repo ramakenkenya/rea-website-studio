@@ -2,7 +2,7 @@ import {test,expect} from '@playwright/test';
 import JSZip from 'jszip';
 import fs from 'node:fs/promises';
 import {mockImageHost,addUrlPhoto,photoUrl} from './photo-fixture.js';
-const ready=async p=>{await p.goto('./');await expect(p.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();};
+const ready=async p=>{await p.goto('./?sample=rama-studio');await expect(p.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();};
 const tools=async(p,tab)=>{await p.getByRole('button',{name:'Studio tools',exact:true}).click();await p.getByRole('tab',{name:tab,exact:true}).click();};
 const close=p=>p.getByRole('button',{name:'Close studio tools',exact:true}).click();
 const zip=async p=>{await p.getByRole('button',{name:'Export site',exact:true}).click();const event=p.waitForEvent('download');await p.getByRole('button',{name:'Download website ZIP',exact:true}).click();return JSZip.loadAsync(await fs.readFile(await(await event).path()));};

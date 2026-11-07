@@ -28,7 +28,7 @@ test('standalone text sample is readable offline at phone, tablet and desktop wi
 });
 
 test('sample opens without overwriting a saved project; artwork survives restore and offline export',async({page,context},testInfo)=>{
- await page.goto('./');await expect(page.locator('#save')).toBeEnabled();
+ await page.goto('./?sample=rama-studio');await expect(page.locator('#save')).toBeEnabled();
  await page.locator('#save').click();const saved=await page.evaluate(()=>localStorage.getItem('rea-studio.project.v1'));
  await page.goto('./?sample=text-portfolio');await expect(page.locator('#save')).toBeEnabled();
  const canvas=page.frameLocator('.gjs-frame');
@@ -74,7 +74,7 @@ test('sample opens without overwriting a saved project; artwork survives restore
 });
 
 test('generic text theme uses the brief and portrait photo replacement is saved as characters',async({page},testInfo)=>{
- await page.goto('./');await expect(page.locator('#save')).toBeEnabled();
+ await page.goto('./?sample=rama-studio');await expect(page.locator('#save')).toBeEnabled();
  await page.locator('#new-site').click();await page.getByLabel('Business name').fill('Independent Maker');await page.getByLabel('What do you do?').fill('I make useful things.');
  await page.getByRole('radio',{name:'Text only',exact:true}).check();await page.locator('#brief-submit').click();
  const canvas=page.frameLocator('.gjs-frame');await expect(canvas.locator('h1')).toContainText('Independent');
