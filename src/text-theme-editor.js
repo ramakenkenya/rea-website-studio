@@ -1,4 +1,6 @@
 import {escapeHtml as e} from './project.js';
+import {TEXT_BLOCK_PRESETS,textBlockMarkup} from './text-blocks.js';
+import {TEXT_BLOCK_CSS} from './text-block-style.js';
 import {referencePage,referenceContent,referencePresets} from './portfolio-reference.js';
 import {TEXT_SECTIONS,TEXT_STYLES,TEXT_TONES,textAppearance,textSection,textSectionConfig,textArtwork,updateTextSection} from './text-theme.js';
 
@@ -10,9 +12,36 @@ export function mountTextSections({editor,getBrief,toast,markDirty}){
  const controls=document.querySelector('#text-section-controls');
  const standard=document.querySelector('#standard-quick-add');
  const help=document.querySelector('.block-help');
- category.innerHTML=TEXT_SECTIONS.map(({id,name})=>`<option value="${id}">${e(name)}</option>`).join('');
- category.value='hero';
- let showingReference=false;
+ const styledCategories=[['all','All styles'],['headline','Headlines & statements'],['content','Content blocks'],['closing','Closings'],['picture','Picture to Text']];
+ let pickerMode;
+ const stylesheet=document.createElement('style');
+ stylesheet.textContent=TEXT_BLOCK_CSS;
+ document.head.append(stylesheet);
+
+ function showAdded(component){
+  editor.select(component);
+  if(matchMedia('(max-width:760px)').matches)document.querySelector('[data-mobile="canvas"]').click();
+  component.getEl()?.scrollIntoView({block:'center'});
+ }
+
+ function registerPreset(preset){
+  const {id,block,style}=preset,name=`${block} · ${style}`;
+  const thumb=textBlockMarkup(preset,{brief:getBrief()});
+  editor.Blocks.add('styled-text-'+id,{
+   label:`<strong>${block}</strong><span>${style}</span>`,
+   media:`<div class="text-preset-preview" inert aria-hidden="true">${thumb}</div>`,
+   attributes:{class:'text-section-block styled-text-preset',role:'button',tabindex:0,'aria-label':'Add '+name},
+   content:textBlockMarkup(preset,{brief:getBrief()}),select:true,
+   onClick:()=>{
+    const wrapper=editor.getWrapper(),children=wrapper.components();
+    const footer=children.find(component=>component.get('tagName')==='footer');
+    const at=id==='utility-footer'||!footer?children.length:children.indexOf(footer);
+    const [added]=wrapper.append(textBlockMarkup(preset,{brief:getBrief(),primary:!wrapper.find('h1').length}),{at});
+    showAdded(added);
+    toast(`${name} added.`);
+   },
+  });
+ }
 
  function add(block,id,name,layout){
   const wrapper=editor.getWrapper();
@@ -46,14 +75,19 @@ export function mountTextSections({editor,getBrief,toast,markDirty}){
   const active=getBrief().theme==='text';
   picker.hidden=!active;
   standard.hidden=active;
-  help.textContent=active?'Choose a section, then add a layout. Header, Hero and Footer choices restyle the section already on this page.':'Drag a section onto your page. Or use a quick-add button below.';
-  const page=active&&referencePage(editor.getWrapper());
-  if(Boolean(page)!==showingReference){
-   showingReference=Boolean(page);
-   if(page){category.prepend(new Option('Portfolio styles','portfolio-reference'));category.value='portfolio-reference';}
-   else{category.querySelector('[value="portfolio-reference"]')?.remove();category.value='hero';}
+  const page=active&&referencePage(editor.getWrapper()),nextMode=page?'reference':active?'styles':'standard';
+  if(pickerMode!==nextMode){
+   pickerMode=nextMode;
+   const items=page?[['portfolio-reference','Portfolio styles'],...TEXT_SECTIONS.map(({id,name})=>[id,name])]:styledCategories;
+   category.replaceChildren(...items.map(([id,name])=>new Option(name,id)));
   }
-  if(!active)return false;
+  document.querySelector('#blocks').classList.toggle('styled-text-palette',active&&!page&&category.value!=='picture');
+  if(!active){help.textContent='Drag a section onto your page, or use a quick-add button.';return false;}
+  help.textContent=page?'Choose a section, then add a layout.':'Click or drag a styled text block to place it.';
+  if(!page&&category.value!=='picture'){
+   for(const preset of TEXT_BLOCK_PRESETS)if(category.value==='all'||preset.group===category.value)registerPreset(preset);
+   return true;
+  }
   if(page&&category.value==='portfolio-reference'){
    help.textContent='Add a styled section from this portfolio.';
    for(const {id,name,html} of referencePresets(page.getAttributes()['lang'])){
@@ -121,6 +155,13 @@ export function mountTextSections({editor,getBrief,toast,markDirty}){
  }
 
  editor.on('block:drag:stop',(component,block)=>{
+  if(component&&block?.getId().startsWith('styled-text-')){
+   const wrapper=editor.getWrapper();
+   if(component.parent()!==wrapper)component.move(wrapper,{at:wrapper.components().length});
+   const preset=TEXT_BLOCK_PRESETS.find(item=>item.id===component.getAttributes()['data-styled-text-block']);
+   if(preset?.block==='Headline'&&!wrapper.find('h1').length)component.find('h2')[0]?.set('tagName','h1');
+   return;
+  }
   if(component&&block?.getId().startsWith('portfolio-reference-')){
    const main=referenceContent(referencePage(editor.getWrapper()));
    if(main&&component.parent()!==main)component.move(main,{at:main.components().length});
