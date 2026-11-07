@@ -57,6 +57,7 @@ test('Korean offline preview and restored editor export retain the static proces
  await exported.goto('https://process-export.example/');
  const section = exported.locator('.bw-section');
  await expect(section).toContainText('For Gorilla Rampage');
+ await expect(section.locator('.bw-panel')).toHaveCSS('background-image',/linear-gradient/);
  await expect(section.locator('img,input,button')).toHaveCount(0);
  expect(await section.locator('.bw-word').evaluate(el => getComputedStyle(el).backgroundClip)).toBe('text');
  await exported.setViewportSize({width:390,height:844});

@@ -56,7 +56,7 @@ export const SPLIT_PROCESS_CSS = `
  --bw-dark: #0b0b0b;
  --bw-light: #f3f1e9;
  container-type: inline-size;
- background: linear-gradient(90deg,var(--bw-dark) 50%,var(--bw-light) 50%);
+ background-image: linear-gradient(90deg,var(--bw-dark) 50%,var(--bw-light) 50%);
  border: 1px solid #575757;
 }
 .bw-section .bw-header {
@@ -104,6 +104,7 @@ export const SPLIT_PROCESS_CSS = `
 .bw-section .bw-step h3 {
  margin: 12px 0 10px;
  font: 700 clamp(18px,3cqw,34px)/1.15 Georgia,'Times New Roman',serif;
+ font-family: Georgia,'Times New Roman',serif !important;
  letter-spacing: -.025em;
 }
 .bw-section .bw-step p {
@@ -123,9 +124,9 @@ export const SPLIT_PROCESS_CSS = `
  word-break: keep-all;
 }
 @media (forced-colors: active) {
- .bw-section .bw-panel { background: Canvas; }
+ .bw-section .bw-panel { background-image: none; background-color: Canvas; }
  .bw-section .bw-header .bw-index,
  .bw-section .bw-prefix,
- .bw-section .bw-word { background: none; color: CanvasText; }
+ .bw-section .bw-word { background-image: none; color: CanvasText; }
 }
 `;
