@@ -1,7 +1,14 @@
-import {REFERENCE_PORTFOLIO_CSS,REFERENCE_PORTFOLIO_PAGES} from './portfolio-reference-data.js';
+import {REFERENCE_PORTFOLIO_CSS as sourceCss,REFERENCE_PORTFOLIO_PAGES} from './portfolio-reference-data.js';
 import {TEXT_SAMPLE_PAGES} from './text-portfolio.js';
 
-export {REFERENCE_PORTFOLIO_CSS};
+// CSSOM cannot expand a variable in these shorthands when GrapesJS parses the sheet.
+export const REFERENCE_PAINT_SELECTOR='.tp-page[data-portfolio-reference] .tp-outline';
+export const REFERENCE_PAINT_CSS=`
+${REFERENCE_PAINT_SELECTOR}{-webkit-text-stroke-width:1px;-webkit-text-stroke-color:var(--tp-ink)}
+.tp-page[data-portfolio-reference] .tp-project-num{-webkit-text-stroke-width:1px;-webkit-text-stroke-color:var(--tp-muted)}
+.tp-page[data-portfolio-reference] .tp-inset-small,.tp-page[data-portfolio-reference] .tp-skip,.tp-page[data-portfolio-reference] .tp-language-switch a[aria-current="page"]{background-color:var(--tp-ink)}
+`;
+export const REFERENCE_PORTFOLIO_CSS=sourceCss+REFERENCE_PAINT_CSS;
 
 const presets=[
  ['work','Selected work'],
