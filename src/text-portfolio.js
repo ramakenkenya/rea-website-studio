@@ -14,7 +14,7 @@ const placeholder=Array.from({length:88},(_,y)=>Array.from({length:120},(_,x)=>{
 }).join('')).join('\n');
 
 export const TEXT_SAMPLE_PAGES=[{id:'text-en',name:'English',slug:'english',title:TEXT_SAMPLE_BRIEF.title,description:TEXT_SAMPLE_BRIEF.description,nav:false},{id:'text-ko',name:'한국어',slug:'ko',title:'라마 켄 — 아이디어를 실제로 만드는 일',description:PORTFOLIO_COPY.ko.intro,nav:false}];
-export function textSampleMetadata(){return {homeId:'text-en',pages:TEXT_SAMPLE_PAGES.map(p=>({...p})),autosave:false};}
+export function textSampleMetadata(){return {homeId:'text-en',site:{brand:{paper:'#0b0b0b',ink:'#f3f1e9',accent:'#f3f1e9'}},pages:TEXT_SAMPLE_PAGES.map(p=>({...p})),autosave:false};}
 export function textSampleProject(){
  return {pages:TEXT_SAMPLE_PAGES.map((p,i)=>{const html=createTextPortfolio(TEXT_SAMPLE_BRIEF,{sample:true,language:i?'ko':'en'}).html;return {id:p.id,name:p.name,component:i?prefixTextPortfolioIds(html):html};}),styles:[]};
 }

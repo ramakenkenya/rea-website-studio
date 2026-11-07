@@ -21,14 +21,14 @@ test('bounded portrait conversion preserves rows, alpha and light/dark polarity'
 test('text theme survives normalization, studio branding and backup validation',()=>{
  const b=normalizeBrief({...TEXT_SAMPLE_BRIEF});assert.equal(b.theme,'text');assert.ok(THEMES.text);
  const p={pages:[{id:'home',component:{tagName:'div'}}],styles:[]};
- const s=createStudio(p,b);assert.equal(s.site.brand.paper,'#0b0b0b');assert.equal(s.site.brand.font,'sans');
+ const s=createStudio(p,b);assert.equal(s.site.brand.paper,'#faf8f2');assert.equal(s.site.brand.font,'sans');
  assert.match(brandCss(s),/Arial/);assert.equal(validateSnapshot(snapshot(b,p,s)).brief.theme,'text');
 });
 
 test('generic text template uses the brief and avoids personal claims',()=>{
  const b=normalizeBrief({name:'A <B> & C',description:'Independent <maker>.',theme:'text',email:'maker@example.com'});
  const p=createStarter(b);assert.match(p.html,/A &lt;B&gt; &amp; C/);assert.match(p.html,/Independent &lt;maker&gt;/);
- assert.match(p.html,/mailto:maker@example.com/);assert.match(p.html,/data-text-portrait/);
+ assert.match(p.html,/mailto:maker@example.com/);assert.doesNotMatch(p.html,/data-text-portrait/);
  assert.doesNotMatch(p.html,/Gorilla|MvuaKenya|Rama Ken|<img\b|<canvas\b|<script\b/);
  assert.doesNotThrow(()=>assertSafeValue(p));
 });

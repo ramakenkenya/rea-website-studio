@@ -12,13 +12,15 @@ export function mountTextSections({editor,getBrief,toast,markDirty}){
  category.innerHTML=TEXT_SECTIONS.map(({id,name})=>`<option value="${id}">${e(name)}</option>`).join('');
  category.value='hero';
 
- function add(block,id,name){
+ function add(block,id,name,layout){
   const wrapper=editor.getWrapper();
   const previous=singleton.has(id)&&wrapper.find(`[data-text-section="${id}"]`)[0];
   if(previous){
+   updateTextSection(previous,{layout});
    editor.select(previous);
+   select(previous);
    previous.getEl()?.scrollIntoView({block:'center'});
-   toast(`Use Section layout to change the existing ${name}.`);
+   toast(`${name} layout updated.`);
    return;
   }
   const children=wrapper.components();
@@ -26,7 +28,7 @@ export function mountTextSections({editor,getBrief,toast,markDirty}){
   const header=children.find(c=>c.get('tagName')==='header');
   const at=id==='header'?0:id==='hero'?(header?children.indexOf(header)+1:0):id==='footer'?children.length:footer?children.indexOf(footer):children.length;
   const [component]=wrapper.append(block.get('content'),{at});
-  editor.select(component);
+  editor.select(id==='picture'?component.find('[data-picture-to-text]')[0]:component);
   component.getEl()?.scrollIntoView({block:'center'});
   toast(`${name} added.`);
  }
@@ -35,7 +37,7 @@ export function mountTextSections({editor,getBrief,toast,markDirty}){
   const active=getBrief().theme==='text';
   picker.hidden=!active;
   standard.hidden=active;
-  help.textContent=active?'Choose a category. Click a layout to add it, or drag it onto the canvas.':'Drag a section onto your page. Or use a quick-add button below.';
+  help.textContent=active?'Choose a section, then add a layout. Header, Hero and Footer choices restyle the section already on this page.':'Drag a section onto your page. Or use a quick-add button below.';
   if(!active)return false;
   const {id,name,layouts}=textSectionConfig(category.value);
   for(const {value,label} of layouts){
@@ -44,7 +46,7 @@ export function mountTextSections({editor,getBrief,toast,markDirty}){
     label,media:art,select:true,
     attributes:{class:'text-section-block',role:'button',tabindex:0,'aria-label':'Add '+label},
     content:textSection(id,getBrief(),{layout:value}),
-    onClick:block=>add(block,id,name),
+    onClick:block=>add(block,id,name,value),
    });
   }
   return true;
@@ -58,6 +60,7 @@ export function mountTextSections({editor,getBrief,toast,markDirty}){
   controls.hidden=!config||getBrief().theme!=='text';
   controls.replaceChildren();
   if(controls.hidden)return;
+  const title=document.createElement('div');title.className='field-title';title.textContent=config.name;controls.append(title);
   const current=textAppearance(section);
   const options=[['layout','Section layout',config.layouts],['style','Type style',TEXT_STYLES],['tone','Section colors',TEXT_TONES]];
   for(const [key,label,choices] of options){
@@ -70,7 +73,13 @@ export function mountTextSections({editor,getBrief,toast,markDirty}){
    field.append(input);
    controls.append(field);
   }
-  if(id==='about'&&!section.find('[data-picture-to-text]').length){
+  const artwork=section.find('[data-picture-to-text]')[0];
+  if(artwork&&component!==artwork&&(id!=='hero'||current.layout==='split')){
+   const button=document.createElement('button');
+   button.type='button';button.className='btn sm text-wide';button.textContent='Edit picture to text';
+   button.onclick=()=>editor.select(artwork);controls.append(button);
+  }
+  if(id==='about'&&!artwork){
    const button=document.createElement('button');
    button.type='button';button.className='btn sm text-wide';button.textContent='Add picture to text';
    button.onclick=()=>{
@@ -84,13 +93,16 @@ export function mountTextSections({editor,getBrief,toast,markDirty}){
 
  editor.on('block:drag:stop',component=>{
   const id=component?.getAttributes()['data-text-section'];
+  if(id==='picture'){editor.select(component.find('[data-picture-to-text]')[0]);return;}
   if(!singleton.has(id))return;
   const wrapper=editor.getWrapper();
   const previous=wrapper.find(`[data-text-section="${id}"]`).find(section=>section!==component);
   if(previous){
+   updateTextSection(previous,{layout:textAppearance(component).layout});
    component.remove();
    editor.select(previous);
-   toast('Use Section layout to change the existing section.');
+   select(previous);
+   toast('Section layout updated.');
    return;
   }
   const children=wrapper.components();

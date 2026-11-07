@@ -19,7 +19,9 @@ test('Text only starts with brief-driven, independently editable sections',()=>{
  assert.match(starter.html,/>Design</);
  assert.match(starter.html,/mailto:hello@example.com/);
  assert.equal((starter.html.match(/<h1\b/g)||[]).length,1);
- assert.doesNotMatch(starter.html,/<(?:img|canvas|script)\b|Rama Ken/);
+ assert.doesNotMatch(starter.html,/<(?:img|canvas|script)\b|Rama Ken|data-picture-to-text/);
+ assert.match(starter.html,/type-hero type-layout-stacked type-style-serif/);
+ assert.match(textSection('hero',brief,{layout:'split'}),/data-picture-to-text/);
  for(const [,anchor] of starter.html.matchAll(/href="#([^"]+)"/g))assert.ok(starter.html.includes('id="'+anchor+'"'));
  assert.doesNotThrow(()=>assertSafeValue(starter));
  const studio=createStudio({pages:[{id:'home',name:'Home'}]},brief);

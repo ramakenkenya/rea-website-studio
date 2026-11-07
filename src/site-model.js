@@ -4,7 +4,7 @@ import {normalizeShop,shopSection} from './shop-model.js';
 const e=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const object=value=>value&&typeof value==='object'&&!Array.isArray(value);
 const RESERVED=new Set(['index','404','styles','studio','robots','sitemap','readme','rea-shop']);
-const PALETTES={editorial:{paper:'#f5f1e9',ink:'#202c2d',accent:'#ad462e'},coastal:{paper:'#eff6f4',ink:'#143b3b',accent:'#12675d'},midnight:{paper:'#1b2530',ink:'#f5f0e8',accent:'#e7b78c'},text:{paper:'#0b0b0b',ink:'#f3f1e9',accent:'#f3f1e9'}};
+const PALETTES={editorial:{paper:'#f5f1e9',ink:'#202c2d',accent:'#ad462e'},coastal:{paper:'#eff6f4',ink:'#143b3b',accent:'#12675d'},midnight:{paper:'#1b2530',ink:'#f5f0e8',accent:'#e7b78c'},text:{paper:'#faf8f2',ink:'#20211d',accent:'#39453a'}};
 export const SYSTEM_FONTS={serif:{body:'Arial,Helvetica,sans-serif',heading:'Georgia,"Times New Roman",serif'},editorial:{body:'Arial,Helvetica,sans-serif',heading:'Georgia,"Times New Roman",serif'},sans:{body:'Arial,Helvetica,sans-serif',heading:'Arial,Helvetica,sans-serif'},modern:{body:'system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif',heading:'system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif'},mono:{body:'Arial,Helvetica,sans-serif',heading:'"Courier New",monospace'}};
 const clean=value=>String(value??'').trim();
 function text(value,fallback='',max=320){const result=clean(value??fallback);if(result.length>max)throw new Error('Invalid studio text: too long.');return result;}

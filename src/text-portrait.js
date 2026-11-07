@@ -63,7 +63,7 @@ export function registerTextPortrait(editor){
 
 export function mountPortraitControls({editor,toast,markDirty}){
  const panel=document.createElement('div');panel.id='portrait-controls';panel.className='hide';
- panel.innerHTML='<div class="field-title">TEXT PORTRAIT</div><label class="field">Portrait description<input id="portrait-description" maxlength="240"/></label><label class="field">Replace portrait photo<input id="portrait-file" type="file" accept="image/jpeg,image/png,image/webp"/></label><p class="inspector-note">Choose a head-and-shoulders photo on a plain background. Converted on this device; only the characters are saved. JPEG, PNG or WebP · up to 8 MB.</p><div id="picture-options" hidden><label class="field">Crop<select id="picture-crop"><option value="center">Center crop</option><option value="fit">Fit whole picture</option><option value="close">Tight center crop</option></select></label><label class="field">Density<select id="picture-density"><option value="48">Low</option><option value="72" selected>Medium</option><option value="120">High</option></select></label><label class="field">Characters<select id="picture-glyphs"><option value="classic">Classic</option><option value="minimal">Simple</option><option value="dense">Dense</option></select></label><label class="field">Contrast<select id="picture-contrast"><option value="normal">Normal</option><option value="invert">Invert</option></select></label><div class="picture-preview" hidden><pre aria-label="Picture to Text preview" role="img"></pre></div><button type="button" id="apply-picture-text" class="btn sm text-wide" disabled>Apply text artwork</button></div>';
+ panel.innerHTML='<div class="field-title">TEXT PORTRAIT</div><label class="field">Portrait description<input id="portrait-description" maxlength="240"/></label><label class="field"><span id="portrait-file-label">Replace portrait photo</span><input id="portrait-file" type="file" accept="image/jpeg,image/png,image/webp"/></label><p class="inspector-note">Choose a head-and-shoulders photo on a plain background. Converted on this device; only the characters are saved. JPEG, PNG or WebP · up to 8 MB.</p><div id="picture-options" hidden><label class="field">Crop<select id="picture-crop"><option value="center">Center crop</option><option value="fit">Fit whole picture</option><option value="close">Tight center crop</option></select></label><label class="field">Density<select id="picture-density"><option value="48">Low</option><option value="72" selected>Medium</option><option value="120">High</option></select></label><label class="field">Characters<select id="picture-glyphs"><option value="classic">Classic</option><option value="minimal">Simple</option><option value="dense">Dense</option></select></label><label class="field">Contrast<select id="picture-contrast"><option value="normal">Normal</option><option value="invert">Invert</option></select></label><div class="picture-preview" hidden><pre aria-label="Picture to Text preview" role="img"></pre></div><button type="button" id="apply-picture-text" class="btn sm text-wide" disabled>Apply text artwork</button></div>';
  const description=panel.querySelector('#portrait-description'),fileInput=panel.querySelector('#portrait-file');
  const options=panel.querySelector('#picture-options'),preview=options.querySelector('.picture-preview');
  const apply=options.querySelector('button'),title=panel.querySelector('.field-title'),note=panel.querySelector('.inspector-note');
@@ -80,10 +80,13 @@ export function mountPortraitControls({editor,toast,markDirty}){
   if(!selected){panel.remove();return;}
   options.hidden=!isPicture();
   title.textContent=isPicture()?'PICTURE TO TEXT':'TEXT PORTRAIT';
+  panel.querySelector('#portrait-file-label').textContent=isPicture()?'Choose a picture':'Replace portrait photo';
   note.textContent=isPicture()
    ?'Choose a JPEG, PNG or WebP up to 8 MB. Preview the result before applying it. Only the text is saved.'
    :'Choose a head-and-shoulders photo on a plain background. Converted on this device; only the characters are saved. JPEG, PNG or WebP · up to 8 MB.';
-  document.querySelector('#selected-controls').append(panel);panel.classList.remove('hide');
+  const inspector=document.querySelector('#selected-controls');
+  if(isPicture())inspector.prepend(panel);else inspector.append(panel);
+  panel.classList.remove('hide');
   description.value=selected.getAttributes()['aria-label']||'';
  });
  editor.on('component:deselected page:select',clear);
@@ -91,7 +94,7 @@ export function mountPortraitControls({editor,toast,markDirty}){
  function commit(target,text,width){
   replacePortraitText(target,text);
   target.addAttributes({'aria-label':label()});
-  if(width)target.addStyle({'--picture-columns':String(width)});
+  if(width){target.removeAttributes('data-picture-empty');target.addStyle({'--picture-columns':String(width)});}
   markDirty();
   toast(width?'Text artwork applied.':'Text portrait updated. Your original photo stays on this device.');
  }

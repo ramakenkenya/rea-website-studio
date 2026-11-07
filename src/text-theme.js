@@ -5,7 +5,7 @@ import {TEXT_THEME_CSS} from './text-theme-style.js';
 const options=entries=>entries.map(([value,label])=>({value,label}));
 export const TEXT_SECTIONS=[
  {id:'header',name:'Header & Navigation',layouts:options([['inline','Inline navigation'],['stacked','Stacked navigation']])},
- {id:'hero',name:'Hero',layouts:options([['split','Split with text artwork'],['stacked','Stacked headline']])},
+ {id:'hero',name:'Hero',layouts:options([['stacked','Editorial headline'],['split','Headline with picture to text']])},
  {id:'about',name:'About & Notes',layouts:options([['split','Split editorial'],['stacked','Stacked editorial']])},
  {id:'services',name:'Services & Features',layouts:options([['grid','Numbered columns'],['stagger','Staggered features'],['rows','Feature rows']])},
  {id:'work',name:'Work & Results',layouts:options([['rows','Project rows'],['grid','Project grid'],['split','Featured case study']])},
@@ -20,14 +20,10 @@ export const TEXT_STYLES=options([['solid','Solid display'],['outline','Outline 
 export const TEXT_TONES=options([['inherit','Site colors'],['light','Light'],['dark','Dark']]);
 export const textSectionConfig=id=>TEXT_SECTIONS.find(section=>section.id===id);
 
-const SAMPLE_GLYPHS=Array.from({length:48},(_,y)=>Array.from({length:72},(_,x)=>{
- const d=Math.hypot((x-36)/1.55,y-24);
- return d<21&&d>8?'.:+*#'[Math.min(4,Math.floor((21-d)/3))]:' ';
-}).join('')).join('\n');
 export function textArtwork(){
- const art=portraitMarkup(SAMPLE_GLYPHS,'Sample glyph artwork. Replace it with a picture of your own.')
-  .replace('<pre ','<pre data-picture-to-text="true" ');
- return `<figure class="type-art"><div class="type-art-surface">${art}</div><figcaption class="type-label">Picture rendered in text characters</figcaption></figure>`;
+ const art=portraitMarkup('ADD A PICTURE','Picture to Text placeholder')
+  .replace('<pre ','<pre data-picture-to-text="true" data-picture-empty="true" ');
+ return `<figure class="type-art"><div class="type-art-surface">${art}</div><figcaption class="type-label">Picture to Text</figcaption></figure>`;
 }
 
 function panel(label,title,content){
@@ -38,7 +34,7 @@ function item(n,title,copy,classes=''){
  return `<article class="type-item ${classes}"><span class="type-number" aria-hidden="true">${String(n).padStart(2,'0')}</span><div><h3>${e(title)}</h3><p>${e(copy)}</p></div></article>`;
 }
 
-export function textSection(id,brief,{layout,style='solid',tone='inherit',starter=false,headline}={}){
+export function textSection(id,brief,{layout,style='serif',tone='inherit',starter=false,headline}={}){
  const config=textSectionConfig(id);
  if(!config)throw Error('Unknown text section.');
  const chosen=config.layouts.find(option=>option.value===layout)?.value||config.layouts[0].value;
@@ -53,7 +49,7 @@ export function textSection(id,brief,{layout,style='solid',tone='inherit',starte
   body=`<a class="site-brand type-brand" href="${starter?'#text-header':'./'}">${name}<span aria-hidden="true"> /</span></a><nav aria-label="Website navigation">${starter?'<a href="#text-services">Services</a><a href="#text-work">Work</a><a href="#text-about">About</a><a href="#text-cta">Contact</a>':'<a href="./">Home</a>'}</nav>`;
   break;
  case 'hero':
-  body=`<div class="type-heading"><span class="type-label">01 / INTRODUCTION</span><h1 class="type-title">${e(headline||brief.name||'Your website')}</h1><p class="type-intro">${description}</p>${contact||(starter?'<a class="type-action" href="#text-work">Explore the work <span aria-hidden="true">↓</span></a>':'')}</div>${textArtwork()}`;
+  body=`<div class="type-heading"><span class="type-label">01 / INTRODUCTION</span><h1 class="type-title">${e(headline||brief.name||'Your website')}</h1><div class="type-hero-meta"><p class="type-intro">${description}</p>${contact||(starter?'<a class="type-action" href="#text-work">Explore the work <span aria-hidden="true">↓</span></a>':'')}</div></div>${chosen==='split'?textArtwork():''}`;
   break;
  case 'about':
   body=panel('04 / BACKGROUND','About',`<p>${description}</p><p>Add a note about what shaped your approach or what you are working on next.</p>`);
@@ -106,11 +102,12 @@ export function updateTextSection(section,appearance){
   section.removeClass(`type-${key}-${current[key]}`);
   section.addClass(`type-${key}-${value}`);
  }
+ if(config.id==='hero'&&appearance.layout==='split'&&!section.find('[data-picture-to-text]').length)section.append(textArtwork());
 }
 
 export function createTextTheme(brief){
  const sections=['header','hero','services','work','about','cta','footer'];
- return {html:sections.map(id=>textSection(id,brief,{starter:true,style:id==='hero'?'outline':'solid',tone:id==='work'?'light':'inherit'})).join(''),css:TEXT_THEME_CSS};
+ return {html:sections.map(id=>textSection(id,brief,{starter:true,tone:id==='work'?'light':'inherit'})).join(''),css:TEXT_THEME_CSS};
 }
 
 export function createTextThemePage(brief,name,kind){

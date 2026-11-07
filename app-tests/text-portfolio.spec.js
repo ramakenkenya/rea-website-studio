@@ -79,7 +79,10 @@ test('generic text theme uses the brief and portrait photo replacement is saved 
  await page.getByRole('radio',{name:'Text only',exact:true}).check();await page.locator('#brief-submit').click();
  const canvas=page.frameLocator('.gjs-frame');await expect(canvas.locator('h1')).toContainText('Independent');
  await expect(canvas.locator('.tp-project').first()).toContainText('Your project 01');
- await canvas.locator('.tp-art').click();await expect(page.locator('#portrait-controls')).toBeVisible();
+ await expect(canvas.locator('.tp-art')).toHaveCount(0);
+ await page.getByLabel('Section category').selectOption('picture');
+ await page.getByRole('button',{name:'Add Artwork with caption'}).click();
+ await expect(page.locator('#portrait-controls')).toBeVisible();
  const before=await canvas.locator('.tp-art').textContent();
  await page.locator('#portrait-file').setInputFiles({name:'broken.png',mimeType:'image/png',buffer:Buffer.from('not a picture')});
  await expect(page.getByRole('status')).toContainText('could not be read');expect(await canvas.locator('.tp-art').textContent()).toBe(before);
