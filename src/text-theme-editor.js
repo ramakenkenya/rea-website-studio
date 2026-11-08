@@ -1,111 +1,130 @@
-import {escapeHtml as e} from './project.js';
-import {TEXT_BLOCK_PRESETS,textBlockMarkup} from './text-blocks.js';
+import {TEXT_BLOCK_ANCHORS,TEXT_BLOCK_PRESETS,textBlockMarkup} from './text-blocks.js';
 import {TEXT_BLOCK_CSS} from './text-block-style.js';
-import {referencePage,referenceContent,referencePresets} from './portfolio-reference.js';
+import {TEXT_CATALOG_CSS} from './text-catalog-style.js';
+import {REFERENCE_SECTION_CSS,referencePage,referenceContent,referencePresets} from './portfolio-reference.js';
 import {TEXT_STYLES,TEXT_TONES,textAppearance,textSection,textSectionConfig,textArtwork,updateTextSection} from './text-theme.js';
-
-const singleton=new Set(['header','hero','footer']);
 
 export function mountTextSections({editor,getBrief,toast,markDirty}){
  const controls=document.querySelector('#text-section-controls');
  const standard=document.querySelector('#standard-quick-add');
  const help=document.querySelector('.block-help');
  const stylesheet=document.createElement('style');
- stylesheet.textContent=TEXT_BLOCK_CSS;
+ stylesheet.textContent=TEXT_BLOCK_CSS+TEXT_CATALOG_CSS;
  document.head.append(stylesheet);
 
- function showAdded(component){
-  editor.select(component);
-  if(matchMedia('(max-width:760px)').matches)document.querySelector('[data-mobile="canvas"]').click();
-  component.getEl()?.scrollIntoView({block:'center'});
- }
-
- function registerPreset(preset){
-  const {id,block,style}=preset,name=`${block} · ${style}`;
-  const thumb=textBlockMarkup(preset,{brief:getBrief()});
-  editor.Blocks.add('styled-text-'+id,{
-   label:`<strong>${block}</strong><span>${style}</span>`,
-   media:`<div class="text-preset-preview" inert aria-hidden="true">${thumb}</div>`,
-   attributes:{class:'text-section-block styled-text-preset',role:'button',tabindex:0,'aria-label':'Add '+name},
-   content:textBlockMarkup(preset,{brief:getBrief()}),select:true,
-   onClick:()=>{
-    const wrapper=editor.getWrapper(),children=wrapper.components();
-    const footer=children.find(component=>component.get('tagName')==='footer');
-    const at=id==='utility-footer'||!footer?children.length:children.indexOf(footer);
-    const [added]=wrapper.append(textBlockMarkup(preset,{brief:getBrief(),primary:!wrapper.find('h1').length}),{at});
-    showAdded(added);
-    toast(`${name} added.`);
-   },
-  });
- }
-
- function add(block,id,name,layout){
+ function containerFor(position){
   const wrapper=editor.getWrapper();
-  const page=referencePage(wrapper);
-  const referenceSelector={header:'header',hero:'.tp-hero',footer:'footer'}[id];
-  const previous=singleton.has(id)&&(wrapper.find(`[data-text-section="${id}"]`)[0]||page?.find(referenceSelector)[0]);
-  if(previous){
-   if(!previous.getAttributes()['data-text-section']){
-    editor.select(previous);previous.getEl()?.scrollIntoView({block:'center'});
-    toast(`Editing the portfolio’s ${name}.`);return;
-   }
-   updateTextSection(previous,{layout});
-   editor.select(previous);
-   select(previous);
-   previous.getEl()?.scrollIntoView({block:'center'});
-   toast(`${name} layout updated.`);
-   return;
-  }
-  const container=(['header','footer'].includes(id)?page:referenceContent(page))||wrapper;
+  const portfolio=referencePage(wrapper);
+  return (position?portfolio:referenceContent(portfolio))||wrapper;
+ }
+
+ function insertAt(container,position){
   const children=container.components();
-  const footer=children.find(c=>c.get('tagName')==='footer');
-  const header=children.find(c=>c.get('tagName')==='header');
-  const at=id==='header'?0:id==='hero'?(header?children.indexOf(header)+1:0):id==='footer'?children.length:footer?children.indexOf(footer):children.length;
-  const [component]=container.append(block.get('content'),{at});
-  editor.select(id==='picture'?component.find('[data-picture-to-text]')[0]:component);
+  if(position==='header')return children.at(0)?.getClasses().includes('tp-skip')?1:0;
+  const footer=children.find(child=>child.get('tagName')==='footer'||child.getAttributes()['data-portfolio-part']==='footer');
+  return position==='footer'?children.length:footer?.index()??children.length;
+ }
+
+ function finish(component,{name,anchor,position,primary,picture,original},dragged=false){
+  const wrapper=editor.getWrapper();
+  if(original&&!editor.Css.getRule('.mm-section .mm-stage'))editor.addStyle(REFERENCE_SECTION_CSS);
+  const container=containerFor(position);
+  if(dragged&&(position||component.parent()!==container)){
+   let near=component;
+   while(near?.parent()&&near.parent()!==container)near=near.parent();
+   const at=!position&&near?.parent()===container?near.index()+1:insertAt(container,position);
+   component.move(container,{at});
+  }
+  if(anchor&&!wrapper.find(`[id="${anchor}"]`).length)component.addAttributes({id:anchor});
+  if(primary&&!wrapper.find('h1').length)component.find('h2')[0]?.set('tagName','h1');
+  if(component.find('.tp-hero').length||component.getClasses().includes('tp-hero')){
+   const heading=component.find('h1')[0];
+   if(heading&&wrapper.find('h1').length>1){heading.set('tagName','h2');heading.addAttributes({'data-copied-hero-title':'true'});}
+  }
+  const target=picture?component.find('[data-picture-to-text]')[0]:component;
+  editor.select(target||component);
+  if(matchMedia('(max-width:760px)').matches)document.querySelector(`[data-mobile="${picture?'inspector':'canvas'}"]`).click();
   component.getEl()?.scrollIntoView({block:'center'});
   toast(`${name} added.`);
  }
 
+ const cards=new Map();
+ const catalog=document.querySelector('#blocks');
+ const groups=[
+  ['start','Start here'],['portfolio','Original portfolio'],['opening','Header & opening'],
+  ['about','About & statements'],['features','Services & features'],['work','Work & results'],
+  ['process','Process'],['people','Team & testimonials'],['faq','FAQ'],['closing','Calls to action & footers'],
+ ].map(([id,label],order)=>({id:'text-catalog-'+id,label,order,open:order===0}));
+ const groupFor={Header:'opening',Headline:'opening',Statement:'about',Reasons:'about',About:'about',Features:'features','Case Study':'work','Work List':'work',Process:'process',Team:'people',Testimonials:'people',FAQ:'faq',Callout:'closing',Footer:'closing'};
+
+ function addCard({id,name,group,content,preview,position,primary,anchor,picture,original,label=name}){
+  const details={name,position,primary,anchor,picture,original};
+  cards.set(id,details);
+  editor.Blocks.add(id,{
+   category:groups.find(item=>item.id==='text-catalog-'+group),
+   label,media:preview,
+   attributes:{class:'text-section-block styled-text-preset',role:'button',tabindex:0,'aria-label':'Add '+name},
+   content,select:false,
+   onClick:()=>{
+    const container=containerFor(position);
+    const [added]=container.append(content,{at:insertAt(container,position)});
+    finish(added,details);
+   },
+  });
+ }
+
+ const preview=(label,mark='Aa',dark=false)=>`<div class="text-card-sample${dark?' is-dark':''}" aria-hidden="true"><strong>${mark}</strong><span>${label}</span></div>`;
+ const variants={header:'RAMA /',hero:'RAMA KEN.',work:'THE WORK',motion:'BLACK / WHITE',about:'ALWAYS ASKING',notes:'FIELD NOTES',contact:'LET’S MAKE',footer:'BACK TO TOP ↑'};
  function register(){
   const active=getBrief().theme==='text';
   standard.hidden=active;
-  const page=active&&referencePage(editor.getWrapper());
-  document.querySelector('#blocks').classList.toggle('styled-text-palette',active&&!page);
+  cards.clear();
+  catalog.classList.toggle('styled-text-palette',active);
   if(!active){help.textContent='Drag a section onto your page, or use a quick-add button.';return false;}
-  help.textContent=page?'Add a section or a simple text block.':'Click or drag a text block onto the page.';
-  if(page){
-   for(const {id,name,html} of [
-    {id:'text',name:'Text',html:'<section data-section="Text"><h2>Your heading</h2><p>Write something here.</p></section>'},
-    ...referencePresets(page.getAttributes()['lang']),
-   ]){
-    editor.Blocks.add('portfolio-reference-'+id,{
-     label:name,media:'<span class="text-block-sample text-block-rows" aria-hidden="true"><i></i><i></i><i></i></span>',select:true,
-     attributes:{class:'text-section-block',role:'button',tabindex:0,'aria-label':'Add '+name},
-     content:html,onClick:()=>{const [added]=referenceContent(page).append(html);showAdded(added);toast(`${name} added.`);},
-    });
-   }
-  }else{
-   for(const preset of TEXT_BLOCK_PRESETS)registerPreset(preset);
+  help.textContent='Open a group, then click or drag a block onto the page.';
+  addCard({id:'text-basic',name:'Text',group:'start',primary:true,preview:preview('Heading and paragraph'),content:'<section class="tb-block" data-section="Text"><h2 class="tb-title">Your heading</h2><p class="tb-copy">Write something here.</p></section>'});
+  addCard({id:'text-columns',name:'Text columns',group:'start',primary:true,preview:preview('Two editable columns','Aa / Bb'),content:'<section class="tb-block" data-section="Text columns"><h2 class="tb-title">Your heading</h2><div class="tb-editorial-columns"><p class="tb-copy">Write your first column.</p><p class="tb-copy">Write your second column.</p></div></section>'});
+  addCard({id:'text-picture',name:'Picture to Text',group:'start',picture:true,preview:preview('Upload a picture','▒▓█▓▒',true),content:textSection('picture',getBrief(),{layout:'split'})});
+  const page=referencePage(editor.getWrapper());
+  for(const {id,name,html,portable,anchor} of referencePresets(page?.getAttributes().lang||'en')){
+   addCard({id:'portfolio-reference-'+id,name,group:'portfolio',content:page?html:portable,original:true,
+    position:id==='header'||id==='footer'?id:undefined,anchor,preview:preview(name,variants[id],true)});
   }
-  const layout='split';
-  editor.Blocks.add('text-picture',{
-   label:'Picture to Text',media:'<span class="text-block-sample text-block-split" aria-hidden="true"><i></i><i></i><i></i></span>',select:true,
-   attributes:{class:'text-section-block',role:'button',tabindex:0,'aria-label':'Add Picture to Text'},
-   content:textSection('picture',getBrief(),{layout}),
-   onClick:block=>add(block,'picture','Picture to Text',layout),
-  });
+  for(const group of groups){
+   for(const preset of TEXT_BLOCK_PRESETS.filter(item=>group.id==='text-catalog-'+groupFor[item.block])){
+    const {id,block,style}=preset;
+    const content=textBlockMarkup(preset,{brief:getBrief()});
+    addCard({id:'styled-text-'+id,name:`${block} · ${style}`,group:groupFor[block],content,
+     label:`<strong>${block}</strong><span>${style}</span>`,
+     preview:`<div class="text-preset-preview" inert aria-hidden="true">${content}</div>`,
+     anchor:TEXT_BLOCK_ANCHORS[id],position:preset.tag|| (id==='utility-footer'?'footer':undefined),primary:block==='Headline'});
+   }
+  }
   return true;
  }
 
  function select(component){
   let section=component;
-  while(section&&!section.getAttributes()['data-text-section'])section=section.parent();
+  while(section&&!section.getAttributes()['data-text-section']&&!section.getAttributes()['data-styled-text-block']&&!section.getClasses().includes('tb-block'))section=section.parent();
   const id=section?.getAttributes()['data-text-section'];
   const config=textSectionConfig(id);
-  controls.hidden=!config||getBrief().theme!=='text';
+  const styled=section?.getClasses().includes('tb-block');
+  controls.hidden=(!config&&!styled)||getBrief().theme!=='text';
   controls.replaceChildren();
   if(controls.hidden)return;
+  if(styled){
+   const field=document.createElement('label');
+   field.className='field';field.textContent='Section colors';
+   const input=document.createElement('select');
+   const current=section.getAttributes()['data-text-tone']||'';
+   for(const [value,label] of [['','Preset colors'],['light','Light'],['dark','Dark'],['grid','Light grid paper']])input.add(new Option(label,value,false,value===current));
+   input.onchange=()=>{
+    if(input.value)section.addAttributes({'data-text-tone':input.value});else section.removeAttributes('data-text-tone');
+    markDirty();
+   };
+   field.append(input);controls.append(field);
+   return;
+  }
   const title=document.createElement('div');title.className='field-title';title.textContent=config.name;controls.append(title);
   const current=textAppearance(section);
   const options=[['layout','Section layout',config.layouts],['style','Type style',TEXT_STYLES],['tone','Section colors',TEXT_TONES]];
@@ -138,38 +157,22 @@ export function mountTextSections({editor,getBrief,toast,markDirty}){
  }
 
  editor.on('block:drag:stop',(component,block)=>{
-  if(component&&block?.getId().startsWith('styled-text-')){
-   const wrapper=editor.getWrapper();
-   if(component.parent()!==wrapper)component.move(wrapper,{at:wrapper.components().length});
-   const preset=TEXT_BLOCK_PRESETS.find(item=>item.id===component.getAttributes()['data-styled-text-block']);
-   if(preset?.block==='Headline'&&!wrapper.find('h1').length)component.find('h2')[0]?.set('tagName','h1');
-   return;
-  }
-  if(component&&block?.getId().startsWith('portfolio-reference-')){
-   const main=referenceContent(referencePage(editor.getWrapper()));
-   if(main&&component.parent()!==main)component.move(main,{at:main.components().length});
-   return;
-  }
-  const id=component?.getAttributes()['data-text-section'];
-  if(id==='picture'){editor.select(component.find('[data-picture-to-text]')[0]);return;}
-  if(!singleton.has(id))return;
-  const wrapper=editor.getWrapper();
-  const previous=wrapper.find(`[data-text-section="${id}"]`).find(section=>section!==component);
-  if(previous){
-   updateTextSection(previous,{layout:textAppearance(component).layout});
-   component.remove();
-   editor.select(previous);
-   select(previous);
-   toast('Section layout updated.');
-   return;
-  }
-  const children=wrapper.components();
-  const header=children.find(c=>c.get('tagName')==='header');
-  component.move(wrapper,{at:id==='header'?0:id==='hero'?(header?children.indexOf(header)+1:0):children.length});
+  const details=cards.get(block?.getId());
+  if(component&&details)finish(component,details,true);
  });
- document.querySelector('#blocks').addEventListener('keydown',event=>{
-  const block=event.target.closest('.text-section-block');
-  if(block&&['Enter',' '].includes(event.key)){event.preventDefault();block.click();}
+ // Keep the native block category toggles usable by keyboard and screen readers.
+ const syncGroups=()=>{
+  for(const title of catalog.querySelectorAll('.gjs-block-category > [data-title]')){
+   title.setAttribute('role','button');
+   title.tabIndex=0;
+   title.firstElementChild?.setAttribute('aria-hidden','true');
+   title.setAttribute('aria-expanded',String(title.parentElement.classList.contains('gjs-open')));
+  }
+ };
+ new MutationObserver(syncGroups).observe(catalog,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});
+ catalog.addEventListener('keydown',event=>{
+  const button=event.target.closest('.text-section-block,.gjs-block-category > [data-title]');
+  if(button&&['Enter',' '].includes(event.key)){event.preventDefault();button.click();}
  });
  return {register,select};
 }

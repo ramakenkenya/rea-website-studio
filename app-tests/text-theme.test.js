@@ -57,3 +57,11 @@ test('each styled preset creates one independent section of editable text',()=>{
  }
  assert.ok(TEXT_BLOCK_PRESETS.filter(p=>p.block==='Headline').length>=3);
 });
+
+test('the inspiration catalog includes both editorial layouts and distinct dark variations',()=>{
+ const presets=Object.fromEntries(TEXT_BLOCK_PRESETS.map(p=>[p.id,p]));
+ for(const id of ['inline-masthead','outline-poster','framed-hero','editorial-philosophy','utility-features','case-list','vertical-process','side-process','milestone-circles','dark-profiles','quote-grid','pull-quote','offset-faq','vertical-faq','stacked-invitation','index-footer']){
+  assert.ok(presets[id],`Missing editable preset: ${id}`);
+  assert.match(textBlockMarkup(presets[id],{brief}),/<(?:h[1-6]|blockquote|nav)\b/);
+ }
+});
