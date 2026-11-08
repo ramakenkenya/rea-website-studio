@@ -46,3 +46,30 @@ test('text search, element duplication, link controls and responsive visibility 
  await expect(page.frameLocator('.gjs-frame').locator('a[href="https://example.com/book"]')).toHaveCount(2);
  const files=await zip(page),html=await files.file('index.html').async('string');expect(html).toContain('target="_blank"');expect(html).toContain('noopener noreferrer');expect(html).toContain('studio-hide-phone');expect(await files.file('studio.css').async('string')).toContain('.studio-hide-phone');
 });
+
+test('the new-tab preview shows unsaved content and supports internal links',async({page})=>{
+ await page.goto('./?sample=portfolio-reference');
+ const button=page.getByRole('button',{name:'Preview in new tab',exact:true});
+ await expect(button).toBeEnabled();
+ const canvas=page.frameLocator('.gjs-frame');
+ await canvas.locator('.tp-intro').click();
+ await page.getByLabel('Selected text').fill('Unsaved studio preview copy');
+ await page.getByRole('button',{name:'Apply text',exact:true}).click();
+ const opened=page.context().waitForEvent('page');
+ await button.click();
+ const popup=await opened;
+ const preview=popup.frameLocator('iframe[title="Website preview"]');
+ await expect(preview.locator('.tp-intro')).toHaveText('Unsaved studio preview copy');
+ expect(await popup.evaluate(()=>window.opener===null)).toBe(true);
+ await preview.getByRole('link',{name:'한국어',exact:true}).click();
+ await expect(preview.locator('[data-text-locale="ko"]')).toBeVisible();
+ await expect(canvas.locator('[data-text-locale="en"]')).toBeVisible();
+ await popup.close();
+ await page.getByRole('button',{name:'Preview website',exact:true}).click();
+ await page.getByLabel('Preview page').selectOption('ko.html');
+ const poppedOut=page.context().waitForEvent('page');
+ await page.getByRole('button',{name:'Open in new tab',exact:true}).click();
+ const second=await poppedOut;
+ await expect(second.frameLocator('iframe').locator('[data-text-locale="ko"]')).toBeVisible();
+ await second.close();
+});
