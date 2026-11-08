@@ -121,3 +121,10 @@
 .selection-undo:disabled{opacity:.45}
 #image-controls #portrait-controls{margin-bottom:14px}
 #portrait-controls [hidden]{display:none}
+
+.save-summary{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:3px 7px;font-size:10px;color:#52665a}
+.save-summary .save-info{display:inline;margin:0;color:inherit}
+.save-summary time{color:#52665a}
+.save-details{padding:3px 0;background:none;color:#166452;text-decoration:underline;text-underline-offset:2px}
+.save-details:focus-visible{outline:2px solid #176c5b;outline-offset:2px}
+@media(max-width:760px){.save-summary{flex-basis:100%}}
