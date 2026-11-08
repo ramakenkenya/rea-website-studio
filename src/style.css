@@ -113,3 +113,11 @@
 .type-style-mono b{font:700 14px/1 monospace;letter-spacing:.13em}
 .text-blank-option{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:12px;color:#304a3a}
 .text-blank-option[hidden]{display:none}
+
+.gjs-toolbar-item__studio-undo-step{padding:0!important}
+.selection-undo{display:grid;place-items:center;width:26px;height:26px;border:0;background:transparent;color:inherit}
+.selection-undo svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.selection-undo:focus-visible{outline:2px solid currentColor;outline-offset:-3px}
+.selection-undo:disabled{opacity:.45}
+#image-controls #portrait-controls{margin-bottom:14px}
+#portrait-controls [hidden]{display:none}

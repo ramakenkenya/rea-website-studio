@@ -68,3 +68,29 @@ test('uploaded character grids keep blank margins and escape markup through mode
  assert.equal(editor.getWrapper().components().at(0).components().at(0).get('content'),text);
  editor.destroy();
 });
+
+test('textualizing an image replaces it in place and undo restores the original in one step',async()=>{
+ const {textualizeImage}=await import('../src/text-portrait.js');
+ assert.equal(typeof textualizeImage,'function','Image replacement is available to the editor');
+ const editor=grapesjs.init({headless:true,storageManager:false});registerTextPortrait(editor);
+ const [figure]=editor.addComponents({tagName:'figure',components:[
+  {type:'image',classes:['studio-hide-phone'],attributes:{src:'https://example.com/desk.png',alt:'A desk'}},
+  {tagName:'figcaption',content:'A quiet corner'},
+ ]});
+ try{
+  const image=figure.components().at(0);
+  editor.UndoManager.clear();
+  const artwork=textualizeImage(image,{text:'  .#\n  %#',width:4,description:'A desk',ratio:1.5});
+  assert.equal(figure.components().length,2);
+  assert.equal(artwork.getAttributes()['aria-label'],'A desk');
+  assert.equal(artwork.components().at(0).get('content'),'  .#\n  %#');
+  assert.match(figure.toHTML(),/studio-hide-phone/);
+  assert.match(figure.toHTML(),/A quiet corner/);
+  assert.doesNotMatch(figure.toHTML(),/desk\.png/);
+  editor.UndoManager.undo();
+  assert.equal(figure.components().at(0),image);
+  assert.match(figure.toHTML(),/desk\.png/);
+  editor.UndoManager.redo();
+  assert.match(figure.toHTML(),/data-textual-image/);
+ }finally{editor.destroy();}
+});

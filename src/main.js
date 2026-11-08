@@ -15,7 +15,7 @@ import {createStudio} from './site-model.js';
 import {EXTRA_BLOCKS,extraSection,EXTRA_CSS} from './blocks.js';
 import {mountBriefImport} from './brief-import.js';
 import {replaceImportedProject} from './import-transaction.js';
-import {registerTextPortrait,mountPortraitControls} from './text-portrait.js';
+import {registerTextPortrait,mountPortraitControls,TEXTUAL_IMAGE_CSS} from './text-portrait.js';
 import {createTextPortfolio,TEXT_SAMPLE_BRIEF,textSampleProject,textSampleMetadata} from './text-portfolio.js';
 import {REFERENCE_PORTFOLIO_CSS,REFERENCE_PAINT_CSS,REFERENCE_PAINT_SELECTOR,PORTFOLIO_PART_CSS,referencePortfolioProject,referencePage} from './portfolio-reference.js';
 const paths={grid:'M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z',spark:'m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z',file:'M14 2H5v20h14V7zM14 2v6h5M8 13h8M8 17h6',palette:'M12 3a9 9 0 1 0 0 18h2a2 2 0 0 0 0-4h-1a2 2 0 0 1 0-4h4c6 0 5-10-5-10zM7 8h.01M12 6h.01M17 8h.01',check:'m5 12 4 4L19 6',shield:'m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6zM8 12l3 3 5-6',arrow:'M5 12h14m-6-6 6 6-6 6',plus:'M12 5v14M5 12h14',close:'m6 6 12 12M6 18 18 6',download:'M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5',save:'M4 3h14l3 3v15H3V3zM7 3v7h10V3M7 21v-7h10v7',desktop:'M3 4h18v13H3zM8 21h8M12 17v4',tablet:'M5 2h14v20H5zM11 18h2',phone:'M7 2h10v20H7zM11 18h2',undo:'M4 4v6h6M4 10a8 8 0 1 1-1 7',redo:'M20 4v6h-6M20 10a8 8 0 1 0 1 7',image:'M3 3h18v18H3zM3 17l6-6 4 4 3-3 5 5M15 7h.01',text:'M4 5h16M12 5v15M8 20h8',layers:'m12 3 10 5-10 5L2 8zM2 12l10 5 10-5M2 16l10 5 10-5',up:'m6 15 6-6 6 6',down:'m6 9 6 6 6-6',trash:'M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7',cursor:'m5 3 14 10-7 1-3 7z',external:'M14 3h7v7M21 3 10 14M10 3H3v18h18v-7',mail:'M3 5h18v14H3zM3 5l9 8 9-8',lock:'M5 10h14v11H5zM8 10V6a4 4 0 0 1 8 0v4',book:'M12 5C8 2 5 3 2 4v16c5-2 7-1 10 1 3-2 5-3 10-1V4c-3-1-6-2-10 1zM12 5v16',align:'M4 6h16M4 10h11M4 14h16M4 18h11'};
@@ -47,7 +47,7 @@ registerTextPortrait(editor);
 const textSections=mountTextSections({editor,getBrief:()=>brief,toast,markDirty});
 const typeTreatment=mountTypeTreatment({editor,markDirty,toast,onChange:selectComponent});
 const studio=mountStudio({editor,getBrief:()=>brief,setBrief:next=>{brief=normalizeBrief(next);updateNames();registerBlocks();},toast,markDirty,capture:()=>capture(),restore:loadProject,onSelect:()=>{selectComponent(null);layers();},onSaved:()=>{dirty=false;}});
-mountPortraitControls({editor,toast,markDirty});
+mountPortraitControls({editor,getBrief:()=>brief,toast,markDirty});
 function capture(){studio.sync();return snapshot(brief,editor.getProjectData(),studio.getState());}
 function hasWorkToReplace(){return dirty||(!referencePage(editor.getWrapper())&&studio.getState()?.pages.length>1);}
 function markDirty(){if(importing||!ready)return;dirty=true;$('#save-status').textContent='Unsaved changes';}
@@ -60,6 +60,7 @@ function registerBlocks(){
  if(!editor.Css.getRule('.extra-lead'))editor.addStyle(EXTRA_CSS);
  if(textSections.register()){
   if(!editor.Css.getRule('.type-section'))editor.addStyle(TEXT_THEME_CSS);
+  if(!editor.Css.getRule('.textual-image'))editor.addStyle(TEXTUAL_IMAGE_CSS);
   if(!editor.Css.getRule('.tb-block'))editor.addStyle(TEXT_BLOCK_CSS);
   if(!editor.Css.getRule('.tb-inline-masthead'))editor.addStyle(TEXT_CATALOG_CSS);
   if(!editor.Css.getRule('body [data-type-treatment]:is([data-type-treatment="echo"])'))editor.addStyle(TYPE_TREATMENT_CSS);
@@ -192,7 +193,26 @@ $('#brief-form').onsubmit=e=>{e.preventDefault();if(briefImport.active()){briefI
  }catch(err){$('#brief-error').textContent=err.message;}};
 $('#save').onclick=save;$('#backup').onclick=()=>{try{download(new Blob([serializeBackup(capture())],{type:'application/json'}),fileSlug(brief.name)+'-project.json');toast('Project backup downloaded. Restore this file to keep editing.');}catch(err){toast(err.message);}};
 $('#restore-file').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>MAX_BACKUP_BYTES)throw new Error('Project files must be under 32 MB.');const data=validateSnapshot(JSON.parse(await file.text()));if(dirty&&!confirm('Restore this backup and replace the open canvas?'))return;loadProject(data);editor.UndoManager.clear();markDirty();toast('Project restored. Save it on this device to keep it.');}catch(err){toast('Could not restore. '+(err.message.includes('JSON')?'Choose a valid project backup.':err.message));}finally{e.target.value='';}};
-$('#undo').onclick=()=>{editor.UndoManager.undo();layers();};$('#redo').onclick=()=>{editor.UndoManager.redo();layers();};
+function historyStep(action){editor.UndoManager[action]();layers();}
+function syncHistoryButtons(){
+ const disabled=!editor.UndoManager.hasUndo();
+ $('#undo').disabled=disabled;
+ $('#redo').disabled=!editor.UndoManager.hasRedo();
+ const button=$('.selection-undo');
+ if(button)button.disabled=disabled;
+}
+editor.Commands.add('studio-undo-step',()=>historyStep('undo'));
+editor.on('component:selected',component=>{
+ const toolbar=component.get('toolbar');
+ if(!toolbar?.length||toolbar.some(item=>item.id==='studio-undo-step'))return;
+ component.set('toolbar',[...toolbar,{
+  id:'studio-undo-step',command:'studio-undo-step',events:{click:'handleClick'},
+  label:`<button type="button" class="selection-undo" aria-label="Undo last edit" title="Undo last edit">${icon('undo')}</button>`,
+ }],{avoidStore:true,noUndo:true});
+});
+editor.on('load update undo redo component:toggled',()=>queueMicrotask(syncHistoryButtons));
+$('#undo').onclick=()=>historyStep('undo');
+$('#redo').onclick=()=>historyStep('redo');
 $('#apply-text').onclick=()=>{if(selected&&!$('#selected-text').disabled){selected.components(esc($('#selected-text').value));markDirty();toast('Text updated.');}};
 $('#font-size').onchange=e=>{const size=Number(e.target.value);if(selected&&size>=8&&size<=180)selected.addStyle({'font-size':size+'px'});};
 $('#text-color').oninput=e=>selected?.addStyle({color:e.target.value});$('#bg-color').oninput=e=>selected?.addStyle({'background-color':e.target.value});

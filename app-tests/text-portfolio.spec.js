@@ -2,6 +2,7 @@ import {test,expect} from '@playwright/test';
 import JSZip from 'jszip';
 import fs from 'node:fs/promises';
 import {RAMA_PORTRAIT} from '../src/rama-portrait.js';
+import {addUrlPhoto} from './photo-fixture.js';
 
 test('standalone text sample is readable offline at phone, tablet and desktop widths',async({page},testInfo)=>{
  await page.goto('./samples/rama-ken/');
@@ -106,4 +107,69 @@ test('dropping Picture to Text opens the upload controls and saves characters',a
  await page.locator('#save').click();await page.reload();
  expect(await art.textContent()).toBe(after);await expect(art).toHaveAttribute('aria-label','Portrait of Independent Maker');
  await page.screenshot({path:testInfo.outputPath('editor-text-theme.png'),fullPage:true});
+});
+
+test('selected gallery images can be textualized in place and restored from the floating Undo button',async({page})=>{
+ const svg='<svg xmlns="http://www.w3.org/2000/svg" width="80" height="60"><rect width="80" height="60" fill="#658978"/><circle cx="36" cy="24" r="16" fill="#282c33"/></svg>';
+ await page.route('https://images.example/**',route=>route.fulfill({
+  contentType:'image/svg+xml',body:svg,
+  headers:{'access-control-allow-origin':route.request().url().endsWith('/readable.svg')?'*':'https://unrelated.example'},
+ }));
+ await page.goto('./?sample=rama-studio');
+ await expect(page.locator('#save')).toBeEnabled();
+ await page.frameLocator('.gjs-frame').locator('.hero-art img').click();
+ await expect(page.getByRole('button',{name:'Textualize image',exact:true})).toHaveCount(0);
+ await page.getByRole('button',{name:'New website',exact:true}).click();
+ await page.getByRole('radio',{name:'Text only',exact:true}).check();
+ await page.getByLabel('Start with a blank page').check();
+ await page.getByRole('button',{name:'Create website',exact:true}).click();
+ await page.getByRole('button',{name:'Studio tools',exact:true}).click();
+ await page.getByRole('tab',{name:'Assets',exact:true}).click();
+ await addUrlPhoto(page,'A desk','https://images.example/readable.svg');
+ await page.getByLabel('Gallery: A desk',{exact:true}).check();
+ await addUrlPhoto(page,'A second desk','https://images.example/blocked.svg');
+ await page.getByLabel('Gallery: A second desk',{exact:true}).check();
+ await page.getByRole('button',{name:'Create photo gallery',exact:true}).click();
+ await page.getByRole('button',{name:'Close studio tools',exact:true}).click();
+ const gallery=page.frameLocator('.gjs-frame').locator('.remote-gallery');
+ const image=gallery.locator('img[alt="A desk"]'),other=gallery.locator('img[alt="A second desk"]');
+ const artwork=gallery.locator('[data-textual-image] pre');
+ const action=page.getByRole('button',{name:'Textualize image',exact:true});
+ const apply=page.getByRole('button',{name:'Apply text artwork',exact:true});
+ await image.click();
+ await action.click();
+ await expect(apply).toBeEnabled();
+ await expect(image).toBeVisible();
+ const before=await image.boundingBox();
+ await apply.click();
+ await expect(artwork).toHaveAttribute('aria-label','A desk');
+ await expect(image).toHaveCount(0);
+ await expect(other).toBeVisible();
+ const after=await gallery.locator('[data-textual-image]').boundingBox();
+ expect(Math.abs(after.width-before.width)).toBeLessThan(3);
+ expect(Math.abs(after.height-before.height)).toBeLessThan(3);
+ await page.getByRole('button',{name:'Undo last edit',exact:true}).click();
+ await expect(image).toBeVisible();
+ await expect(artwork).toHaveCount(0);
+ await page.getByRole('button',{name:'Redo',exact:true}).click();
+ await expect(artwork).toHaveCount(1);
+ await other.click();
+ await action.click();
+ await expect(page.locator('#textualize-status')).toContainText('Choose a local copy');
+ await expect(apply).toBeDisabled();
+ await expect(other).toBeVisible();
+ const png=await page.evaluate(()=>{const c=document.createElement('canvas');c.width=80;c.height=60;const ctx=c.getContext('2d');ctx.fillStyle='#575757';ctx.fillRect(0,0,80,60);return c.toDataURL().split(',')[1];});
+ await page.getByLabel('Choose a local copy').setInputFiles({name:'desk.png',mimeType:'image/png',buffer:Buffer.from(png,'base64')});
+ await expect(apply).toBeEnabled();
+ await apply.click();
+ await expect(artwork).toHaveCount(2);
+ await page.getByRole('button',{name:'Save project',exact:true}).click();
+ await page.reload();
+ await expect(artwork).toHaveCount(2);
+ await page.getByRole('button',{name:'Export site',exact:true}).click();
+ const download=page.waitForEvent('download');
+ await page.getByRole('button',{name:'Download website ZIP',exact:true}).click();
+ const zip=await JSZip.loadAsync(await fs.readFile(await (await download).path()));
+ expect(await zip.file('index.html').async('string')).toContain('aria-label="A second desk"');
+ expect(await zip.file('styles.css').async('string')).toContain('.textual-image');
 });
