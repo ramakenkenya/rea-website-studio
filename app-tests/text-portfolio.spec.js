@@ -73,13 +73,20 @@ test('sample opens without overwriting a saved project; artwork survives restore
  await page.getByRole('button',{name:'Open 한국어 page',exact:true}).click();await expect(canvas.locator('h1')).toContainText('라마');
 });
 
-test('Picture to Text remains available in the block palette and saves characters',async({page},testInfo)=>{
+test('dropping Picture to Text opens the upload controls and saves characters',async({page},testInfo)=>{
  await page.goto('./?sample=rama-studio');await expect(page.locator('#save')).toBeEnabled();
  await page.locator('#new-site').click();await page.getByLabel('Business name').fill('Independent Maker');await page.getByLabel('What do you do?').fill('I make useful things.');
  await page.getByRole('radio',{name:'Text only',exact:true}).check();await page.locator('#brief-submit').click();
  const canvas=page.frameLocator('.gjs-frame');
  await expect(canvas.locator('.tp-hero h1')).toHaveText(/RAMA\s*KEN/);
- await page.getByRole('button',{name:'Add Picture to Text'}).click();
+ const card=page.getByRole('button',{name:'Add Picture to Text',exact:true});
+ await card.scrollIntoViewIfNeeded();
+ const from=await card.boundingBox(),frame=await page.locator('.gjs-frame').boundingBox();
+ await page.mouse.move(from.x+from.width/2,from.y+from.height-20);
+ await page.mouse.down();
+ await page.mouse.move(frame.x+frame.width*.42,frame.y+137,{steps:18});
+ await page.mouse.up();
+ await expect(canvas.locator('.tp-page main > [data-text-section="picture"]')).toHaveCount(1);
  const art=canvas.locator('[data-text-section="picture"] .tp-art');
  await expect(page.locator('#portrait-controls')).toBeVisible();
  const before=await art.textContent();

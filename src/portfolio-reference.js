@@ -10,12 +10,25 @@ ${REFERENCE_PAINT_SELECTOR}{-webkit-text-stroke-width:1px;-webkit-text-stroke-co
 `;
 export const REFERENCE_PORTFOLIO_CSS=sourceCss+REFERENCE_PAINT_CSS;
 
+export const REFERENCE_SECTION_CSS=sourceCss.replace(/^\*\{box-sizing:border-box\}html[^\n]+/m,'')+REFERENCE_PAINT_CSS;
+export const PORTFOLIO_PART_CSS=`
+.tp-page[data-portfolio-part],.tp-page[data-portfolio-part] *{box-sizing:border-box}
+.tp-page[data-portfolio-part] .tp-outline{-webkit-text-stroke-width:1px;-webkit-text-stroke-color:var(--tp-ink)}
+.tp-page[data-portfolio-part] .tp-project-num{-webkit-text-stroke-width:1px;-webkit-text-stroke-color:var(--tp-muted)}
+.tp-page[data-portfolio-part] .tp-inset-small{background-color:var(--tp-ink)}
+.tp-hero [data-copied-hero-title]{font-size:clamp(70px,12vw,166px);font-weight:900;line-height:.84;letter-spacing:-.085em;margin:0 0 32px;text-transform:uppercase;max-width:100%;overflow-wrap:anywhere}
+@media(max-width:600px){.tp-hero [data-copied-hero-title]{font-size:clamp(68px,21vw,132px)}}
+`;
+
 const presets=[
+ ['header','Portfolio navigation','header'],
+ ['hero','Portfolio introduction','.tp-hero'],
  ['work','Selected work'],
  ['motion','Monochrome motion'],
  ['about','About'],
  ['notes','Editorial notes'],
  ['contact','Contact'],
+ ['footer','Portfolio footer','footer'],
 ];
 
 export function referencePortfolioProject(){
@@ -36,11 +49,15 @@ export function referencePresets(locale){
  if(!cachedPresets.has(locale)){
   const markup=REFERENCE_PORTFOLIO_PAGES[locale]||REFERENCE_PORTFOLIO_PAGES.en;
   const document=new DOMParser().parseFromString(markup,'text/html');
-  cachedPresets.set(locale,presets.map(([id,name])=>{
-   const section=document.querySelector(id==='motion'?'.mm-section':`section#${locale==='ko'?'ko-':''}${id}`);
-   // The starter keeps its navigation anchors when a second copy is inserted.
+  cachedPresets.set(locale,presets.map(([id,name,selector])=>{
+   const section=document.querySelector(selector||(id==='motion'?'.mm-section':`section#${locale==='ko'?'ko-':''}${id}`));
+   const anchor=section.id;
    section.removeAttribute('id');
-   return {id,name,html:section.outerHTML};
+   section.setAttribute('data-section',name);
+   const html=section.outerHTML;
+   section.querySelector('.tp-language-switch')?.remove();
+   const portable=`<div class="tp-page" data-portfolio-part="${id}" data-section="${name}" lang="${locale==='ko'?'ko':'en'}">${section.outerHTML}</div>`;
+   return {id,name,html,portable,anchor};
   }));
  }
  return cachedPresets.get(locale);
