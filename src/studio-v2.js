@@ -1,5 +1,5 @@
 import {createTextThemePage} from './text-theme.js';
-import {previewDocument} from './preview.js';
+import {previewDocument,previewTabDocument} from './preview.js';
 import {mountShopPane} from './shop-pane.js';
 import {createStudio,pageFile,validateSlug,validateSiteUrl,brandCss,navigationHtml,rewriteNavigation} from './site-model.js';
 import {escapeHtml as esc,fileSlug,snapshot,writeSaved,validateSnapshot} from './project.js';
@@ -25,7 +25,7 @@ export function mountStudio({editor,getBrief,setBrief,toast,markDirty,capture,re
  $('.studio-shell').before(bar);
  const dialog=document.createElement('dialog');dialog.id='studio-tools';dialog.className='v2-dialog studio-drawer';dialog.setAttribute('aria-labelledby','studio-tools-heading');dialog.setAttribute('aria-describedby','studio-tools-hint');dialog.innerHTML=`<div class="dialog-head"><div><p class="eyebrow-app">MAKE IT YOURS</p><h2 id="studio-tools-heading">Studio tools</h2><p id="studio-tools-hint">Your canvas stays live as you make changes.</p><p id="studio-drawer-context" class="drawer-context" aria-live="polite"></p></div><button class="btn icon-only" id="close-studio-tools" aria-label="Close studio tools">✕</button></div><div class="v2-layout"><nav class="v2-tabs" role="tablist" aria-label="Studio tools">${['Pages','Brand','Assets','Shop','Library','History','Site'].map(t=>`<button role="tab" id="studio-tab-${t}" aria-controls="studio-tool-pane" tabindex="${t===tab?0:-1}" aria-selected="${t===tab}" data-tool-tab="${t}">${t}</button>`).join('')}</nav><section class="v2-pane" id="studio-tool-pane" role="tabpanel" aria-labelledby="studio-tab-Pages"></section></div><div class="drawer-footer"><span>Changes appear on your canvas.</span><button class="btn" id="drawer-preview" aria-label="Open full website preview">Full preview ↗</button></div>`;document.body.append(dialog);
  const drawer=studioDrawer({dialog,trigger:$('#studio-tools-button'),editor});
- const preview=document.createElement('dialog');preview.className='v2-preview';preview.id='studio-preview';preview.innerHTML='<div class="v2-preview-top"><strong>Your website preview</strong><select id="studio-preview-page" aria-label="Preview page"></select><button class="btn" id="close-studio-preview" aria-label="Close website preview">Close preview</button></div><iframe id="studio-preview-frame" title="Multipage website preview" sandbox="allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>';document.body.append(preview);
+ const preview=document.createElement('dialog');preview.className='v2-preview';preview.id='studio-preview';preview.innerHTML='<div class="v2-preview-top"><strong>Your website preview</strong><select id="studio-preview-page" aria-label="Preview page"></select><button class="btn" id="open-studio-preview-tab">Open in new tab</button><button class="btn" id="close-studio-preview" aria-label="Close website preview">Close preview</button></div><iframe id="studio-preview-frame" title="Multipage website preview" sandbox="allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>';document.body.append(preview);
  $('#replace-image').onclick=()=>open('Assets');
  $('#studio-tools-button').onclick=()=>dialog.open?drawer.close():open(tab);$('#close-studio-tools').onclick=()=>dialog.close();$('#close-studio-preview').onclick=()=>preview.close();$('#drawer-preview').onclick=showPreview;
  dialog.querySelectorAll('[data-tool-tab]').forEach(b=>b.onclick=()=>open(b.dataset.toolTab));
@@ -88,12 +88,24 @@ export function mountStudio({editor,getBrief,setBrief,toast,markDirty,capture,re
  editor.on('update',()=>{if(initialized&&!busy)scheduleAutosave();});
  editor.on('canvas:frame:load',applyCanvasLanguage);
  editor.on('page:select',()=>{if(!initialized||busy)return;renderBar();editor.select(null);onSelect?.(null);if(dialog.open&&tab==='Pages')renderPane();});
- let previewChannel='';
+ let previewChannel='',previewHash='';
  window.addEventListener('message',event=>{const frame=$('#studio-preview-frame'),data=event.data;if(!preview.open||event.source!==frame.contentWindow||!data||data.channel!==previewChannel)return;if(data.kind==='escape'){preview.close();return;}if(data.kind==='page'&&typeof data.file==='string'){if(data.file.endsWith('.html')&&previewFiles[data.file])renderPreview(data.file,data.hash);else toast('This link points outside the exported pages.');}});
  function renderPreview(name,hash=''){
-  if(!previewFiles[name])return;previewName=name;$('#studio-preview-page').value=name;previewChannel=crypto.randomUUID();
+  if(!previewFiles[name])return;previewName=name;previewHash=hash;$('#studio-preview-page').value=name;previewChannel=crypto.randomUUID();
   $('#studio-preview-frame').srcdoc=previewDocument({files:previewFiles,name,channel:previewChannel,hash});
  }
+ function openPreviewTab(files,name,hash=''){
+  const html=previewTabDocument({files,name,hash,channel:crypto.randomUUID(),base:new URL('./',document.baseURI).href});
+  const url=URL.createObjectURL(new Blob([html],{type:'text/html;charset=utf-8'}));
+  const link=document.createElement('a');
+  link.href=url;link.target='_blank';link.rel='noopener noreferrer';
+  document.body.append(link);link.click();link.remove();
+ }
+ $('#preview-tab-top').onclick=()=>{
+  sync();
+  openPreviewTab(exportFiles(editor,getBrief(),state),pageFile(meta(),state));
+ };
+ $('#open-studio-preview-tab').onclick=()=>openPreviewTab(previewFiles,previewName,previewHash);
  $('#studio-preview-page').onchange=e=>renderPreview(e.target.value);
  function showPreview(){sync();previewFiles=exportFiles(editor,getBrief(),state);const files=Object.keys(previewFiles).filter(f=>f.endsWith('.html')&&f!=='404.html');$('#studio-preview-page').innerHTML=files.map(f=>`<option value="${esc(f)}">${esc(f)}</option>`).join('');renderPreview(pageFile(meta(),state));preview.showModal();}
  dialog.addEventListener('close',()=>{logoRequest++;faviconRequest++;editor.AssetManager.close();});
