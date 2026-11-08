@@ -25,8 +25,30 @@ export function validateSnapshot(data){
  if(data.schema===2){if(!object(data.studio))throw new Error('Invalid studio metadata.');assertSafeValue(data.studio);return {...data,brief,studio:createStudio(data.project,brief,data.studio)};}
  return {...data,brief};
 }
-export function writeSaved(storage,data){try{storage.setItem(STORAGE_KEY,JSON.stringify(data));return {ok:true};}catch{return {ok:false,error:'Could not save on this device. Download a project backup to keep your work.'};}}
-export function readSaved(storage){try{const raw=storage.getItem(STORAGE_KEY);return {ok:true,data:raw?validateSnapshot(JSON.parse(raw)):null};}catch{return {ok:false,error:'The saved project could not be opened. You can restore a project backup.'};}}
+export function writeSaved(storage,data,{expectedRevision}={}){
+ try{
+  if(expectedRevision!==undefined&&storage.getItem(STORAGE_KEY)!==expectedRevision)return {ok:false,reason:'conflict',error:'The browser copy changed in another tab.'};
+  const revision=JSON.stringify(data);
+  storage.setItem(STORAGE_KEY,revision);
+  return {ok:true,revision};
+ }catch(error){
+  const full=['QuotaExceededError','NS_ERROR_DOM_QUOTA_REACHED'].includes(error?.name);
+  return {ok:false,reason:full?'quota':'unavailable',error:full?
+   'Browser storage is full. Download a project backup to keep your latest changes.':
+   'Browser storage is unavailable. Download a project backup to keep your changes.'};
+ }
+}
+export function readSaved(storage){
+ let revision;
+ try{
+  revision=storage.getItem(STORAGE_KEY);
+  return {ok:true,revision,data:revision?validateSnapshot(JSON.parse(revision)):null};
+ }catch{
+  return {ok:false,revision,error:revision===undefined?
+   'Browser storage is unavailable. You can still download a project backup.':
+   'The saved project could not be opened. You can restore a project backup.'};
+ }
+}
 export const fileSlug=name=>name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'my-website';
 export const MAX_BACKUP_BYTES=32*1024*1024;
 export function serializeBackup(data){const text=JSON.stringify(data,null,2);if(new TextEncoder().encode(text).length>MAX_BACKUP_BYTES)throw new Error('This project is too large for a 32 MB backup. Reduce the number or size of images.');return text;}

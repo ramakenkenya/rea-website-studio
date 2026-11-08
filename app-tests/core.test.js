@@ -66,3 +66,20 @@ test('old bundled sample is renamed without losing edits or changing custom proj
  const custom=snapshot({...brief,name:'Custom Company'},{pages:[{component:{content:'Custom Company'}}],styles:[]});
  assert.deepEqual(migrateBundledSample(custom),custom);
 });
+
+test('browser saving detects another tab’s revision and preserves the last copy on quota failure',()=>{
+ const data=snapshot(normalizeBrief({name:'First draft'}),{pages:[{component:{tagName:'main'}}],styles:[]});
+ let raw=null;
+ const storage={getItem:()=>raw,setItem:(_key,value)=>{raw=value;}};
+ const first=writeSaved(storage,data,{expectedRevision:null});
+ assert.ok(first.ok&&first.revision);
+ const loaded=readSaved(storage);
+ assert.equal(loaded.revision,first.revision);
+ const newer={...data,brief:{...data.brief,name:'Newer draft'}};
+ assert.ok(writeSaved(storage,newer,{expectedRevision:first.revision}).ok);
+ assert.equal(writeSaved(storage,data,{expectedRevision:first.revision}).reason,'conflict');
+ assert.equal(readSaved(storage).data.brief.name,'Newer draft');
+ const full={getItem:storage.getItem,setItem:()=>{throw new DOMException('Full','QuotaExceededError');}};
+ assert.equal(writeSaved(full,data).reason,'quota');
+ assert.equal(readSaved(full).data.brief.name,'Newer draft');
+});

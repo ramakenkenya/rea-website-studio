@@ -93,3 +93,35 @@ test('long page names and duplicates remain saveable',async({page})=>{
  await page.getByRole('tab',{name:'Site',exact:true}).click();await close(page);
  await page.getByRole('button',{name:'Save project',exact:true}).click();await expect(page.locator('#save-status')).toHaveText('Saved on this device');
 });
+
+test('browser saving shows the last save and protects a newer draft across tabs',async({page,context})=>{
+ await ready(page);
+ await page.getByRole('button',{name:'Browser saving',exact:true}).click();
+ await expect(page.locator('#v2-browser-copy')).toHaveText('No draft saved in this browser');
+ await page.getByLabel('Autosave this project on this device').check();
+ await close(page);
+ await page.getByRole('button',{name:'Save project',exact:true}).click();
+ await expect(page.locator('#save-time')).toHaveAttribute('datetime',/^\d{4}-/);
+
+ const other=await context.newPage();
+ await other.goto(page.url());
+ await expect(other.locator('#save-status')).toHaveText('Saved on this device');
+ async function editHeadline(tab,value){
+  await tab.frameLocator('.gjs-frame').locator('h1').click();
+  await tab.getByLabel('Selected text').fill(value);
+  await tab.getByRole('button',{name:'Apply text',exact:true}).click();
+ }
+ await editHeadline(page,'The newer browser draft');
+ await page.reload();
+ await expect(page.frameLocator('.gjs-frame').locator('h1')).toHaveText('The newer browser draft');
+ await expect(other.locator('#save-status')).toHaveText('Browser copy changed');
+ await editHeadline(other,'The older tab’s edit');
+ await other.getByRole('button',{name:'Browser saving',exact:true}).click();
+ await expect(other.locator('#v2-browser-time')).toContainText('Last saved');
+ await expect(other.locator('#v2-browser-note')).toContainText('changed in another tab');
+ other.once('dialog',dialog=>dialog.accept());
+ await other.getByRole('button',{name:'Open saved draft',exact:true}).click();
+ await expect(other.frameLocator('.gjs-frame').locator('h1')).toHaveText('The newer browser draft');
+ await expect(other.locator('#save-status')).toHaveText('Saved on this device');
+ await other.close();
+});
