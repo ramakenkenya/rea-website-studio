@@ -103,12 +103,12 @@ function updateTextBrief(){
 function openBrief(nextMode){mode=nextMode;fillBrief();$('#text-start-blank').checked=false;if(mode==='new'){const f=$('#brief-form');for(const key of ['name','description','services','email','title'])f.elements[key].value='';}$('#brief-heading').textContent=mode==='new'?'A brief. A direction. Your website.':'Your story, in your own words.';$('#brief-submit').innerHTML=mode==='new'?`Create website ${icon('arrow')}`:`Build page from brief ${icon('arrow')}`;$('#brief-details').classList.toggle('hide',mode==='new');$('#brief-footnote').textContent=mode==='new'?'Creating a website replaces the open canvas. Back up anything you want to keep.':'Build page replaces the current layout, text and images with a starter from these details. Save details only keeps your canvas unchanged.';$('#brief-error').textContent='';briefImport.reset();updateTextBrief();$('#brief-dialog').showModal();}
 function loadProject(data){
  const valid=migrateBundledSample(data);
- const previous={brief,project:editor.getProjectData(),studio:studio.getState()};
+ const previous={brief,project:editor.getProjectData(),studio:studio.getState(),importing};
  importing=true;
- try{editor.loadProjectData(valid.project);brief=valid.brief;studio.init(valid.studio);}
+ try{editor.loadProjectData(valid.project);brief=valid.brief;studio.init(valid.studio);registerBlocks();}
  catch(error){editor.loadProjectData(previous.project);brief=previous.brief;studio.init(previous.studio||undefined);throw error;}
- finally{importing=false;}
- updateNames();registerBlocks();layers();selectComponent(null);dirty=false;$('#project-kind').textContent='Your project';
+ finally{importing=previous.importing;}
+ updateNames();layers();selectComponent(null);dirty=false;$('#project-kind').textContent='Your project';
 }
 const saveTimeFormatter=new Intl.DateTimeFormat(undefined,{dateStyle:'medium',timeStyle:'short'});
 const formatSavedTime=value=>Number.isFinite(Date.parse(value))?saveTimeFormatter.format(new Date(value)):'';
@@ -212,10 +212,11 @@ editor.on('load',()=>{
  importing=false;ready=true;if(!studio.getState())studio.init();$('#save').disabled=false;$('#preview-tab-top').disabled=false;layers();updateNames();editor.UndoManager.clear();refreshBrowserSaving();
 });
 editor.on('page:select',()=>{if(ready&&!importing)registerBlocks();});
-editor.on('update',markDirty);editor.on('component:selected',selectComponent);editor.on('component:deselected',()=>selectComponent(null));editor.on('component:add component:remove',()=>{if(ready)layers();});
+// Count model edits while they happen, before GrapesJS dispatches its deferred update.
+editor.on('updateBefore',markDirty);editor.on('component:selected',selectComponent);editor.on('component:deselected',()=>selectComponent(null));editor.on('component:add component:remove',()=>{if(ready)layers();});
 const briefImport=mountBriefImport({dialog:$('#brief-dialog'),form:$('#brief-form'),backup:()=>$('#backup').click(),needsReplacement:()=>hasWorkToReplace()||!!readBrowserCopy().data,apply:async next=>{
  const previousDirty=dirty,previousStatus=$('#save-status').textContent;
- await replaceImportedProject({capture,pause:()=>{clearTimeout(autosaveTimer);importing=true;},apply:loadProject,resume:success=>{importing=false;if(success)detachBrowserCopy();else{dirty=previousDirty;$('#save-status').textContent=previousStatus;if(mayAutosave())autosaveTimer=setTimeout(flushAutosave,1400);}}},next);
+ await replaceImportedProject({capture,pause:()=>{clearTimeout(autosaveTimer);importing=true;},apply:loadProject,resume:success=>{importing=false;if(success)detachBrowserCopy();else{dirty=previousDirty;$('#save-status').textContent=previousStatus;if(mayAutosave())autosaveTimer=setTimeout(flushAutosave,1400);}layers();}},next);
 },onImported:()=>{editor.UndoManager.clear();markDirty();toast('Document imported. Your website is ready to edit. Save the project to keep it.');}});
 $('#brief-form').addEventListener('change',event=>{if(event.target.name==='theme')updateTextBrief();});
 $('#new-site').onclick=()=>openBrief('new');$('#mobile-brief').onclick=()=>openBrief('edit');
