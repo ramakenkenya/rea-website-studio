@@ -113,7 +113,7 @@ test('selected gallery images can be textualized in place and restored from the 
  const svg='<svg xmlns="http://www.w3.org/2000/svg" width="80" height="60"><rect width="80" height="60" fill="#658978"/><circle cx="36" cy="24" r="16" fill="#282c33"/></svg>';
  await page.route('https://images.example/**',route=>route.fulfill({
   contentType:'image/svg+xml',body:svg,
-  headers:route.request().url().endsWith('/readable.svg')?{'access-control-allow-origin':'*'}:{},
+  headers:{'access-control-allow-origin':route.request().url().endsWith('/readable.svg')?'*':'https://unrelated.example'},
  }));
  await page.goto('./?sample=rama-studio');
  await expect(page.locator('#save')).toBeEnabled();
