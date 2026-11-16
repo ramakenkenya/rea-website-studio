@@ -9,7 +9,7 @@ Open a group and click or drag a card onto the canvas. Edit the text in place. O
 | Group | Available sections |
 | --- | --- |
 | Start here | Text, Text columns, Picture to Text |
-| Original portfolio | Portfolio navigation, Portfolio introduction, Selected work, Monochrome motion, About, Editorial notes, Contact, Portfolio footer |
+| Original portfolio | Portfolio navigation, Portfolio introduction, Selected work, About, Editorial notes, Contact, Portfolio footer |
 | Header & opening | Inline Wordmark, Outline Echo, Bold Stack, Inset Label, Outline Poster, Framed Editorial |
 | About & statements | Split Contrast, Staggered Serif, Editorial Philosophy, Framed Editorial Spread, Pull Quote |
 | Services & features | Oversized Numbers, Numbered Grid, Dark Feature Columns |
@@ -50,4 +50,4 @@ The 29 images and eight-page guide were reviewed. The paired Frame and sec crops
 | Insp6.png | Numbered Grid and Result Spotlight with alternating light and dark Section colors |
 | Insp7.jpg, insp8.jpg | The light serif sequence assembled from the opening, reasons, features, result, rail, team, FAQ, invitation, and footer blocks |
 | Insp9.jpg, full design.jpg | Framed Editorial, Framed Editorial Spread, Editorial Philosophy, Milestone Circles, Quote Columns, and Pull Quote |
-| REA_Studio_Text_Only_Style_Guide.pdf | Section groups, editable rows and columns, typographic treatments, the original portfolio and pausable motion, and the Picture to Text workflow |
+| REA_Studio_Text_Only_Style_Guide.pdf | Section groups, editable rows and columns, typographic treatments, the original portfolio, and the Picture to Text workflow |

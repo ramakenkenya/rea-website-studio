@@ -12,6 +12,12 @@ test('Text only opens the portfolio and applies editable styles from a separate 
  const left=page.getByRole('region',{name:'Build tools'});
  await left.getByRole('button',{name:'Original portfolio',exact:true}).press('Enter');
  await expect(left.getByRole('button',{name:'Add Editorial notes'})).toBeVisible();
+ await expect(left.getByRole('button',{name:'Add Monochrome motion',exact:true})).toHaveCount(0);
+ await expect(canvas.locator('.mm-section')).toHaveCount(0);
+ await page.getByRole('button',{name:'Open 한국어 page',exact:true}).click();
+ await expect(canvas.locator('.tp-page[lang="ko"]')).toBeVisible();
+ await expect(canvas.locator('.mm-section')).toHaveCount(0);
+ await page.getByRole('button',{name:'Open English page',exact:true}).click();
  await expect(left.getByRole('combobox')).toHaveCount(0);
  await expect(page.getByRole('button',{name:'Open 한국어 page',exact:true})).toBeVisible();
  await expect(canvas.locator('.tp-hero h1')).toHaveText(/RAMA\s*KEN/);
@@ -20,10 +26,10 @@ test('Text only opens the portfolio and applies editable styles from a separate 
  await expect(canvas.locator('.tp-inset-small')).toHaveCSS('background-color','rgb(243, 241, 233)');
  await left.getByRole('button',{name:'Style',exact:true}).click();
  await expect(left.getByRole('button',{name:'Add Editorial notes'})).toBeHidden();
- await canvas.locator('.mm-heading h2').click();
+ await canvas.locator('.tp-note h3').first().click();
  await left.getByRole('button',{name:'Inset text',exact:true}).click();
- const treated=canvas.locator('.mm-heading h2[data-type-treatment="inset"]');
- await expect(treated.locator('.type-treatment-main')).toHaveText('A different perspective.');
+ const treated=canvas.locator('.tp-note h3[data-type-treatment="inset"]');
+ await expect(treated.locator('.type-treatment-main')).toHaveText('The work behind the finished thing.');
  await left.getByLabel('Small text').fill('A closer');
  await left.getByLabel('Large text').fill('LOOK');
  await left.getByRole('button',{name:'Update inset text'}).click();
@@ -55,7 +61,7 @@ test('a blank Text Only site can mix inspiration sections and original portfolio
  await page.getByRole('button',{name:'Create website',exact:true}).click();
  const canvas=page.frameLocator('.gjs-frame');
  await expect(page.locator('#text-empty-canvas')).toBeVisible();
- await expect(left.locator('.styled-text-preset')).toHaveCount(42);
+ await expect(left.locator('.styled-text-preset')).toHaveCount(41);
  const group=name=>left.getByRole('button',{name,exact:true});
  const add=name=>left.getByRole('button',{name:'Add '+name,exact:true});
  await group('Header & opening').click();
@@ -89,4 +95,55 @@ test('a blank Text Only site can mix inspiration sections and original portfolio
  const zip=await JSZip.loadAsync(await fs.readFile(await (await download).path()));
  expect(await zip.file('index.html').async('string')).toContain('data-styled-text-block="editorial-spread"');
  expect(await zip.file('styles.css').async('string')).toContain('.tb-editorial-spread');
+});
+
+test('older Text Only drafts and backups reopen without the retired section on any page',async({page})=>{
+ await page.goto('./?sample=portfolio-reference');
+ await expect(page.locator('#save')).toBeEnabled();
+ await page.getByRole('button',{name:'Save project',exact:true}).click();
+ const oldDraft=await page.evaluate(()=>{
+  const key='rea-studio.project.v1';
+  const draft=JSON.parse(localStorage.getItem(key));
+  const retired={tagName:'section',classes:['mm-section'],attributes:{'data-section':'Monochrome motion'},
+   components:[{tagName:'h2',content:'A different perspective.'}]};
+  const custom={tagName:'section',classes:['custom-section'],content:'My existing section'};
+  for(const [index,entry] of draft.project.pages.entries()){
+   const wrapper=entry.frames[0].component;
+   wrapper.components.push(custom,index===0?retired:{
+    tagName:'div',attributes:{'data-portfolio-part':'motion'},components:[retired],
+   });
+  }
+  draft.project.styles.push({selectors:['mm-section'],style:{animation:'mm-travel 32s linear infinite'}});
+  draft.studio.sections.push({id:'legacy-motion',name:'My saved motion section',html:'<section class="mm-section"><h2>A different perspective.</h2></section>'});
+  const text=JSON.stringify(draft);
+  localStorage.setItem(key,text);
+  return text;
+ });
+ const canvas=page.frameLocator('.gjs-frame');
+ const checkPages=async()=>{
+  await expect(canvas.locator('.custom-section')).toHaveText('My existing section');
+  await expect(canvas.locator('.mm-section')).toHaveCount(0);
+  await page.getByRole('button',{name:'Open 한국어 page',exact:true}).click();
+  await expect(canvas.locator('.tp-page[lang="ko"]')).toBeVisible();
+  await expect(canvas.locator('.custom-section')).toHaveText('My existing section');
+  await expect(canvas.locator('[data-portfolio-part="motion"],.mm-section')).toHaveCount(0);
+ };
+ await page.reload();
+ await checkPages();
+ await page.locator('#restore-file').setInputFiles({name:'old-text-project.json',mimeType:'application/json',buffer:Buffer.from(oldDraft)});
+ await expect(page.locator('#toast')).toContainText('Project restored');
+ await checkPages();
+ await page.getByRole('button',{name:'Export site',exact:true}).click();
+ const download=page.waitForEvent('download');
+ await page.getByRole('button',{name:'Download website ZIP',exact:true}).click();
+ const zip=await JSZip.loadAsync(await fs.readFile(await (await download).path()));
+ for(const file of ['index.html','ko.html']){
+  const html=await zip.file(file).async('string');
+  expect(html).toContain('My existing section');
+  expect(html).not.toMatch(/mm-section|<h2[^>]*>A different perspective\.<\/h2>/);
+ }
+ expect(await zip.file('styles.css').async('string')).not.toMatch(/mm-section|mm-travel/);
+ await page.getByRole('button',{name:'Save project',exact:true}).click();
+ const saved=await page.evaluate(()=>localStorage.getItem('rea-studio.project.v1'));
+ expect(saved).not.toMatch(/mm-section|mm-travel|legacy-motion/);
 });

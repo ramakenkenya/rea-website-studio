@@ -27,7 +27,7 @@ export function mountTextSections({editor,getBrief,toast,markDirty}){
 
  function finish(component,{name,anchor,position,primary,picture,original},dragged=false){
   const wrapper=editor.getWrapper();
-  if(original&&!editor.Css.getRule('.mm-section .mm-stage'))editor.addStyle(REFERENCE_SECTION_CSS);
+  if(original&&!editor.Css.getRule('.tp-page:lang(ko) .tp-section h2',{atRuleType:'media',atRuleParams:'(max-width:600px)'}))editor.addStyle(REFERENCE_SECTION_CSS);
   const container=containerFor(position);
   if(dragged&&(position||component.parent()!==container)){
    let near=component;
@@ -74,7 +74,7 @@ export function mountTextSections({editor,getBrief,toast,markDirty}){
  }
 
  const preview=(label,mark='Aa',dark=false)=>`<div class="text-card-sample${dark?' is-dark':''}" aria-hidden="true"><strong>${mark}</strong><span>${label}</span></div>`;
- const variants={header:'RAMA /',hero:'RAMA KEN.',work:'THE WORK',motion:'BLACK / WHITE',about:'ALWAYS ASKING',notes:'FIELD NOTES',contact:'LET’S MAKE',footer:'BACK TO TOP ↑'};
+ const variants={header:'RAMA /',hero:'RAMA KEN.',work:'THE WORK',about:'ALWAYS ASKING',notes:'FIELD NOTES',contact:'LET’S MAKE',footer:'BACK TO TOP ↑'};
  function register(){
   const active=getBrief().theme==='text';
   standard.hidden=active;
