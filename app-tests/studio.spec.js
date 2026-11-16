@@ -147,30 +147,27 @@ test('saving only details preserves a custom heading on mobile',async({page})=>{
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 
-test('the portfolio example opens with its editable sections and motion',async({page})=>{
+test('the portfolio example opens with its editable sections and omits the retired motion block',async({page})=>{
  await page.goto('./?sample=portfolio-reference');
  await expect(page.getByRole('button',{name:'Save project',exact:true})).toBeEnabled();
  const canvas=page.frameLocator('.gjs-frame');
  await expect(page.locator('#project-name')).toHaveText('Rama Ken');
  await expect(canvas.locator('.tp-hero .tp-art')).toBeVisible();
  await expect(canvas.locator('.tp-work-head .tp-inset-heading')).toHaveText(/THE\s*WORK/);
- await expect(canvas.locator('.mm-section h2')).toHaveText('A different perspective.');
- await expect(canvas.locator('.mm-stage')).toHaveCSS('background-image',/linear-gradient/);
- await expect(canvas.locator('.mm-track').first()).toHaveCSS('animation-name','mm-travel');
+ await expect(canvas.locator('.mm-section')).toHaveCount(0);
  await expect(page.getByRole('button',{name:'Open 한국어 page',exact:true})).toBeVisible();
  await page.getByRole('button',{name:'Original portfolio',exact:true}).click();
+ await expect(page.getByRole('button',{name:'Add Monochrome motion',exact:true})).toHaveCount(0);
  await page.getByRole('button',{name:'Add Editorial notes'}).click();
  await expect(canvas.locator('.tp-page main .tp-notes')).toHaveCount(2);
  await expect(canvas.locator('.tp-notes').last()).toHaveCSS('display','grid');
  await page.getByRole('button',{name:'Layers',exact:true}).click();
- await expect(page.locator('#layers')).toContainText('Monochrome motion');
+ await expect(page.locator('#layers')).toContainText('Editorial notes');
+ await expect(page.locator('#layers')).not.toContainText('Monochrome motion');
  await page.getByRole('button',{name:'Preview website',exact:true}).click();
  const preview=page.frameLocator('#studio-preview-frame');
- await expect(preview.locator('.mm-stage')).toHaveCSS('background-image',/linear-gradient/);
- await expect(preview.locator('.mm-track').first()).toHaveCSS('animation-name','mm-travel');
- await preview.locator('.mm-control input').check();
- await expect(preview.locator('.mm-track').first()).toHaveCSS('animation-play-state','paused');
- await expect.poll(()=>preview.locator('.mm-positive').evaluate(image=>image.naturalWidth)).toBeGreaterThan(0);
+ await expect(preview.locator('.tp-notes')).toHaveCount(2);
+ await expect(preview.locator('.mm-section')).toHaveCount(0);
  await page.getByRole('button',{name:'Close website preview',exact:true}).click();
  await page.getByRole('button',{name:'Save project',exact:true}).click();
  await page.reload();

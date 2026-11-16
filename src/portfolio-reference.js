@@ -24,7 +24,6 @@ const presets=[
  ['header','Portfolio navigation','header'],
  ['hero','Portfolio introduction','.tp-hero'],
  ['work','Selected work'],
- ['motion','Monochrome motion'],
  ['about','About'],
  ['notes','Editorial notes'],
  ['contact','Contact'],
@@ -50,7 +49,7 @@ export function referencePresets(locale){
   const markup=REFERENCE_PORTFOLIO_PAGES[locale]||REFERENCE_PORTFOLIO_PAGES.en;
   const document=new DOMParser().parseFromString(markup,'text/html');
   cachedPresets.set(locale,presets.map(([id,name,selector])=>{
-   const section=document.querySelector(selector||(id==='motion'?'.mm-section':`section#${locale==='ko'?'ko-':''}${id}`));
+   const section=document.querySelector(selector||`section#${locale==='ko'?'ko-':''}${id}`);
    const anchor=section.id;
    section.removeAttribute('id');
    section.setAttribute('data-section',name);
@@ -61,4 +60,28 @@ export function referencePresets(locale){
   }));
  }
  return cachedPresets.get(locale);
+}
+
+// Older projects can contain the retired block directly or inside its portable wrapper.
+export function removeRetiredPortfolioMotion(editor,studio){
+ for(const page of editor.Pages.getAll()){
+  const wrapper=page.getMainComponent();
+  for(const section of wrapper.findType(component=>component.getClasses().includes('mm-section'))){
+   const parent=section.parent();
+   section.remove();
+   if(parent?.getAttributes()['data-portfolio-part']==='motion'&&!parent.components().length)parent.remove();
+  }
+ }
+ const retiredRules=editor.Css.getRules().filter(rule=>rule.getAtRule()==='@keyframes mm-travel'||
+  rule.selectorsToString().split(',').every(selector=>/^\s*\.mm-section(?![\w-])/.test(selector)));
+ editor.Css.remove(retiredRules);
+ if(studio){
+  studio.sections=studio.sections.flatMap(section=>{
+   if(!section.html.includes('mm-section'))return [section];
+   const {body}=new DOMParser().parseFromString(section.html,'text/html');
+   body.querySelectorAll('.mm-section').forEach(block=>block.remove());
+   body.querySelectorAll('[data-portfolio-part="motion"]:empty').forEach(block=>block.remove());
+   return body.innerHTML.trim()?[{...section,html:body.innerHTML}]:[];
+  });
+ }
 }

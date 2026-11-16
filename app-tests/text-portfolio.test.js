@@ -94,3 +94,37 @@ test('textualizing an image replaces it in place and undo restores the original 
   assert.match(figure.toHTML(),/data-textual-image/);
  }finally{editor.destroy();}
 });
+
+test('the Text Only reference omits the retired motion experiment in both languages',async()=>{
+ const {referencePortfolioProject,REFERENCE_PORTFOLIO_CSS}=await import('../src/portfolio-reference.js');
+ for(const {component} of referencePortfolioProject().pages){
+  assert.match(component,/tp-notes/);
+  assert.doesNotMatch(component,/\bmm-section\b/);
+ }
+ assert.doesNotMatch(REFERENCE_PORTFOLIO_CSS,/\bmm-section\b|\bmm-travel\b/);
+});
+
+test('restoring a legacy editor project removes retired blocks from every page',async()=>{
+ const {removeRetiredPortfolioMotion}=await import('../src/portfolio-reference.js');
+ assert.equal(typeof removeRetiredPortfolioMotion,'function');
+ const editor=grapesjs.init({headless:true,storageManager:false});
+ const retired={tagName:'section',classes:['mm-section']};
+ const custom={tagName:'section',classes:['custom-section']};
+ try{
+  editor.loadProjectData({pages:[
+   {id:'en',component:{components:[retired,custom]}},
+   {id:'ko',component:{components:[{attributes:{'data-portfolio-part':'motion'},components:[retired]},custom]}},
+  ],styles:[
+   {selectors:['mm-section'],style:{animation:'mm-travel 32s linear infinite'}},
+   {selectorsAdd:'from',atRuleType:'keyframes',mediaText:'mm-travel',style:{opacity:'0'}},
+   {selectors:['custom-section'],style:{color:'red'}},
+  ]});
+  removeRetiredPortfolioMotion(editor);
+  for(const page of editor.Pages.getAll()){
+   const wrapper=page.getMainComponent();
+   assert.equal(wrapper.components().length,1);
+   assert.ok(wrapper.components().at(0).getClasses().includes('custom-section'));
+  }
+  assert.deepEqual(editor.Css.getRules().map(rule=>rule.selectorsToString()),['.custom-section']);
+ }finally{editor.destroy();}
+});
