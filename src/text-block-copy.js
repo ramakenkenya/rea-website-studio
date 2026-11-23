@@ -68,7 +68,8 @@ export const KOREAN_BLOCK_COPY={
 // Local system fonts keep Korean readable offline; the character-art portrait
 // retains its own monospace font. This applies to newly inserted sections too.
 export const KOREAN_BLOCK_CSS=`
-.tb-block:lang(ko),.type-section:lang(ko){font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto Sans CJK KR','Noto Sans KR',sans-serif;word-break:keep-all;overflow-wrap:anywhere}
+.tb-block:lang(ko){font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto Sans CJK KR','Noto Sans KR',sans-serif;word-break:keep-all;overflow-wrap:anywhere}
+.type-section:lang(ko){font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto Sans CJK KR','Noto Sans KR',sans-serif;word-break:keep-all;overflow-wrap:anywhere}
 .tb-block:lang(ko) .tb-title,.tb-block:lang(ko) h3,.tb-block:lang(ko) .tb-kicker,.tb-block:lang(ko) .tb-poster-type,.type-section:lang(ko) .type-title,.type-section:lang(ko) h3{font-family:'Apple SD Gothic Neo','Malgun Gothic','Noto Sans CJK KR','Noto Sans KR',sans-serif!important;line-height:1.2!important;letter-spacing:-.035em}
 .tb-block:lang(ko) p,.tb-block:lang(ko) summary,.type-section:lang(ko) p{line-height:1.8}
 .tb-block:lang(ko) .tb-kicker{letter-spacing:.04em;line-height:1.6!important}

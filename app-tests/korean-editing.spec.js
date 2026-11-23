@@ -48,9 +48,20 @@ test('Korean blocks stay localized through insertion, page switching, saving, pr
  await page.getByRole('button',{name:'Open 한국어 page',exact:true}).click();
  await expect(faq.locator('summary').first()).toHaveText('어떻게 시작하나요?');
  await page.getByRole('button',{name:'Save project',exact:true}).click();
+ // An older saved draft already has generic block CSS, so reopening it must
+ // install the Korean rules separately without replacing any edited text.
+ await page.evaluate(()=>{
+  const key='rea-studio.project.v1',draft=JSON.parse(localStorage.getItem(key));
+  draft.project.styles=draft.project.styles.filter(rule=>{
+   const value=JSON.stringify(rule);
+   return !(value.includes('lang(ko)')&&(value.includes('tb-')||value.includes('type-section')));
+  });
+  localStorage.setItem(key,JSON.stringify(draft));
+ });
  await page.reload();await expect(page.locator('#save')).toBeEnabled();
  await page.getByRole('button',{name:'Open 한국어 page',exact:true}).click();
  await expect(faq.locator('summary').first()).toHaveText('어떻게 시작하나요?');
+ expect(await heading.evaluate(el=>parseFloat(getComputedStyle(el).lineHeight)/parseFloat(getComputedStyle(el).fontSize))).toBeGreaterThanOrEqual(1.1);
  const popupPromise=page.waitForEvent('popup');
  await page.locator('#preview-tab-top').click();
  const popup=await popupPromise;

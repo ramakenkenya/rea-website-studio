@@ -5,6 +5,7 @@ import {normalizeBrief,snapshot,validateSnapshot,migrateBundledSample,readSaved,
 import {createStarter,sectionContent,THEMES} from './templates.js';
 import {TEXT_THEME_CSS} from './text-theme-style.js';
 import {TEXT_BLOCK_CSS} from './text-block-style.js';
+import {KOREAN_BLOCK_CSS} from './text-block-copy.js';
 import {TEXT_CATALOG_CSS} from './text-catalog-style.js';
 import {mountTextSections} from './text-theme-editor.js';
 import {TYPE_TREATMENT_CSS,mountTypeTreatment} from './type-treatment.js';
@@ -76,6 +77,7 @@ function registerBlocks(){
   if(!editor.Css.getRule('.type-section'))editor.addStyle(TEXT_THEME_CSS);
   if(!editor.Css.getRule('.textual-image'))editor.addStyle(TEXTUAL_IMAGE_CSS);
   if(!editor.Css.getRule('.tb-block'))editor.addStyle(TEXT_BLOCK_CSS);
+  if(!editor.Css.getRule('.tb-block:lang(ko)'))editor.addStyle(KOREAN_BLOCK_CSS);
   if(!editor.Css.getRule('.tb-inline-masthead'))editor.addStyle(TEXT_CATALOG_CSS);
   if(!editor.Css.getRule('body [data-type-treatment]:is([data-type-treatment="echo"])'))editor.addStyle(TYPE_TREATMENT_CSS);
   if(!editor.Css.getRule('.tp-hero [data-copied-hero-title]'))editor.addStyle(PORTFOLIO_PART_CSS);
