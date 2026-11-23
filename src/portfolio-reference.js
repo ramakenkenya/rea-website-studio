@@ -1,5 +1,7 @@
 import {REFERENCE_PORTFOLIO_CSS as sourceCss,REFERENCE_PORTFOLIO_PAGES} from './portfolio-reference-data.js';
 import {TEXT_SAMPLE_PAGES} from './text-portfolio.js';
+import {createStudio} from './site-model.js';
+import {textPageLocale} from './text-languages.js';
 
 // CSSOM cannot expand a variable in these shorthands when GrapesJS parses the sheet.
 export const REFERENCE_PAINT_SELECTOR='.tp-page[data-portfolio-reference] .tp-outline';
@@ -39,6 +41,31 @@ export function referencePortfolioProject(){
 
 export function referencePage(wrapper){
  return wrapper?.findType(component=>component.getAttributes()['data-portfolio-reference']==='true',{max:1})?.[0];
+}
+
+// Early Text Only projects were created as one ordinary Home page even though
+// the supplied header advertised two languages. Add the missing bundled page;
+// never replace the author's existing page, content, styles or site settings.
+export function repairLegacyPortfolioLanguages(editor,studio){
+ const pages=Array.from(editor.Pages.getAll());
+ const references=pages.map(page=>({page,root:referencePage(page.getMainComponent())})).filter(item=>item.root);
+ const english=references.find(({page,root})=>textPageLocale(page.getMainComponent())==='en'&&
+  page.id!=='text-en'&&!root.getAttributes()['data-language-pair-version']&&
+  root.findType(component=>component.getClasses().includes('tp-hero'),{max:1}).length&&
+  root.findType(component=>component.getAttributes()['data-language-target']==='ko',{max:1}).length);
+ const hasKorean=pages.some(page=>textPageLocale(page.getMainComponent())==='ko');
+ let added=0;
+ if(english&&!hasKorean&&pages.length<20){
+  const preset=TEXT_SAMPLE_PAGES[1];
+  let id=preset.id,n=2;while(editor.Pages.get(id))id=`${preset.id}-${n++}`;
+  let slug=preset.slug;n=2;while(studio.pages.some(page=>page.slug===slug))slug=`${preset.slug}-${n++}`;
+  editor.Pages.add({id,name:preset.name,component:REFERENCE_PORTFOLIO_PAGES.ko});
+  studio=createStudio(editor.getProjectData(),{}, {...studio,pages:[...studio.pages,{...preset,id,slug}]});
+  added=1;
+ }
+ // Persist provenance so deliberately deleting a language later is respected.
+ for(const page of editor.Pages.getAll())referencePage(page.getMainComponent())?.addAttributes({'data-language-pair-version':'1'});
+ return {studio,added};
 }
 
 export function referenceContent(page){return page?.find('main')[0]||page;}
