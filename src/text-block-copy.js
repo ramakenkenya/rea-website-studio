@@ -77,5 +77,6 @@ export const KOREAN_BLOCK_CSS=`
 .tb-bold-stack:lang(ko) .tb-title,.tb-inset-label:lang(ko) .tb-title{font-size:clamp(40px,12cqi,160px)!important}
 .tb-block:lang(ko) .tb-action{display:inline-flex;align-items:center;min-height:44px}
 .tb-vertical-index:lang(ko) .tb-title,.tb-vertical-faq:lang(ko) .tb-title{writing-mode:horizontal-tb;transform:none}
+.tb-side-process:lang(ko) .tb-title{transform:none;text-orientation:upright}
 @container(max-width:540px){.tb-split-contrast:lang(ko) .tb-title{font-size:clamp(28px,9cqi,58px)!important}.tb-block:lang(ko) .tb-editorial-columns{grid-template-columns:minmax(0,1fr)}}
 `;

@@ -12,6 +12,7 @@ test('all Korean catalog layouts fit phone, tablet and desktop widths',async({pa
   const overflow=await page.locator('[data-styled-text-block]').evaluateAll(blocks=>blocks.filter(el=>el.scrollWidth>el.clientWidth+1).map(el=>el.dataset.styledTextBlock));
   expect(overflow,`Korean blocks overflowing at ${width}px`).toEqual([]);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await expect(page.locator('.tb-side-process .tb-title')).toHaveCSS('transform','none');
  }
  await page.setViewportSize({width:390,height:844});
  await page.locator('.tb-ruled-faq').screenshot({path:info.outputPath('korean-faq-mobile.png')});
