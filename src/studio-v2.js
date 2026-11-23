@@ -14,6 +14,7 @@ import {THEMES} from './templates.js';
 import {textSampleProject,textSampleMetadata} from './text-portfolio.js';
 import {syncTextLanguageLinks,textPageLocale} from './text-languages.js';
 import {studioDrawer} from './studio-drawer.js';
+import {repairLegacyPortfolioLanguages} from './portfolio-reference.js';
 import {duplicateElement,duplicateEditorPage,captureReusableSection,insertReusableSection,studioNavigation,studioShortcut} from './editor-actions.js';
 const uid=()=>crypto.randomUUID();
 const field=(label,name,value='',type='text')=>`<label class="field">${label}<input name="${name}" type="${type}" maxlength="${name==='description'?320:type==='url'||['url','socialImage'].includes(name)?2048:180}" value="${esc(value)}"/></label>`;
@@ -39,7 +40,8 @@ export function mountStudio({editor,getBrief,setBrief,toast,markDirty,capture,re
  function applyCanvasLanguage(){if(!state)return;const language=textPageLocale(selectedPage().getMainComponent())||state.site.language;const doc=editor.Canvas.getDocument();if(doc)for(const node of [doc.documentElement,doc.body])if(node){node.lang=language;node.dir=state.site.direction;}}
  function applyBrand(){if(!state)return;editor.addStyle(brandCss(state));for(const p of editor.Pages.getAll())p.getMainComponent().addAttributes({lang:state.site.language,dir:state.site.direction});applyCanvasLanguage();}
  function applyNavigation(){if(!state||busy)return;busy=true;try{syncTextLanguageLinks(editor,state);for(const p of editor.Pages.getAll()){const wrapper=p.getMainComponent();if(textPageLocale(wrapper))continue;const nav=studioNavigation(wrapper);const html=navigationHtml(state,p.id);if(nav)nav.replaceWith(rewriteNavigation(nav.toHTML(),state,p.id),{cloneRules:true});else if(state.pages.length>1)wrapper.append(html,{at:0});}}finally{busy=false;}onSelect?.(null);}
- function init(input){if(dialog.open)dialog.close();logoRequest++;faviconRequest++;busy=true;try{state=createStudio(editor.getProjectData(),getBrief(),input||{});initialized=true;}finally{busy=false;}applyBrand();if(state.shop.products.length)editor.addStyle(shopCss);renderBar();}
+ function repairLanguages(){const repaired=repairLegacyPortfolioLanguages(editor,state);state=repaired.studio;if(repaired.added)toast('Restored the missing Korean portfolio page. Your existing page and edits are unchanged. Save project to keep it.');}
+ function init(input){if(dialog.open)dialog.close();logoRequest++;faviconRequest++;busy=true;try{state=createStudio(editor.getProjectData(),getBrief(),input||{});repairLanguages();initialized=true;}finally{busy=false;}applyBrand();syncTextLanguageLinks(editor,state);if(state.shop.products.length)editor.addStyle(shopCss);renderBar();}
  function open(next=tab){if(!initialized)return;sync();if(dialog.open&&next===tab)return;tab=next;dialog.querySelectorAll('[data-tool-tab]').forEach(b=>{const selected=b.dataset.toolTab===tab;b.setAttribute('aria-selected',String(selected));b.tabIndex=selected?0:-1;});$('#studio-tool-pane').setAttribute('aria-labelledby','studio-tab-'+tab);renderPane();$('#studio-tool-pane').scrollTop=0;drawer.open();}
  function error(message){const el=$('#v2-message');if(el&&dialog.open)el.textContent=message;else toast(message);}
  function run(action){try{action();}catch(e){error(e.message);}}
@@ -120,5 +122,5 @@ export function mountStudio({editor,getBrief,setBrief,toast,markDirty,capture,re
  const disableCoreHistoryKeys=()=>{editor.Keymaps.remove('core:undo');editor.Keymaps.remove('core:redo');};
  disableCoreHistoryKeys();editor.on('load',disableCoreHistoryKeys);
  document.addEventListener('keydown',e=>studioShortcut(e,editor,()=>$('#save').click()));
- return {init,getState:()=>state,sync,open,applyNavigation,applyBrand,showPreview,audit:()=>auditSite(editor,getBrief(),state),resetPage(){sync();applyBrand();if(state.pages.length>1)applyNavigation();changed();}};
+ return {init,getState:()=>state,sync,open,applyNavigation,applyBrand,showPreview,audit:()=>auditSite(editor,getBrief(),state),resetPage(){sync();repairLanguages();applyBrand();if(state.pages.length>1)applyNavigation();changed();}};
 }
