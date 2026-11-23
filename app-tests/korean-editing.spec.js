@@ -1,6 +1,21 @@
 import {test,expect} from '@playwright/test';
 import JSZip from 'jszip';
 import fs from 'node:fs/promises';
+import {TEXT_BLOCK_PRESETS,textBlockMarkup} from '../src/text-blocks.js';
+import {TEXT_BLOCK_CSS} from '../src/text-block-style.js';
+import {TEXT_CATALOG_CSS} from '../src/text-catalog-style.js';
+
+test('all Korean catalog layouts fit phone, tablet and desktop widths',async({page},info)=>{
+ await page.setContent(`<!doctype html><html lang="ko"><head><meta charset="utf-8"><style>body{margin:0}${TEXT_BLOCK_CSS}${TEXT_CATALOG_CSS}</style></head><body>${TEXT_BLOCK_PRESETS.map(preset=>textBlockMarkup(preset,{language:'ko'})).join('')}</body></html>`);
+ for(const width of [320,390,768,1440]){
+  await page.setViewportSize({width,height:900});
+  const overflow=await page.locator('[data-styled-text-block]').evaluateAll(blocks=>blocks.filter(el=>el.scrollWidth>el.clientWidth+1).map(el=>el.dataset.styledTextBlock));
+  expect(overflow,`Korean blocks overflowing at ${width}px`).toEqual([]);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ }
+ await page.setViewportSize({width:390,height:844});
+ await page.locator('.tb-ruled-faq').screenshot({path:info.outputPath('korean-faq-mobile.png')});
+});
 
 test('Korean blocks stay localized through insertion, page switching, saving, preview and export',async({page,context},info)=>{
  await page.goto('./?sample=portfolio-reference');
@@ -8,8 +23,9 @@ test('Korean blocks stay localized through insertion, page switching, saving, pr
  await page.getByRole('button',{name:'Open 한국어 page',exact:true}).click();
  const canvas=page.frameLocator('.gjs-frame');
  const tools=page.getByRole('region',{name:'Build tools'});
- await tools.getByRole('button',{name:'FAQ',exact:true}).click();
- await tools.getByRole('button',{name:'Add FAQ · Ruled Questions',exact:true}).click();
+ const addFaq=tools.getByRole('button',{name:'Add FAQ · Ruled Questions',exact:true});
+ if(!await addFaq.isVisible())await tools.getByRole('button',{name:'FAQ',exact:true}).click();
+ await addFaq.click();
  const faq=canvas.locator('[data-styled-text-block="ruled-faq"]');
  await expect(faq.locator('summary').first()).toHaveText('어떻게 시작하나요?');
  await expect(faq).toHaveAttribute('lang','ko');
@@ -26,8 +42,8 @@ test('Korean blocks stay localized through insertion, page switching, saving, pr
  await tools.getByRole('button',{name:'Add About',exact:true}).click();
  await expect(canvas.locator('.tp-about-grid')).toHaveCount(2);
  await page.getByRole('button',{name:'Open English page',exact:true}).click();
- await tools.getByRole('button',{name:'FAQ',exact:true}).click();
- await tools.getByRole('button',{name:'Add FAQ · Ruled Questions',exact:true}).click();
+ if(!await addFaq.isVisible())await tools.getByRole('button',{name:'FAQ',exact:true}).click();
+ await addFaq.click();
  await expect(canvas.locator('.tb-questions summary').first()).toHaveText('How do we get started?');
  await page.getByRole('button',{name:'Open 한국어 page',exact:true}).click();
  await expect(faq.locator('summary').first()).toHaveText('어떻게 시작하나요?');
