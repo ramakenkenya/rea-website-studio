@@ -21,10 +21,11 @@ export const TEXT_STYLES=options([['solid','Solid display'],['outline','Outline 
 export const TEXT_TONES=options([['inherit','Site colors'],['light','Light'],['dark','Dark']]);
 export const textSectionConfig=id=>TEXT_SECTIONS.find(section=>section.id===id);
 
-export function textArtwork(){
- const art=portraitMarkup('ADD A PICTURE','Picture to Text placeholder')
+export function textArtwork(language='en'){
+ const korean=language==='ko';
+ const art=portraitMarkup(korean?'사진을 추가하세요':'ADD A PICTURE',korean?'사진을 문자로 바꿀 자리':'Picture to Text placeholder')
   .replace('<pre ','<pre data-picture-to-text="true" data-picture-empty="true" ');
- return `<figure class="type-art"><div class="type-art-surface">${art}</div><figcaption class="type-label">Picture to Text</figcaption></figure>`;
+ return `<figure class="type-art"><div class="type-art-surface">${art}</div><figcaption class="type-label">${korean?'사진을 문자로':'Picture to Text'}</figcaption></figure>`;
 }
 
 function panel(label,title,content){
@@ -35,7 +36,7 @@ function item(n,title,copy,classes=''){
  return `<article class="type-item ${classes}"><span class="type-number" aria-hidden="true">${String(n).padStart(2,'0')}</span><div><h3>${e(title)}</h3><p>${e(copy)}</p></div></article>`;
 }
 
-export function textSection(id,brief,{layout,style='serif',tone='inherit',starter=false,headline}={}){
+export function textSection(id,brief,{layout,style='serif',tone='inherit',starter=false,headline,language='en'}={}){
  const config=textSectionConfig(id);
  if(!config)throw Error('Unknown text section.');
  const chosen=config.layouts.find(option=>option.value===layout)?.value||config.layouts[0].value;
@@ -80,11 +81,11 @@ export function textSection(id,brief,{layout,style='serif',tone='inherit',starte
   body=`<strong class="type-brand">${name} /</strong>${email?`<a href="mailto:${email}">${email}</a>`:''}${starter?'<a href="#text-header">Back to top ↑</a>':'<a href="./">Home ↑</a>'}`;
   break;
  case 'picture':
-  body=panel('MEDIA / GLYPH ART','Picture to Text',textArtwork());
+  body=panel(language==='ko'?'사진 / 문자 그림':'MEDIA / GLYPH ART',language==='ko'?'사진을 문자로':'Picture to Text',textArtwork(language));
   break;
  }
  const classes=`type-section type-${id} type-layout-${chosen} type-style-${style} type-tone-${tone}`;
- return `<${tag} class="${classes}" data-text-section="${id}" data-section="${e(config.name)}"${starter?` id="text-${id}"`:''}>${body}</${tag}>`;
+ return `<${tag} class="${classes}"${language==='ko'?' lang="ko"':''} data-text-section="${id}" data-section="${e(config.name)}"${starter?` id="text-${id}"`:''}>${body}</${tag}>`;
 }
 
 export function textAppearance(section){

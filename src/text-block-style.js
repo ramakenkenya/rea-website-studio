@@ -1,3 +1,4 @@
+import {KOREAN_BLOCK_CSS} from './text-block-copy.js';
 export const TEXT_BLOCK_CSS=`
 .tb-block,.tb-block *{box-sizing:border-box}
 .tb-block{container-type:inline-size;width:100%;padding-block:clamp(32px,6vw,92px);padding-inline:6%;overflow-wrap:anywhere;background-color:#fbfaf5;color:#171713;border-bottom:1px solid #d6d3ca;font:16px/1.5 Arial,sans-serif}
@@ -56,4 +57,4 @@ export const TEXT_BLOCK_CSS=`
  .tb-staggered-reasons .tb-numbered{grid-template-columns:1fr}
  .tb-numbered-grid .tb-item,.tb-team-voices .tb-item{display:block}
 }
-`;
+`+KOREAN_BLOCK_CSS;
