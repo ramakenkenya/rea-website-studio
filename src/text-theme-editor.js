@@ -3,6 +3,7 @@ import {TEXT_BLOCK_CSS} from './text-block-style.js';
 import {TEXT_CATALOG_CSS} from './text-catalog-style.js';
 import {REFERENCE_SECTION_CSS,referencePage,referenceContent,referencePresets} from './portfolio-reference.js';
 import {TEXT_STYLES,TEXT_TONES,textAppearance,textSection,textSectionConfig,textArtwork,updateTextSection} from './text-theme.js';
+import {textPageLocale} from './text-languages.js';
 
 export function mountTextSections({editor,getBrief,toast,markDirty}){
  const controls=document.querySelector('#text-section-controls');
@@ -82,18 +83,20 @@ export function mountTextSections({editor,getBrief,toast,markDirty}){
   catalog.classList.toggle('styled-text-palette',active);
   if(!active){help.textContent='Drag a section onto your page, or use a quick-add button.';return false;}
   help.textContent='Open a group, then click or drag a block onto the page.';
-  addCard({id:'text-basic',name:'Text',group:'start',primary:true,preview:preview('Heading and paragraph'),content:'<section class="tb-block" data-section="Text"><h2 class="tb-title">Your heading</h2><p class="tb-copy">Write something here.</p></section>'});
-  addCard({id:'text-columns',name:'Text columns',group:'start',primary:true,preview:preview('Two editable columns','Aa / Bb'),content:'<section class="tb-block" data-section="Text columns"><h2 class="tb-title">Your heading</h2><div class="tb-editorial-columns"><p class="tb-copy">Write your first column.</p><p class="tb-copy">Write your second column.</p></div></section>'});
-  addCard({id:'text-picture',name:'Picture to Text',group:'start',picture:true,preview:preview('Upload a picture','▒▓█▓▒',true),content:textSection('picture',getBrief(),{layout:'split'})});
+  const locale=textPageLocale(editor.getWrapper())||'en',ko=locale==='ko';
+  const anchorPrefix=ko&&editor.getWrapper().find('[id="ko-work"]').length?'ko-':'';
+  addCard({id:'text-basic',name:'Text',group:'start',primary:true,preview:preview('Heading and paragraph'),content:`<section class="tb-block" lang="${locale}" data-section="Text"><h2 class="tb-title">${ko?'제목을 입력하세요':'Your heading'}</h2><p class="tb-copy">${ko?'내용을 입력하세요.':'Write something here.'}</p></section>`});
+  addCard({id:'text-columns',name:'Text columns',group:'start',primary:true,preview:preview('Two editable columns','Aa / Bb'),content:`<section class="tb-block" lang="${locale}" data-section="Text columns"><h2 class="tb-title">${ko?'제목을 입력하세요':'Your heading'}</h2><div class="tb-editorial-columns"><p class="tb-copy">${ko?'첫 번째 단락을 입력하세요.':'Write your first column.'}</p><p class="tb-copy">${ko?'두 번째 단락을 입력하세요.':'Write your second column.'}</p></div></section>`});
+  addCard({id:'text-picture',name:'Picture to Text',group:'start',picture:true,preview:preview('Upload a picture','▒▓█▓▒',true),content:textSection('picture',getBrief(),{layout:'split',language:locale})});
   const page=referencePage(editor.getWrapper());
-  for(const {id,name,html,portable,anchor} of referencePresets(page?.getAttributes().lang||'en')){
+  for(const {id,name,html,portable,anchor} of referencePresets(locale)){
    addCard({id:'portfolio-reference-'+id,name,group:'portfolio',content:page?html:portable,original:true,
     position:id==='header'||id==='footer'?id:undefined,anchor,preview:preview(name,variants[id],true)});
   }
   for(const group of groups){
    for(const preset of TEXT_BLOCK_PRESETS.filter(item=>group.id==='text-catalog-'+groupFor[item.block])){
     const {id,block,style}=preset;
-    const content=textBlockMarkup(preset,{brief:getBrief()});
+    const content=textBlockMarkup(preset,{brief:getBrief(),language:locale,anchorPrefix});
     addCard({id:'styled-text-'+id,name:`${block} · ${style}`,group:groupFor[block],content,
      label:`<strong>${block}</strong><span>${style}</span>`,
      preview:`<div class="text-preset-preview" inert aria-hidden="true">${content}</div>`,

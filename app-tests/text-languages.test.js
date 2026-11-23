@@ -7,6 +7,23 @@ import {buildDocument} from '../src/export.js';
 import {textLanguageTargets,rewriteTextLanguageLinks} from '../src/text-languages.js';
 import grapesjs from 'grapesjs';
 import {DOMParser} from '@xmldom/xmldom';
+import {TEXT_BLOCK_PRESETS,textBlockMarkup} from '../src/text-blocks.js';
+
+test('every reusable text preset supplies Korean defaults without translating author content',()=>{
+ for(const preset of TEXT_BLOCK_PRESETS){
+  const html=textBlockMarkup(preset,{language:'ko',brief:{}});
+  assert.match(html,/lang="ko"/,preset.id);
+  assert.match(html,/[가-힣]/,preset.id);
+  assert.doesNotMatch(html,/>\s*(?:FAQ|Home|About|Work|Contact|Process|Features|Testimonials|Your heading|Future \/|Design|System\.)\s*</,preset.id);
+ }
+ const html=textBlockMarkup(TEXT_BLOCK_PRESETS.find(p=>p.id==='outline-echo'),{language:'ko',brief:{name:'Future design system',description:'My <own> English copy'}});
+ assert.match(html,/>Future design system</);
+ assert.match(html,/My &lt;own&gt; English copy/);
+ const contact=textBlockMarkup(TEXT_BLOCK_PRESETS.find(p=>p.id==='reflected-callout'),{language:'ko',brief:{email:'me@example.com',cta:'My custom CTA'}});
+ assert.match(contact,/mailto:me@example.com/);assert.match(contact,/My custom CTA/);
+ const header=textBlockMarkup(TEXT_BLOCK_PRESETS.find(p=>p.id==='inline-masthead'),{language:'ko',anchorPrefix:'ko-'});
+ assert.match(header,/href="#ko-work"/);assert.match(header,/href="#ko-about"/);
+});
 
 test('English identity describes past study and life in South Korea without a current-location claim',()=>{
  const {html}=createTextPortfolio(TEXT_SAMPLE_BRIEF,{sample:true});
